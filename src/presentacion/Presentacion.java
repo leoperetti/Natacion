@@ -152,17 +152,21 @@ public class Presentacion extends JFrame {
 		
 		JComboBox cbProgramas = new JComboBox();
 		cbProgramas.setModel(modeloPrg);
-		Programa prog = (Programa)cbProgramas.getSelectedItem();
-		int nroProg = prog.getNroPrograma();
+		cbProgramas.setSelectedIndex(-1);
+		
 		cbProgramas.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
 				
+				Programa prog = (Programa)cbProgramas.getSelectedItem();
+				int nroProg = prog.getNroPrograma();
 				
 				ArrayList<Carrera> carrerasPorPrograma = cc.traerCarrerasPorPrograma(nroProg);
 				
+				modeloCar.removeAllElements();
 				for(Carrera cars: carrerasPorPrograma)
 				{
-					modeloCar.addElement(cars);
+					if (arg0.getStateChange() == ItemEvent.SELECTED)
+						modeloCar.addElement(cars);
 				}
 				
 				

@@ -69,7 +69,7 @@ public class CatalogoCarrera {
 	public ArrayList<Carrera> traerCarrerasPorPrograma(int nroProg) {
 		
 		ArrayList<Carrera> listaCarreras = new ArrayList<Carrera>();
-		String sql = "SELECT * FROM carreras WHERE carreras.nroPrograma = "+nroProg+";";
+		String sql = "SELECT * FROM carreras WHERE carreras.nroPrograma = ?;";
 		ResultSet rs = null;
 		PreparedStatement sentencia = null;
 		Connection con = DataConnection.getInstancia().getConn();
@@ -77,7 +77,8 @@ public class CatalogoCarrera {
 		try{
 			
 			sentencia = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			rs = sentencia.executeQuery(sql);
+			sentencia.setInt(1, nroProg);
+			rs = sentencia.executeQuery();
 			
 			while(rs.next())
 			{

@@ -17,7 +17,7 @@ public class DataConnection
 	
 	private static String dbUrl="jdbc:mysql://localhost:3306/natacion";
 	private static String dbUser="root";
-	private static String dbPassword="123peretto";
+	private static String dbPassword="1234";
 	
 	//Construtor Default
 	public DataConnection()
