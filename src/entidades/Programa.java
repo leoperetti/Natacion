@@ -5,6 +5,11 @@ public class Programa {
 	private int nroPrograma;
 	private String estilo1, estilo2;
 	
+	@Override
+	public String toString(){
+		return "Programa nro: "+this.nroPrograma+"  Estilos:"+this.estilo1+","+this.estilo2;
+	}
+	
 	public Programa(){
 		
 		

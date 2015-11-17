@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `natacion` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `natacion`;
 -- MySQL dump 10.13  Distrib 5.6.24, for Win64 (x86_64)
 --
 -- Host: localhost    Database: natacion
@@ -286,4 +288,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-17 16:04:07
+-- Dump completed on 2015-11-17 16:39:16

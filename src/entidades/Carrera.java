@@ -7,7 +7,11 @@ public class Carrera {
 	private Programa prg;
 	
 	//Cuando traigo la carrera desde la db, pongo un atributo nro programa? o tengo q instanciar un programa?
-
+	@Override
+	public String toString(){
+		return "Carrera nro: "+this.nroCarrera+"  Edad: ("+this.tipoCarrera+")";
+	}
+	
 	public Carrera(){
 		
 		

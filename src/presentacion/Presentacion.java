@@ -145,7 +145,7 @@ public class Presentacion extends JFrame {
 		cbNadadores.setModel(modeloNad);
 		
 		JComboBox<Carrera> cbCarreras = new JComboBox<Carrera>();
-		cbCarreras.setBounds(325, 42, 132, 20);
+		cbCarreras.setBounds(188, 42, 269, 20);
 		panel_1.add(cbCarreras);
 		
 		DefaultComboBoxModel<Carrera> modeloCar = new DefaultComboBoxModel<Carrera>();
@@ -169,7 +169,7 @@ public class Presentacion extends JFrame {
 				cbCarreras.setModel(modeloCar);
 			}
 		});
-		cbProgramas.setBounds(325, 11, 132, 20);
+		cbProgramas.setBounds(188, 11, 269, 20);
 		panel_1.add(cbProgramas);
 		
 		
@@ -194,11 +194,11 @@ public class Presentacion extends JFrame {
 		panel_1.add(btnGenerarSeries);
 		
 		JLabel lblTorneos = new JLabel("Programa");
-		lblTorneos.setBounds(251, 14, 46, 14);
+		lblTorneos.setBounds(132, 14, 46, 14);
 		panel_1.add(lblTorneos);
 		
 		JLabel lblCarreras = new JLabel("Carreras:");
-		lblCarreras.setBounds(251, 45, 46, 14);
+		lblCarreras.setBounds(132, 45, 46, 14);
 		panel_1.add(lblCarreras);
 		
 		JLabel lblNadadores = new JLabel("Nadadores:");
