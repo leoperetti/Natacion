@@ -26,6 +26,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 
 import javax.swing.event.MenuKeyListener;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 
 import entidades.Carrera;
@@ -48,6 +49,7 @@ import javax.swing.JFormattedTextField.AbstractFormatter;
 import javax.swing.JComboBox;
 import javax.swing.SwingConstants;
 import javax.swing.JTable;
+import javax.swing.JScrollPane;
 
 public class Presentacion2 extends JFrame {
 
@@ -228,7 +230,7 @@ public class Presentacion2 extends JFrame {
 			public void actionPerformed(ActionEvent arg0) 
 			{
 				JInternalFrame frmInscribirACarrera = new JInternalFrame("Inscribir a Carrera", true, true, true ,true);
-				frmInscribirACarrera.setBounds(45, 33, 557, 350);
+				frmInscribirACarrera.setBounds(38, 11, 557, 350);
 				contentPane.add(frmInscribirACarrera);
 				frmInscribirACarrera.getContentPane().setLayout(null);
 				
@@ -301,11 +303,9 @@ public class Presentacion2 extends JFrame {
 				lblCarreras.setHorizontalAlignment(SwingConstants.RIGHT);
 				lblCarreras.setBounds(10, 73, 93, 14);
 				frmInscribirACarrera.getContentPane().add(lblCarreras);
+
 				
-				
-				table = new JTable();
-				table.setBounds(10, 164, 519, 145);
-				frmInscribirACarrera.getContentPane().add(table);
+
 				
 				JLabel lblNadadores = new JLabel("Nadadores:");
 				lblNadadores.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -328,6 +328,25 @@ public class Presentacion2 extends JFrame {
 				JButton btnGenerarSeries = new JButton("Generar Series");
 				btnGenerarSeries.setBounds(341, 10, 188, 112);
 				frmInscribirACarrera.getContentPane().add(btnGenerarSeries);
+				
+				listaNadadores = cc.traerTodosNadadores();
+				DefaultTableModel modeloTabla = new DefaultTableModel();
+				Object[] identifiers = {"Nombre", "Apellido", "Dni"};
+				modeloTabla.setColumnIdentifiers(identifiers);
+				for(Nadador nad : listaNadadores)
+				{
+					Object[] o = new Object[3];
+					o[0] = nad.getNombre();
+					o[1] = nad.getApellido();
+					o[2] = nad.getDni();
+					modeloTabla.addRow(o);
+				}
+				
+				table = new JTable(modeloTabla);
+				
+				JScrollPane scrollPane = new JScrollPane(table);
+				scrollPane.setBounds(10, 164, 521, 145);
+				frmInscribirACarrera.getContentPane().add(scrollPane);
 				frmInscribirACarrera.setVisible(true);
 			}
 		});
@@ -337,6 +356,8 @@ public class Presentacion2 extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		
+
 	}
 }
 
