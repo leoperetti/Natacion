@@ -8,6 +8,11 @@ public class Nadador {
 	private int dni, edad;
 	private Time tiempoPreCompetencia;
 	
+	@Override
+	public String toString(){
+		return dni + " - " + nombre + " " + apellido;
+	}
+	
 	public Nadador(){
 		
 		

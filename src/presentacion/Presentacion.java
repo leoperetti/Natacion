@@ -107,6 +107,122 @@ public class Presentacion extends JFrame {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+		
+		
+		
+		abmPane = new JPanel();
+		abmPane.setBounds(5, 5, 379, 251);
+		contentPane.add(abmPane);
+		abmPane.setLayout(null);
+		//Visibilidad de los paneles
+		abmPane.setVisible(false);
+		//setBounds(100, 100, 235, 300);
+		
+		JLabel lblNewLabel = new JLabel("Nombre:");
+		lblNewLabel.setBounds(5, 21, 57, 26);
+		abmPane.add(lblNewLabel);
+		
+		txtNombre = new JTextField();
+		txtNombre.setBounds(56, 27, 100, 20);
+		abmPane.add(txtNombre);
+		txtNombre.setColumns(10);
+		
+		JLabel lblNewLabel_1 = new JLabel("Apellido:");
+		lblNewLabel_1.setBounds(220, 21, 62, 26);
+		abmPane.add(lblNewLabel_1);
+		
+		txtApellido = new JTextField();
+		txtApellido.setBounds(275, 27, 100, 20);
+		abmPane.add(txtApellido);
+		txtApellido.setColumns(10);
+		
+		JLabel lblEdad = new JLabel("Edad:");
+		lblEdad.setBounds(5, 54, 47, 29);
+		abmPane.add(lblEdad);
+		
+		txtEdad = new JTextField();
+		txtEdad.setBounds(56, 61, 100, 20);
+		abmPane.add(txtEdad);
+		txtEdad.setColumns(10);
+		
+		JLabel lblNewLabel_2 = new JLabel("Club:");
+		lblNewLabel_2.setBounds(5, 94, 57, 26);
+		abmPane.add(lblNewLabel_2);
+		
+		txtClub = new JTextField();
+		txtClub.setBounds(56, 100, 100, 20);
+		abmPane.add(txtClub);
+		txtClub.setColumns(10);
+		
+		JLabel lblNewLabel_3 = new JLabel("Tiempo:");
+		lblNewLabel_3.setBounds(5, 145, 46, 14);
+		abmPane.add(lblNewLabel_3);
+		
+		txtDni = new JTextField();
+		txtDni.setBounds(275, 58, 100, 20);
+		abmPane.add(txtDni);
+		txtDni.setColumns(10);
+		
+		JLabel lblNewLabel_4 = new JLabel("Dni:");
+		lblNewLabel_4.setBounds(220, 61, 46, 14);
+		abmPane.add(lblNewLabel_4);
+		
+		JFormattedTextField txtTiempo = new JFormattedTextField(mask);
+		txtTiempo.setBounds(56, 142, 100, 20);
+		abmPane.add(txtTiempo);
+		
+		JButton btnCargar = new JButton("Agregar");
+		btnCargar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				
+				
+				if(!(txtNombre.getText().isEmpty() && txtApellido.getText().isEmpty() && 
+					txtEdad.getText().isEmpty() && txtClub.getText().isEmpty()
+					&& txtDni.getText().isEmpty()))
+				{
+					int dni = Integer.parseInt(txtDni.getText());
+					String nombre = txtNombre.getText();
+					String apellido = txtApellido.getText();
+					String club = txtClub.getText();
+					int edad = Integer.parseInt(txtEdad.getText());
+					String[] tiempoString = txtTiempo.getText().split(":");
+					System.out.println(tiempoString[0]);
+					Time t =  new Time(Integer.parseInt(tiempoString[0]), Integer.parseInt(tiempoString[1]), Integer.parseInt(tiempoString[2]));
+					if((Integer.parseInt(tiempoString[0]) == 00) && (Integer.parseInt(tiempoString[1]) == 0) && (Integer.parseInt(tiempoString[2]) == 0))
+					{
+						JOptionPane.showMessageDialog(abmPane, "No ingresó el tiempo");
+					}
+					else
+					{
+						cc.cargarNadador(dni, nombre, apellido, club, edad, t);
+					}
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(abmPane, "Error, hay un campo en blanco");
+				
+				}
+			}
+
+			
+		});
+		btnCargar.setBounds(142, 196, 106, 29);
+		abmPane.add(btnCargar);
+		
+		JButton btnVolver = new JButton("< Atr\u00E1s ");
+		btnVolver.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				setBounds(100, 100, 230, 300);
+				MenuPpal.setVisible(true);
+				abmPane.setVisible(false);
+				
+				
+			}
+		});
+		btnVolver.setBounds(263, 196, 101, 29);
+		abmPane.add(btnVolver);
 		//MenuPpal.setVisible(false);
 		
 		JPanel panel_1 = new JPanel();
@@ -285,122 +401,6 @@ public class Presentacion extends JFrame {
 		});
 		btnNadadores.setBounds(23, 95, 161, 23);
 		MenuPpal.add(btnNadadores);
-		
-		
-		
-		abmPane = new JPanel();
-		abmPane.setBounds(5, 5, 379, 251);
-		contentPane.add(abmPane);
-		abmPane.setLayout(null);
-		//Visibilidad de los paneles
-		abmPane.setVisible(false);
-		//setBounds(100, 100, 235, 300);
-		
-		JLabel lblNewLabel = new JLabel("Nombre:");
-		lblNewLabel.setBounds(5, 21, 57, 26);
-		abmPane.add(lblNewLabel);
-		
-		txtNombre = new JTextField();
-		txtNombre.setBounds(56, 27, 100, 20);
-		abmPane.add(txtNombre);
-		txtNombre.setColumns(10);
-		
-		JLabel lblNewLabel_1 = new JLabel("Apellido:");
-		lblNewLabel_1.setBounds(220, 21, 62, 26);
-		abmPane.add(lblNewLabel_1);
-		
-		txtApellido = new JTextField();
-		txtApellido.setBounds(275, 27, 100, 20);
-		abmPane.add(txtApellido);
-		txtApellido.setColumns(10);
-		
-		JLabel lblEdad = new JLabel("Edad:");
-		lblEdad.setBounds(5, 54, 47, 29);
-		abmPane.add(lblEdad);
-		
-		txtEdad = new JTextField();
-		txtEdad.setBounds(56, 61, 100, 20);
-		abmPane.add(txtEdad);
-		txtEdad.setColumns(10);
-		
-		JLabel lblNewLabel_2 = new JLabel("Club:");
-		lblNewLabel_2.setBounds(5, 94, 57, 26);
-		abmPane.add(lblNewLabel_2);
-		
-		txtClub = new JTextField();
-		txtClub.setBounds(56, 100, 100, 20);
-		abmPane.add(txtClub);
-		txtClub.setColumns(10);
-		
-		JLabel lblNewLabel_3 = new JLabel("Tiempo:");
-		lblNewLabel_3.setBounds(5, 145, 46, 14);
-		abmPane.add(lblNewLabel_3);
-		
-		txtDni = new JTextField();
-		txtDni.setBounds(275, 58, 100, 20);
-		abmPane.add(txtDni);
-		txtDni.setColumns(10);
-		
-		JLabel lblNewLabel_4 = new JLabel("Dni:");
-		lblNewLabel_4.setBounds(220, 61, 46, 14);
-		abmPane.add(lblNewLabel_4);
-		
-		JFormattedTextField txtTiempo = new JFormattedTextField(mask);
-		txtTiempo.setBounds(56, 142, 100, 20);
-		abmPane.add(txtTiempo);
-		
-		JButton btnCargar = new JButton("Agregar");
-		btnCargar.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				
-				
-				if(!(txtNombre.getText().isEmpty() && txtApellido.getText().isEmpty() && 
-					txtEdad.getText().isEmpty() && txtClub.getText().isEmpty()
-					&& txtDni.getText().isEmpty()))
-				{
-					int dni = Integer.parseInt(txtDni.getText());
-					String nombre = txtNombre.getText();
-					String apellido = txtApellido.getText();
-					String club = txtClub.getText();
-					int edad = Integer.parseInt(txtEdad.getText());
-					String[] tiempoString = txtTiempo.getText().split(":");
-					System.out.println(tiempoString[0]);
-					Time t =  new Time(Integer.parseInt(tiempoString[0]), Integer.parseInt(tiempoString[1]), Integer.parseInt(tiempoString[2]));
-					if((Integer.parseInt(tiempoString[0]) == 00) && (Integer.parseInt(tiempoString[1]) == 0) && (Integer.parseInt(tiempoString[2]) == 0))
-					{
-						JOptionPane.showMessageDialog(abmPane, "No ingresó el tiempo");
-					}
-					else
-					{
-						cc.cargarNadador(dni, nombre, apellido, club, edad, t);
-					}
-				}
-				else
-				{
-					JOptionPane.showMessageDialog(abmPane, "Error, hay un campo en blanco");
-				
-				}
-			}
-
-			
-		});
-		btnCargar.setBounds(142, 196, 106, 29);
-		abmPane.add(btnCargar);
-		
-		JButton btnVolver = new JButton("< Atr\u00E1s ");
-		btnVolver.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				setBounds(100, 100, 230, 300);
-				MenuPpal.setVisible(true);
-				abmPane.setVisible(false);
-				
-				
-			}
-		});
-		btnVolver.setBounds(263, 196, 101, 29);
-		abmPane.add(btnVolver);
 		
 		
 		
