@@ -2,9 +2,8 @@ package entidades;
 
 public class Carrera {
 
-	private int nroCarrera, tipoCarrera, metros;
+	private int nroCarrera, tipoCarrera, metros, nroTorneo;
 	private char sexo;
-	private Programa prg;
 	
 	//Cuando traigo la carrera desde la db, pongo un atributo nro programa? o tengo q instanciar un programa?
 	@Override
@@ -41,12 +40,13 @@ public class Carrera {
 		this.metros = metros;
 	}
 
-	public Programa getPrg() {
-		return prg;
+
+	public int getNroTorneo() {
+		return nroTorneo;
 	}
 
-	public void setPrg(Programa prg) {
-		this.prg = prg;
+	public void setNroTorneo(int nroTorneo) {
+		this.nroTorneo = nroTorneo;
 	}
 
 	public char getSexo() {

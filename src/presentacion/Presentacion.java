@@ -96,7 +96,6 @@ public class Presentacion extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		
 
 		
 		//Creo una mascara para que no se equivoque el usuario al ingresar el tiempo
@@ -276,7 +275,7 @@ public class Presentacion extends JFrame {
 				Programa prog = (Programa)cbProgramas.getSelectedItem();
 				int nroProg = prog.getNroPrograma();
 				
-				ArrayList<Carrera> carrerasPorPrograma = cc.traerCarrerasPorPrograma(nroProg);
+				/*ArrayList<Carrera> carrerasPorPrograma = cc.traerCarrerasPorPrograma(nroProg);
 				
 				modeloCar.removeAllElements();
 				for(Carrera cars: carrerasPorPrograma)
@@ -286,7 +285,7 @@ public class Presentacion extends JFrame {
 				}
 				
 				
-				cbCarreras.setModel(modeloCar);
+				cbCarreras.setModel(modeloCar);*/
 			}
 		});
 		cbProgramas.setBounds(188, 11, 269, 20);

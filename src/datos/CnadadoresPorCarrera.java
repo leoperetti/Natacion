@@ -6,8 +6,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 import conexion.DataConnection;
+import entidades.Nadador;
 
 public class CnadadoresPorCarrera {
 
@@ -58,6 +60,57 @@ public class CnadadoresPorCarrera {
 				sqle.printStackTrace();
 			}
 		}	
+	}
+	
+	
+	public ArrayList<Nadador> buscarNadadoresPorCarrera(int nroCarrera) 
+	{		
+		ArrayList<Nadador> listaNadadores = new ArrayList<Nadador>();
+		String sql = "SELECT n.* FROM nadadores n inner join nadadorporcarrera nc on n.dni = nc.dniNadador "
+				+ "where nc.nroCarrera = ?";
+		PreparedStatement sentencia=null;
+		ResultSet rs=null;
+		Connection con = DataConnection.getInstancia().getConn();
+		
+		try{
+			sentencia=con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			sentencia.setInt(1, nroCarrera);
+			rs = sentencia.executeQuery();
+			
+				while(rs.next())
+				{
+					Nadador nadador = new Nadador();
+					nadador.setDni(rs.getInt("dni"));
+					nadador.setNombre(rs.getString("nombre"));
+					nadador.setApellido(rs.getString("apellido"));
+					nadador.setEdad(rs.getInt("edad"));
+					nadador.setNombreClub(rs.getString("nombreClub"));
+					nadador.setTiempoPreCompetencia(rs.getTime("tiempoPreCompetencia"));
+					listaNadadores.add(nadador);
+				}
+				
+		}
+		catch(SQLException e)
+			{
+			e.printStackTrace();
+			}
+		finally
+		{
+			try
+			{
+				if(sentencia!=null && !sentencia.isClosed())
+				{
+					sentencia.close();
+				}
+				DataConnection.getInstancia().CloseConn();
+			}
+			catch (SQLException sqle)
+			{
+				sqle.printStackTrace();
+			}
+		}	
+		
+		return listaNadadores;
 	}
 	
 	   

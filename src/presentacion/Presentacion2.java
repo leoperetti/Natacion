@@ -32,6 +32,7 @@ import javax.swing.text.MaskFormatter;
 import entidades.Carrera;
 import entidades.Nadador;
 import entidades.Programa;
+import entidades.Torneo;
 import negocio.ControladorCompetencia;
 
 import javax.swing.event.MenuKeyEvent;
@@ -62,6 +63,7 @@ public class Presentacion2 extends JFrame {
 	private JTextField txtClub;
 	private ControladorCompetencia cc = new ControladorCompetencia();
 	private JTable table;
+	private JComboBox<Carrera> cbCarreras;
 
 
 	/**
@@ -244,17 +246,65 @@ public class Presentacion2 extends JFrame {
 				}
 
 				//Con el controlador traigo los programas y se lo asigno a un modelo para el CB
-				ArrayList<Programa> programasPorTorneo = cc.traerLosProgramas();
+				ArrayList<Programa> programas = cc.traerLosProgramas();
 				
 				DefaultComboBoxModel<Programa> modeloPrg = new DefaultComboBoxModel<Programa>();
-				for(Programa prg: programasPorTorneo)
+				for(Programa prg: programas)
 				{
 					modeloPrg.addElement(prg);
 				}
 				
-				JComboBox<Carrera> cbCarreras = new JComboBox<Carrera>();
+				
+				table = new JTable();
+				cbCarreras = new JComboBox<Carrera>();
+				cbCarreras.addActionListener(new ActionListener() 
+				{
+					public void actionPerformed(ActionEvent arg0)
+					{
+						Carrera carrera = (Carrera)cbCarreras.getSelectedItem();
+						ArrayList<Nadador> listaNadadoresPorCarrera = cc.buscarNadadoresPorCarrera(carrera.getNroCarrera());
+						DefaultTableModel modeloTabla = new DefaultTableModel();
+						Object[] identifiers = {"Nombre", "Apellido", "Dni"};
+						modeloTabla.setColumnIdentifiers(identifiers);
+						for(Nadador nad : listaNadadoresPorCarrera)
+						{
+							Object[] o = new Object[3];
+							o[0] = nad.getNombre();
+							o[1] = nad.getApellido();
+							o[2] = nad.getDni();
+							modeloTabla.addRow(o);
+						}
+						table.setModel(modeloTabla);
+					}
+				});
+				
 				cbCarreras.setBounds(113, 70, 218, 20);
 				frmInscribirACarrera.getContentPane().add(cbCarreras);
+				
+				JComboBox<Torneo> cbTorneos = new JComboBox<Torneo>();
+				
+				
+
+				cbTorneos.addActionListener(new ActionListener() 
+				{
+					public void actionPerformed(ActionEvent arg0) 
+					{
+						
+						Torneo tor = (Torneo)cbTorneos.getSelectedItem();				
+						ArrayList<Carrera> carrerasPorPrograma = cc.traerCarrerasPorTorneo(tor.getNroTorneo());
+						DefaultComboBoxModel<Carrera> modeloCar = new DefaultComboBoxModel<Carrera>();
+						modeloCar.removeAllElements();
+						for(Carrera cars: carrerasPorPrograma)
+						{
+								modeloCar.addElement(cars);
+						}
+						
+						
+						cbCarreras.setModel(modeloCar);
+					}
+				});
+				cbTorneos.setBounds(113, 42, 218, 20);
+				frmInscribirACarrera.getContentPane().add(cbTorneos);
 				
 				JComboBox<Programa> cbProgramas = new JComboBox<Programa>();
 				cbProgramas.setBounds(113, 11, 218, 20);
@@ -264,24 +314,23 @@ public class Presentacion2 extends JFrame {
 				
 				
 				//Cuando elijo un programa me muestra las carreras
-				cbProgramas.addItemListener(new ItemListener() {
-					public void itemStateChanged(ItemEvent arg0) {
-						
+				cbProgramas.addActionListener(new ActionListener() 
+				{
+					public void actionPerformed(ActionEvent arg0) 
+					{
 						Programa prog = (Programa)cbProgramas.getSelectedItem();
 						int nroProg = prog.getNroPrograma();
 						
-						DefaultComboBoxModel<Carrera> modeloCar = new DefaultComboBoxModel<Carrera>();
-						ArrayList<Carrera> carrerasPorPrograma = cc.traerCarrerasPorPrograma(nroProg);
+						DefaultComboBoxModel<Torneo> modeloTor = new DefaultComboBoxModel<Torneo>();
+						ArrayList<Torneo> torneosPorPrograma = cc.buscarTorneosPorPrograma(nroProg);
 						
-						modeloCar.removeAllElements();
-						for(Carrera cars: carrerasPorPrograma)
+						modeloTor.removeAllElements();
+						for(Torneo tors: torneosPorPrograma)
 						{
-							if (arg0.getStateChange() == ItemEvent.SELECTED)
-								modeloCar.addElement(cars);
+							modeloTor.addElement(tors);
 						}
+						cbTorneos.setModel(modeloTor);
 						
-						
-						cbCarreras.setModel(modeloCar);
 					}
 				});
 				
@@ -295,9 +344,6 @@ public class Presentacion2 extends JFrame {
 				lblTorneos.setBounds(10, 45, 93, 14);
 				frmInscribirACarrera.getContentPane().add(lblTorneos);
 				
-				JComboBox cbTorneos = new JComboBox();
-				cbTorneos.setBounds(113, 42, 218, 20);
-				frmInscribirACarrera.getContentPane().add(cbTorneos);
 				
 				JLabel lblCarreras = new JLabel("Carreras:");
 				lblCarreras.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -328,26 +374,13 @@ public class Presentacion2 extends JFrame {
 				JButton btnGenerarSeries = new JButton("Generar Series");
 				btnGenerarSeries.setBounds(341, 10, 188, 112);
 				frmInscribirACarrera.getContentPane().add(btnGenerarSeries);
-				
-				listaNadadores = cc.traerTodosNadadores();
-				DefaultTableModel modeloTabla = new DefaultTableModel();
-				Object[] identifiers = {"Nombre", "Apellido", "Dni"};
-				modeloTabla.setColumnIdentifiers(identifiers);
-				for(Nadador nad : listaNadadores)
-				{
-					Object[] o = new Object[3];
-					o[0] = nad.getNombre();
-					o[1] = nad.getApellido();
-					o[2] = nad.getDni();
-					modeloTabla.addRow(o);
-				}
-				
-				table = new JTable(modeloTabla);
+
 				
 				JScrollPane scrollPane = new JScrollPane(table);
 				scrollPane.setBounds(10, 164, 521, 145);
 				frmInscribirACarrera.getContentPane().add(scrollPane);
 				frmInscribirACarrera.setVisible(true);
+				
 			}
 		});
 		mnCarreras.add(mntmInscribirACarrera);
@@ -355,6 +388,7 @@ public class Presentacion2 extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
 		
 		
 

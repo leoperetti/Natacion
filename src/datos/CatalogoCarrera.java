@@ -66,10 +66,10 @@ public class CatalogoCarrera {
 		return tipoCarr;
 		
 		}
-	public ArrayList<Carrera> traerCarrerasPorPrograma(int nroProg) {
+	public ArrayList<Carrera> traerCarrerasPorTorneo(int nroTorneo) {
 		
 		ArrayList<Carrera> listaCarreras = new ArrayList<Carrera>();
-		String sql = "SELECT * FROM carreras WHERE carreras.nroPrograma = ?;";
+		String sql = "SELECT * FROM carreras WHERE nroTorneo = ?;";
 		ResultSet rs = null;
 		PreparedStatement sentencia = null;
 		Connection con = DataConnection.getInstancia().getConn();
@@ -77,7 +77,7 @@ public class CatalogoCarrera {
 		try{
 			
 			sentencia = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			sentencia.setInt(1, nroProg);
+			sentencia.setInt(1, nroTorneo);
 			rs = sentencia.executeQuery();
 			
 			while(rs.next())
@@ -87,6 +87,7 @@ public class CatalogoCarrera {
 				car.setTipoCarrera(rs.getInt("tipoCarrera"));
 				car.setMetros(rs.getInt("metros"));
 				car.setSexo(String.valueOf(rs.getString("sexo")).charAt(0));
+				car.setNroTorneo(rs.getInt("nroTorneo"));
 				listaCarreras.add(car);
 			}
 			

@@ -3,6 +3,7 @@ import datos.*;
 import entidades.Carrera;
 import entidades.Nadador;
 import entidades.Programa;
+import entidades.Torneo;
 
 import java.sql.Time;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ public class ControladorCompetencia {
 	private CatalogoCarrera cc = new CatalogoCarrera();
 	private CnadadoresPorCarrera cnpc = new CnadadoresPorCarrera();
 	private CatalogoPrograma cp = new CatalogoPrograma();
+	private CatalogoTorneo ct = new CatalogoTorneo();
 
 	public void cargarNadador(int dni, String nombre, String apellido, String club, int edad, Time tiempo) {
 		
@@ -58,11 +60,17 @@ public class ControladorCompetencia {
 	
 	public void generarSerie(int nro) {
 
-		
-		
 	}
 
+	public ArrayList<Torneo> buscarTorneosPorPrograma(int nroPrograma)
+	{
+		return ct.buscarTorneosPorPrograma(nroPrograma);
+	}
 
+	public ArrayList<Nadador> buscarNadadoresPorCarrera(int nroCarrera)
+	{
+		return cnpc.buscarNadadoresPorCarrera(nroCarrera);
+	}
 
 	public ArrayList<Nadador> traerTodosNadadores() 
 	{
@@ -78,9 +86,9 @@ public class ControladorCompetencia {
 
 
 
-	public ArrayList<Carrera> traerCarrerasPorPrograma(int nroProg) {
+	public ArrayList<Carrera> traerCarrerasPorTorneo(int nroTorneo) {
 		
-		return cc.traerCarrerasPorPrograma(nroProg);
+		return cc.traerCarrerasPorTorneo(nroTorneo);
 	}
 
 }

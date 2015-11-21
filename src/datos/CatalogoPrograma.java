@@ -40,8 +40,8 @@ public class CatalogoPrograma {
 			{
 				Programa prg = new Programa();
 				prg.setNroPrograma(rs.getInt("nroPrograma"));
-				prg.setEstilo1(rs.getString("estilo1"));
-				prg.setEstilo2(rs.getString("estilo2"));
+				//prg.setEstilo1(rs.getString("estilo1"));
+				//prg.setEstilo2(rs.getString("estilo2"));
 				listaProgramas.add(prg);
 			}
 		}
