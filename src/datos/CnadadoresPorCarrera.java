@@ -24,26 +24,21 @@ public class CnadadoresPorCarrera {
 	      }
 	      return instance;
 	   }
-	public void cargar(ArrayList<Integer> dniNadadores, int nro) {
+	public void cargarNadadorEnCarrera(Integer dniNadador, int nroCarrera) {
 		
 		PreparedStatement sentencia = null;
 		Connection con = DataConnection.getInstancia().getConn();
 		String sql = "INSERT INTO `natacion`.`nadadorporcarrera` (`nroCarrera`,`dniNadador`) VALUES(?,?);";
 		
 		try{
-			for(int i = 0; i<dniNadadores.size();i++)
-			{	
 			sentencia = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			sentencia.setInt(1, nro);
-			sentencia.setInt(2, dniNadadores.get(i));
+			sentencia.setInt(1, nroCarrera);
+			sentencia.setInt(2, dniNadador);
 			sentencia.executeUpdate();
-			}
-					
-		
 			}
 		catch(SQLException e)
 			{
-			e.printStackTrace();
+				e.printStackTrace();
 			}
 		finally
 		{

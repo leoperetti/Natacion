@@ -63,7 +63,6 @@ public class Presentacion2 extends JFrame {
 	private JTextField txtClub;
 	private ControladorCompetencia cc = new ControladorCompetencia();
 	private JTable table;
-	private JComboBox<Carrera> cbCarreras;
 
 
 	/**
@@ -235,15 +234,6 @@ public class Presentacion2 extends JFrame {
 				frmInscribirACarrera.setBounds(38, 11, 557, 350);
 				contentPane.add(frmInscribirACarrera);
 				frmInscribirACarrera.getContentPane().setLayout(null);
-				
-				//Con el controlador traigo los nadadores y se lo asigno a un modelo para el CB
-				ArrayList<Nadador> listaNadadores = cc.traerTodosNadadores();
-
-				DefaultComboBoxModel<Nadador> modeloNad = new DefaultComboBoxModel<Nadador>();
-				for(Nadador nad : listaNadadores)
-				{
-					modeloNad.addElement(nad);
-				}
 
 				//Con el controlador traigo los programas y se lo asigno a un modelo para el CB
 				ArrayList<Programa> programas = cc.traerLosProgramas();
@@ -255,13 +245,32 @@ public class Presentacion2 extends JFrame {
 				}
 				
 				
+				JComboBox<Nadador> cbNadadores = new JComboBox<Nadador>();
+				cbNadadores.setBounds(113, 133, 218, 20);
+				frmInscribirACarrera.getContentPane().add(cbNadadores);
+				
 				table = new JTable();
-				cbCarreras = new JComboBox<Carrera>();
+				JComboBox<Carrera>cbCarreras = new JComboBox<Carrera>();
 				cbCarreras.addActionListener(new ActionListener() 
 				{
+
 					public void actionPerformed(ActionEvent arg0)
 					{
+						
+						//Con el controlador traigo los nadadores y se lo asigno a un modelo para el CB
 						Carrera carrera = (Carrera)cbCarreras.getSelectedItem();
+
+						ArrayList<Nadador> listaNadadores = cc.traerTodosNadadores(carrera.getTipoCarrera(), carrera.getNroCarrera());
+
+						DefaultComboBoxModel<Nadador> modeloNad = new DefaultComboBoxModel<Nadador>();
+						
+						for(Nadador nad : listaNadadores)
+						{
+							modeloNad.addElement(nad);
+						}
+						cbNadadores.setModel(modeloNad);
+
+						
 						ArrayList<Nadador> listaNadadoresPorCarrera = cc.buscarNadadoresPorCarrera(carrera.getNroCarrera());
 						DefaultTableModel modeloTabla = new DefaultTableModel();
 						Object[] identifiers = {"Nombre", "Apellido", "Dni"};
@@ -358,14 +367,39 @@ public class Presentacion2 extends JFrame {
 				lblNadadores.setBounds(10, 136, 93, 14);
 				frmInscribirACarrera.getContentPane().add(lblNadadores);
 				
-				JComboBox<Nadador> cbNadadores = new JComboBox<Nadador>();
-				cbNadadores.setBounds(113, 133, 218, 20);
-				frmInscribirACarrera.getContentPane().add(cbNadadores);
-				cbNadadores.setModel(modeloNad);
 				
 				JButton btnAgregarNadador = new JButton("Agregar");
+				
+				btnAgregarNadador.addMouseListener(new MouseAdapter() 
+				{
+					@Override
+					public void mouseClicked(MouseEvent arg0) 
+					{
+						Nadador n = (Nadador)cbNadadores.getSelectedItem();
+						Carrera c = (Carrera)cbCarreras.getSelectedItem();
+						cc.cargarNadadorEnCarrera(n.getDni(), c.getNroCarrera());
+						
+						//DE TODO ESTO HICE COPYPASTE DE MAS ARRIBA
+						//HAY QUE HACER UN METODO Y USARLO 2 VECES!!!
+						ArrayList<Nadador> listaNadadoresPorCarrera = cc.buscarNadadoresPorCarrera(c.getNroCarrera());
+						DefaultTableModel modeloTabla = new DefaultTableModel();
+						Object[] identifiers = {"Nombre", "Apellido", "Dni"};
+						modeloTabla.setColumnIdentifiers(identifiers);
+						for(Nadador nad : listaNadadoresPorCarrera)
+						{
+							Object[] o = new Object[3];
+							o[0] = nad.getNombre();
+							o[1] = nad.getApellido();
+							o[2] = nad.getDni();
+							modeloTabla.addRow(o);
+						}
+						table.setModel(modeloTabla);
+					}
+				});
+				
 				btnAgregarNadador.setBounds(341, 133, 89, 20);
 				frmInscribirACarrera.getContentPane().add(btnAgregarNadador);
+				
 				
 				JButton btnQuitarNadador = new JButton("Quitar");
 				btnQuitarNadador.setBounds(440, 133, 89, 20);

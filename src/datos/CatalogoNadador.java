@@ -64,18 +64,52 @@ public class CatalogoNadador {
 		}
 	}
 	}
-	public ArrayList<Nadador> buscarNadadores() {
+	public ArrayList<Nadador> buscarNadadores(int edad, int nroCarrera) {
+		
+		//CON ESTE CRITERIO:
+		//TipoCarrera 6 -> Edad == 6
+		//TipoCarrera 7 -> Edad == 7
+		//...
+		//...
+		//TipoCarrera 17 -> Edad == 17
+		//TipoCarrera 18 -> Edad >= 18
 		
 		ArrayList<Nadador> listaNadadores = new ArrayList<Nadador>();
-		String sql = "SELECT * FROM nadadores;";
+		String sql;
+		if (edad < 18)
+		{
+			sql = "SELECT * FROM nadadores "
+					+ "where edad = ? and dni not in "
+					+ "(SELECT dni FROM nadadorporcarrera nc  "
+					+ "inner join nadadores n "
+					+ "on n.dni = nc.dniNadador "
+					+ "where nroCarrera = ?)";
+		}
+		else
+		{
+			sql = "SELECT * FROM nadadores "
+					+ "where edad > 18 and dni not in "
+					+ "(SELECT dni FROM nadadorporcarrera nc  "
+					+ "inner join nadadores n "
+					+ "on n.dni = nc.dniNadador "
+					+ "where nroCarrera = ?)";
+		}
 		PreparedStatement sentencia=null;
 		ResultSet rs=null;
 		Connection con = DataConnection.getInstancia().getConn();
 		
 		try{
 			sentencia=con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			//sentencia.setInt(1, edad);
-			rs = sentencia.executeQuery(sql);
+			if (edad < 18)
+			{
+				sentencia.setInt(1, edad);
+				sentencia.setInt(2, nroCarrera);
+			}
+			else
+			{
+				sentencia.setInt(1, nroCarrera);
+			}
+			rs = sentencia.executeQuery();
 			
 				while(rs.next())
 				{

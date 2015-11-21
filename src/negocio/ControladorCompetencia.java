@@ -72,11 +72,16 @@ public class ControladorCompetencia {
 		return cnpc.buscarNadadoresPorCarrera(nroCarrera);
 	}
 
-	public ArrayList<Nadador> traerTodosNadadores() 
+	public ArrayList<Nadador> traerTodosNadadores(int edad, int nroCarrera) 
 	{
-		return cn.buscarNadadores();
+		return cn.buscarNadadores(edad, nroCarrera);
 	}
 
+	
+	public void cargarNadadorEnCarrera(int dni, int nroCarrera)
+	{
+		cnpc.cargarNadadorEnCarrera(dni, nroCarrera);
+	}
 
 
 	public ArrayList<Programa> traerLosProgramas() {
