@@ -2,7 +2,15 @@ package entidades;
 
 public class Serie {
 
-	private int nroSerie;
+	public int getNroCarrera() {
+		return nroCarrera;
+	}
+
+	public void setNroCarrera(int nroCarrera) {
+		this.nroCarrera = nroCarrera;
+	}
+
+	private int nroSerie, nroCarrera;
 	
 	public Serie(){
 		

@@ -119,7 +119,7 @@ public class CatalogoNadador {
 					nadador.setApellido(rs.getString("apellido"));
 					nadador.setEdad(rs.getInt("edad"));
 					nadador.setNombreClub(rs.getString("nombreClub"));
-					nadador.setTiempoPreCompetencia(rs.getTime("tiempoPreCompetencia"));
+					nadador.setTiempoPreCompetencia(rs.getTime("tiempoPreCompetencia1"));
 					listaNadadores.add(nadador);
 				}
 				

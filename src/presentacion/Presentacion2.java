@@ -408,6 +408,16 @@ public class Presentacion2 extends JFrame {
 				JButton btnGenerarSeries = new JButton("Generar Series");
 				btnGenerarSeries.setBounds(341, 10, 188, 112);
 				frmInscribirACarrera.getContentPane().add(btnGenerarSeries);
+				
+				btnGenerarSeries.addMouseListener(new MouseAdapter() 
+				{
+					@Override
+					public void mouseClicked(MouseEvent arg0) 
+					{
+						Carrera car = (Carrera)cbCarreras.getSelectedItem();
+						cc.generarSeriesPorCarrera(car.getNroCarrera());
+					}
+				});
 
 				
 				JScrollPane scrollPane = new JScrollPane(table);
