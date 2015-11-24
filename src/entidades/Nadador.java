@@ -6,7 +6,7 @@ public class Nadador {
 
 	private String nombre, apellido, nombreClub;
 	private int dni, edad;
-	private Time tiempoPreCompetencia;
+	private Time tiempoPreCompetencia1, tiempoPreCompetencia2;
 	
 	@Override
 	public String toString(){
@@ -18,13 +18,14 @@ public class Nadador {
 		
 	}
 	
-	public Nadador(String nom, String ape, String nomC, int edad, Time tiempo){
+	public Nadador(String nom, String ape, String nomC, int edad, Time tiempo1, Time tiempo2){
 		
 		this.setNombre(nom);
 		this.setApellido(ape);
 		this.setNombreClub(nomC);
 		this.setEdad(edad);
-		this.setTiempoPreCompetencia(tiempo);
+		this.setTiempoPreCompetencia1(tiempo1);
+		this.setTiempoPreCompetencia2(tiempo2);
 		
 	}
 	
@@ -58,12 +59,23 @@ public class Nadador {
 	public void setEdad(int edad) {
 		this.edad = edad;
 	}
-	public Time getTiempoPreCompetencia() {
-		return tiempoPreCompetencia;
+
+	public Time getTiempoPreCompetencia1() {
+		return tiempoPreCompetencia1;
 	}
-	public void setTiempoPreCompetencia(Time tiempoPreCompetencia) {
-		this.tiempoPreCompetencia = tiempoPreCompetencia;
+
+	public void setTiempoPreCompetencia1(Time tiempoPreCompetencia1) {
+		this.tiempoPreCompetencia1 = tiempoPreCompetencia1;
 	}
+
+	public Time getTiempoPreCompetencia2() {
+		return tiempoPreCompetencia2;
+	}
+
+	public void setTiempoPreCompetencia2(Time tiempoPreCompetencia2) {
+		this.tiempoPreCompetencia2 = tiempoPreCompetencia2;
+	}
+	
 		
 	
 }
