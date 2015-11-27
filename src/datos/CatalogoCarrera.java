@@ -113,6 +113,45 @@ public class CatalogoCarrera {
 		}	
 		return listaCarreras;
 	}
+	
+	
+	public void cargarCarrera(int nroEst, int nro, int tipo, int metros, char sexo, int nroTor) {
+		
+		String sql = "INSERT INTO `natacion`.`carreras` (`nroEstilo`,`nroCarrera`,`tipoCarrera`,`metros`,`sexo`,`nroTorneo`) VALUES(?,?,?,?,?,?);";
+		PreparedStatement sentencia = null;
+		Connection con = DataConnection.getInstancia().getConn();
+		
+		try{
+			sentencia = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			sentencia.setInt(1, nroEst);
+			sentencia.setInt(2, nro);
+			sentencia.setInt(3, tipo);
+			sentencia.setInt(4, metros);
+			sentencia.setString(5,String.valueOf(sexo));
+			sentencia.setInt(6, nroTor);
+			sentencia.executeUpdate();
+			
+			}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				if(sentencia!=null && !sentencia.isClosed())
+				{
+					sentencia.close();
+				}
+				DataConnection.getInstancia().CloseConn();
+			}
+			catch (SQLException sqle)
+			{
+				sqle.printStackTrace();
+			}
+		}
+	}
 		
 	 	
 	}

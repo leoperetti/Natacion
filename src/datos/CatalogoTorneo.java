@@ -1,6 +1,8 @@
 package datos;
 
 import java.util.ArrayList;
+
+import entidades.Estilo;
 import entidades.Torneo;
 import java.sql.ResultSet;
 import java.sql.Connection;
@@ -61,5 +63,53 @@ public class CatalogoTorneo
 		}
 	
 	return listaTorneos;
+	}
+
+	public ArrayList<Torneo> buscarTorneos() {
+		
+		ArrayList<Torneo> listaTor = new ArrayList<Torneo>();
+		String sql = "SELECT * FROM torneo;";
+		Statement sentencia = null;
+		ResultSet rs = null;
+		
+		try{
+			
+		sentencia = DataConnection.getInstancia().getConn().createStatement();
+		rs = sentencia.executeQuery(sql);
+		
+		while(rs.next())
+		{
+			Torneo t = new Torneo();
+			t.setNroTorneo(rs.getInt("nroTorneo"));
+			t.setClubAnfitrion(rs.getString("clubAnfitrion"));
+			t.setFecha(rs.getDate("fechaTorneo"));
+			listaTor.add(t);
+		}
+		
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				if(sentencia!=null && !sentencia.isClosed())
+				{
+					sentencia.close();
+				}
+				DataConnection.getInstancia().CloseConn();
+			}
+			catch (SQLException sqle)
+			{
+				sqle.printStackTrace();
+			}
+		}	
+		
+		
+		
+		return listaTor;
+		
 	}
 }

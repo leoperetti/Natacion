@@ -6,10 +6,11 @@ public class Torneo
 {
 	private Date fecha;
 	private int nroTorneo, nroPrograma;
+	private String clubAnfitrion;
 	
 	@Override
 	public String toString(){
-		return "Torneo nro: "+this.nroTorneo+" - Fecha: "+this.fecha;
+		return "Nro: "+this.nroTorneo+"  Se realiza en: "+this.clubAnfitrion+" - Fecha: "+this.fecha;
 	}
 	
 	public Date getFecha() {
@@ -31,4 +32,12 @@ public class Torneo
 		this.nroPrograma = nroPrograma;
 	}
 
+	public String getClubAnfitrion() {
+		return clubAnfitrion;
+	}
+
+	public void setClubAnfitrion(String clubAnfitrion) {
+		this.clubAnfitrion = clubAnfitrion;
+	}
+	
 }
