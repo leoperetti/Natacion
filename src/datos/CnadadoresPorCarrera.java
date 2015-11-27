@@ -210,6 +210,39 @@ public class CnadadoresPorCarrera {
 		}	
 		
 		return listaNadadores;
+	}
+	public void quitarNadadorDeCarrera(int dni, int nroCarrera) 
+	{
+		PreparedStatement sentencia = null;
+		Connection con = DataConnection.getInstancia().getConn();
+		String sql = "delete from nadadorporcarrera where nroCarrera = ? and dniNadador = ?";
+		
+		try
+		{
+			sentencia = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			sentencia.setInt(1, nroCarrera);
+			sentencia.setInt(2, dni);
+			sentencia.executeUpdate();
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				if(sentencia!=null && !sentencia.isClosed())
+				{
+					sentencia.close();
+				}
+				DataConnection.getInstancia().CloseConn();
+			}
+			catch (SQLException sqle)
+			{
+				sqle.printStackTrace();
+			}
+		}	
 	}	   
 	   
 	   

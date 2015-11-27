@@ -21,9 +21,6 @@ import javax.swing.JFrame;
 
 public class FrameABMNadadores extends JInternalFrame implements InternalFrameListener
 {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private JTextField txtNombre, txtApellido, txtDni, txtEdad, txtClub;
 	private ControladorCompetencia cc = new ControladorCompetencia();
@@ -53,8 +50,8 @@ public class FrameABMNadadores extends JInternalFrame implements InternalFrameLi
 	
 	public void initComponents() 
 	{
+		setTitle("Registrar Nadador");
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		setMaximizable(true);
 		setIconifiable(true);
 		setClosable(true);
 		setBounds(27, 11, 445, 242);

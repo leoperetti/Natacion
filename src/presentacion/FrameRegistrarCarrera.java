@@ -1,6 +1,5 @@
 package presentacion;
 
-import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -51,73 +50,60 @@ public class FrameRegistrarCarrera extends JInternalFrame implements InternalFra
 
 	private void initComponents() 
 	{
+		setTitle("Registrar Carrera");
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		setMaximizable(true);
 		setIconifiable(true);
 		setClosable(true);
-		setBounds(10, 0, 611, 339);
+		setBounds(10, 0, 469, 243);
 		getContentPane().setLayout(null);
-		
-		JLabel label = new JLabel("Cargar una nueva carrera a un torneo");
-		label.setFont(new Font("Sitka Text", Font.BOLD, 25));
-		label.setBounds(61, 11, 490, 46);
-		getContentPane().add(label);
 		
 		txtNroCarrera = new JTextField();
 		txtNroCarrera.setColumns(10);
-		txtNroCarrera.setBounds(175, 96, 93, 20);
+		txtNroCarrera.setBounds(158, 91, 93, 20);
 		getContentPane().add(txtNroCarrera);
 		
-		JLabel label_1 = new JLabel("Numero de Carrera:");
-		label_1.setBounds(61, 99, 104, 14);
-		getContentPane().add(label_1);
+		JLabel lblNmeroDeCarrera = new JLabel("N\u00FAmero de Carrera:");
+		lblNmeroDeCarrera.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblNmeroDeCarrera.setBounds(10, 94, 138, 14);
+		getContentPane().add(lblNmeroDeCarrera);
 		
 		txtEdad = new JTextField();
 		txtEdad.setColumns(10);
-		txtEdad.setBounds(175, 139, 93, 20);
+		txtEdad.setBounds(158, 116, 93, 20);
 		getContentPane().add(txtEdad);
 		
 		JLabel label_2 = new JLabel("Edad de los competidores:");
-		label_2.setBounds(130, 142, 46, 14);
+		label_2.setHorizontalAlignment(SwingConstants.RIGHT);
+		label_2.setBounds(10, 119, 138, 14);
 		getContentPane().add(label_2);
 		
 		txtMetros = new JTextField();
 		txtMetros.setColumns(10);
-		txtMetros.setBounds(175, 184, 93, 20);
+		txtMetros.setBounds(158, 141, 93, 20);
 		getContentPane().add(txtMetros);
 		
 		JLabel label_3 = new JLabel("Metros:");
-		label_3.setBounds(119, 187, 46, 14);
+		label_3.setHorizontalAlignment(SwingConstants.RIGHT);
+		label_3.setBounds(10, 144, 138, 14);
 		getContentPane().add(label_3);
 		
-		JLabel label_4 = new JLabel("Genero:");
-		label_4.setBounds(119, 229, 46, 14);
-		getContentPane().add(label_4);
+		JLabel lblGnero = new JLabel("G\u00E9nero:");
+		lblGnero.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblGnero.setBounds(10, 168, 138, 14);
+		getContentPane().add(lblGnero);
 		
 		JComboBox<Torneo> cb2Torneo = new JComboBox<Torneo>();
-		cb2Torneo.setBounds(278, 184, 307, 20);
+		cb2Torneo.setBounds(66, 8, 378, 20);
 		getContentPane().add(cb2Torneo);
 		
-		JLabel label_5 = new JLabel("Torneo:");
-		label_5.setHorizontalAlignment(SwingConstants.CENTER);
-		label_5.setFont(new Font("Tahoma", Font.BOLD, 17));
-		label_5.setBounds(380, 139, 116, 34);
-		getContentPane().add(label_5);
-		
-		JLabel label_6 = new JLabel("Estilo:");
-		label_6.setHorizontalAlignment(SwingConstants.CENTER);
-		label_6.setFont(new Font("Tahoma", Font.BOLD, 17));
-		label_6.setBounds(362, 57, 134, 29);
-		getContentPane().add(label_6);
-		
 		JComboBox<Estilo> cb2Estilo = new JComboBox<Estilo>();
-		cb2Estilo.setBounds(328, 96, 211, 20);
+		cb2Estilo.setBounds(66, 39, 378, 20);
 		getContentPane().add(cb2Estilo);
 		
 		Object[] opciones = {"Masculino", "Femenino"};
 		
 		JComboBox<Object> cb2Genero = new JComboBox<Object>(opciones);
-		cb2Genero.setBounds(175, 226, 93, 20);
+		cb2Genero.setBounds(158, 165, 93, 20);
 		getContentPane().add(cb2Genero);
 		setVisible(true);
 		
@@ -141,11 +127,12 @@ public class FrameRegistrarCarrera extends JInternalFrame implements InternalFra
 		
 		cb2Torneo.setModel(modeloTorneos);
 		
-		JButton btn2NuevaCarrera = new JButton("Registrar Nueva Carrera");
-		btn2NuevaCarrera.addMouseListener(new MouseAdapter() {
+		JButton btn2NuevaCarrera = new JButton("<html><center>Registrar<br>Nueva Carrera</center></html>");
+		btn2NuevaCarrera.addMouseListener(new MouseAdapter()
+		{
 			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				
+			public void mouseClicked(MouseEvent arg0) 
+			{
 				char sexo;
 				int tipo = Integer.parseInt(txtEdad.getText());
 				int nro = Integer.parseInt(txtNroCarrera.getText());
@@ -166,8 +153,18 @@ public class FrameRegistrarCarrera extends JInternalFrame implements InternalFra
 				cc.cargarCarrera(nroEst, nro, tipo, metros, sexo, nroTor);
 			}
 		});
-		btn2NuevaCarrera.setBounds(340, 213, 192, 46);
+		btn2NuevaCarrera.setBounds(292, 91, 152, 94);
 		getContentPane().add(btn2NuevaCarrera);
+		
+		JLabel lblTorneo = new JLabel("Torneo:");
+		lblTorneo.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblTorneo.setBounds(10, 11, 46, 14);
+		getContentPane().add(lblTorneo);
+		
+		JLabel lblEstilo = new JLabel("Estilo:");
+		lblEstilo.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblEstilo.setBounds(10, 42, 46, 14);
+		getContentPane().add(lblEstilo);
 	}
 
 	@Override
@@ -211,5 +208,4 @@ public class FrameRegistrarCarrera extends JInternalFrame implements InternalFra
 		// TODO Auto-generated method stub
 		
 	}
-
 }

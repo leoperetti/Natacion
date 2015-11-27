@@ -41,6 +41,7 @@ public class Presentacion2 extends JFrame {
 	 */
 	public Presentacion2() 
 	{
+		setTitle("Gestión de Competencias de Natación");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 647, 410);
 		

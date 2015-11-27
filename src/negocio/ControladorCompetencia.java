@@ -27,42 +27,8 @@ public class ControladorCompetencia {
 		
 	}
 
-	
-
-/*	public boolean cargarNadadoresPorCarrera(int nro) {
-		
-		boolean resp = false;
-		ArrayList<Integer> dniNadadores = new ArrayList<Integer>();
-		int tipoCarrera = cc.buscarCarrera(nro);
-		if(tipoCarrera != 0)
-		{
-				dniNadadores = cn.buscarDniNadadores(tipoCarrera);
-				
-				if(dniNadadores != null)
-				{
-					System.out.println(tipoCarrera);
-					for(int i = 0; i <dniNadadores.size();i++)
-					{
-					System.out.println(dniNadadores.get(i));
-					}
-					cnpc.cargar(dniNadadores, nro);
-					resp = true;
-					return resp;
-				}
-				else
-				{
-					System.out.println("No hay nadadores en esa carrera");
-					return resp;
-				}
-				
-		}
-		else
-		{
-			return resp;
-		}
-	} */
-	
-	public void generarSerie(int nro) {
+	public void generarSerie(int nro) 
+	{
 
 	}
 
@@ -122,27 +88,33 @@ public class ControladorCompetencia {
 		
 	}
 	
-	public void generarSeriesPorCarrera(int nroCarrera)
+	public boolean generarSeriesPorCarrera(int nroCarrera)
 	{
 		int numeroNadador = cnpc.contarNadadoresEnCarrera(nroCarrera);
-		
-		if (numeroNadador % 6 != 0)
+		if (numeroNadador > 1)
 		{
-			for (int i=1; i <= (int)(numeroNadador/6)+1; i++)
+			if (numeroNadador % 6 != 0)
 			{
-				cs.insertarSerie(nroCarrera);
+				for (int i=1; i <= (int)(numeroNadador/6)+1; i++)
+				{
+					cs.insertarSerie(nroCarrera);
+				}
 			}
+			else
+			{
+				for (int i=1; i <= (numeroNadador/6); i++)
+				{
+					cs.insertarSerie(nroCarrera);
+				}
+			}
+			
+			this.distribuirNadadoresEnSeries(cnpc.buscarNadadoresPorCarreraOrdenadosPorTiempo(nroCarrera), cs.buscarSeriesPorCarrera(nroCarrera), numeroNadador);
+			return true;
 		}
 		else
 		{
-			for (int i=1; i <= (numeroNadador/6); i++)
-			{
-				cs.insertarSerie(nroCarrera);
-			}
+			return false;
 		}
-		
-		this.distribuirNadadoresEnSeries(cnpc.buscarNadadoresPorCarreraOrdenadosPorTiempo(nroCarrera), cs.buscarSeriesPorCarrera(nroCarrera), numeroNadador);
-		
 	}
 	
 	private void distribuirNadadoresEnSeries(ArrayList<Nadador> nadadoresEnCarreraOrdenadosPorTiempo, ArrayList<Serie> seriesEnCarrera, int numeroNadadores)
@@ -161,6 +133,7 @@ public class ControladorCompetencia {
 		int restoNroNadadores = numeroNadadores % cantidadSeries;
 		
 		int cont = 0;
+		int contSeries = 0;
 		
 		for (int i = 1; i <= cantidadSeries; i++)
 		{
@@ -179,13 +152,14 @@ public class ControladorCompetencia {
 			for (int j = 1; j<=nroNadadoresSinResto - 1; j ++)
 			{
 				if (j == 1)
-					ci.cargarInscripciones(nadadoresEnCarreraOrdenadosPorTiempo.get(cont).getDni(), seriesEnCarrera.get(i-1).getNroSerie(), j);
+					ci.cargarInscripciones(nadadoresEnCarreraOrdenadosPorTiempo.get(cont).getDni(), seriesEnCarrera.get(contSeries).getNroSerie(), j);
 				if (j > 1)
-					ci.cargarInscripciones(nadadoresEnCarreraOrdenadosPorTiempo.get(cont).getDni(), seriesEnCarrera.get(i-1).getNroSerie(), j + 2);
+					ci.cargarInscripciones(nadadoresEnCarreraOrdenadosPorTiempo.get(cont).getDni(), seriesEnCarrera.get(contSeries).getNroSerie(), j + 2);
 				
 				cont += 1;
 
 			}
+			contSeries += 1;
 		}
 		
 		for (int i = 1; i<=cantidadSeries - restoNroNadadores; i++)
@@ -193,14 +167,19 @@ public class ControladorCompetencia {
 			for (int j = 1; j<=nroNadadoresSinResto - 2; j ++)
 			{
 				if (j == 1)
-					ci.cargarInscripciones(nadadoresEnCarreraOrdenadosPorTiempo.get(cont).getDni(), seriesEnCarrera.get(i-1).getNroSerie(), j);
-				else
-					ci.cargarInscripciones(nadadoresEnCarreraOrdenadosPorTiempo.get(cont).getDni(), seriesEnCarrera.get(i-1).getNroSerie(), j + 2);
+					ci.cargarInscripciones(nadadoresEnCarreraOrdenadosPorTiempo.get(cont).getDni(), seriesEnCarrera.get(contSeries).getNroSerie(), j);
+				if (j > 1)
+					ci.cargarInscripciones(nadadoresEnCarreraOrdenadosPorTiempo.get(cont).getDni(), seriesEnCarrera.get(contSeries).getNroSerie(), j + 2);
 				
 				cont += 1;
-
 			}
+			contSeries += 1;
 		}
+	}
+
+	public void quitarNadadorDeCarrera(int dni, int nroCarrera) 
+	{
+		cnpc.quitarNadadorDeCarrera(dni, nroCarrera);
 	}
 
 }
