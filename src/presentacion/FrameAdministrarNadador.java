@@ -5,14 +5,17 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 import javax.swing.text.NumberFormatter;
 
+import entidades.Nadador;
 import negocio.ControladorCompetencia;
 
 import javax.swing.JTabbedPane;
@@ -20,10 +23,14 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JButton;
 import javax.swing.JTable;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import javax.swing.JScrollPane;
 
 public class FrameAdministrarNadador extends JInternalFrame implements InternalFrameListener
 {
@@ -37,7 +44,7 @@ public class FrameAdministrarNadador extends JInternalFrame implements InternalF
 	private JTextField txtModificaNombre;
 	private JTextField txtModificaApellido;
 	private JTextField txtModificaClub;
-	private JTable tblEliminar;
+	private JTable tblEliminarNadador;
 	
 	public FrameAdministrarNadador() 
 	{
@@ -292,6 +299,27 @@ public class FrameAdministrarNadador extends JInternalFrame implements InternalF
 		pnlModificarNadador.add(lblBuscar);
 		
 		JFormattedTextField txtBuscar = new JFormattedTextField(formatter);
+		txtBuscar.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent arg0) 
+			{
+				Nadador n = cc.buscarNadadorPorDni((int)txtBuscar.getValue());
+				txtModificaDni.setText(Integer.toString(n.getDni()));
+				txtModificaEdad.setText(Integer.toString(n.getEdad()));
+				txtModificaTiempo1.setText(n.getTiempoPreCompetencia1());
+				txtModificaTiempo2.setText(n.getTiempoPreCompetencia2());
+				txtModificaNombre.setText(n.getNombre());
+				txtModificaApellido.setText(n.getApellido());
+				txtModificaClub.setText(n.getNombreClub());
+				int nro = 0;
+				if (n.getSexo() == 'm')
+					nro = 0;
+				else
+					nro = 1;
+				cbModificaSexo.setSelectedIndex(nro);
+			}
+		});
+		
 		txtBuscar.setColumns(10);
 		txtBuscar.setBounds(366, 8, 125, 20);
 		pnlModificarNadador.add(txtBuscar);
@@ -304,18 +332,73 @@ public class FrameAdministrarNadador extends JInternalFrame implements InternalF
 		btnEliminarNadador.setBounds(269, 240, 222, 31);
 		pnlEliminarNadador.add(btnEliminarNadador);
 		
-		tblEliminar = new JTable();
-		tblEliminar.setBounds(10, 39, 481, 190);
-		pnlEliminarNadador.add(tblEliminar);
-		
 		JLabel lblBuscarE = new JLabel("Buscar:");
 		lblBuscarE.setBounds(305, 11, 51, 14);
 		pnlEliminarNadador.add(lblBuscarE);
 		
 		JFormattedTextField txtBuscarE = new JFormattedTextField(formatter);
+		txtBuscarE.addKeyListener(new KeyAdapter() 
+		{
+			@Override
+			public void keyReleased(KeyEvent arg0) 
+			{
+				
+				
+				DefaultTableModel modeloTabla = new DefaultTableModel()
+				{
+					private static final long serialVersionUID = 1L;
+					public boolean isCellEditable(int row, int column)
+					{
+						return false;
+					}
+				};
+				
+				ArrayList<Nadador> listaNadadores = cc.buscarMuchosNadadoresPorDni((int)txtBuscarE.getValue());
+				Object[] identifiers = {"Nombre", "Apellido", "Dni"};
+				modeloTabla.setColumnIdentifiers(identifiers);
+				for(Nadador nad : listaNadadores)
+				{
+					Object[] o = new Object[3];
+					o[0] = nad.getNombre();
+					o[1] = nad.getApellido();
+					o[2] = nad.getDni();
+					modeloTabla.addRow(o);
+				}
+				tblEliminarNadador.setModel(modeloTabla);
+			}
+		});
 		txtBuscarE.setColumns(10);
 		txtBuscarE.setBounds(366, 8, 125, 20);
 		pnlEliminarNadador.add(txtBuscarE);
+		
+		tblEliminarNadador = new JTable();
+		tblEliminarNadador.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		
+		DefaultTableModel modeloTabla = new DefaultTableModel()
+		{
+			private static final long serialVersionUID = 1L;
+			public boolean isCellEditable(int row, int column)
+			{
+				return false;
+			}
+		};
+		
+		ArrayList<Nadador> listaNadadores = cc.buscarTodosNadadores();
+		Object[] identifiers = {"Nombre", "Apellido", "Dni"};
+		modeloTabla.setColumnIdentifiers(identifiers);
+		for(Nadador nad : listaNadadores)
+		{
+			Object[] o = new Object[3];
+			o[0] = nad.getNombre();
+			o[1] = nad.getApellido();
+			o[2] = nad.getDni();
+			modeloTabla.addRow(o);
+		}
+		tblEliminarNadador.setModel(modeloTabla);
+		
+		JScrollPane spEliminarNadador = new JScrollPane(tblEliminarNadador);
+		spEliminarNadador.setBounds(10, 36, 481, 193);
+		pnlEliminarNadador.add(spEliminarNadador);
 	}
 	
 
@@ -367,5 +450,10 @@ public class FrameAdministrarNadador extends JInternalFrame implements InternalF
 	public void internalFrameOpened(InternalFrameEvent arg0) {
 		// TODO Auto-generated method stub
 		
+	}
+	private static class __Tmp {
+		private static void __tmp() {
+			  javax.swing.JPanel __wbp_panel = new javax.swing.JPanel();
+		}
 	}
 }

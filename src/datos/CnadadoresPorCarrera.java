@@ -28,7 +28,7 @@ public class CnadadoresPorCarrera {
 		
 		PreparedStatement sentencia = null;
 		Connection con = DataConnection.getInstancia().getConn();
-		String sql = "INSERT INTO nadadorporcarrera (`nroCarrera`,`dniNadador`) VALUES(?,?);";
+		String sql = "INSERT INTO preinscripcion (`nroCarrera`,`dni`) VALUES(?,?);";
 		
 		try{
 			sentencia = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -61,7 +61,7 @@ public class CnadadoresPorCarrera {
 	public ArrayList<Nadador> buscarNadadoresPorCarrera(int nroCarrera) 
 	{		
 		ArrayList<Nadador> listaNadadores = new ArrayList<Nadador>();
-		String sql = "SELECT n.* FROM nadadores n inner join nadadorporcarrera nc on n.dni = nc.dniNadador "
+		String sql = "SELECT n.* FROM nadador n inner join preinscripcion nc on n.dni = nc.dni "
 				+ "where nc.nroCarrera = ?";
 		PreparedStatement sentencia=null;
 		ResultSet rs=null;
@@ -80,8 +80,8 @@ public class CnadadoresPorCarrera {
 					nadador.setApellido(rs.getString("apellido"));
 					nadador.setEdad(rs.getInt("edad"));
 					nadador.setNombreClub(rs.getString("nombreClub"));
-					nadador.setTiempoPreCompetencia1(rs.getString("tiempoPreCompetencia1"));
-					nadador.setTiempoPreCompetencia2(rs.getString("tiempoPreCompetencia2"));
+					nadador.setTiempoPreCompetencia1(rs.getString("tiempoPreCompeticion1"));
+					nadador.setTiempoPreCompetencia2(rs.getString("tiempoPreCompeticion2"));
 					nadador.setSexo(rs.getString("sexo").charAt(0));
 					listaNadadores.add(nadador);
 				}
@@ -113,7 +113,7 @@ public class CnadadoresPorCarrera {
 	public int contarNadadoresEnCarrera(int nroCarrera) 
 	{		
 		int numeroNadadores = 0;
-		String sql = "SELECT count(*) FROM nadadorporcarrera where nroCarrera = ?";
+		String sql = "SELECT count(*) FROM preinscripcion where nroCarrera = ?";
 		PreparedStatement sentencia=null;
 		ResultSet rs=null;
 		Connection con = DataConnection.getInstancia().getConn();
@@ -158,13 +158,13 @@ public class CnadadoresPorCarrera {
 		String sql;
 		if (nroCarrera <=20)
 		{
-			sql = "SELECT n.* FROM nadadores n inner join nadadorporcarrera nc on n.dni = nc.dniNadador "
-					+ "where nc.nroCarrera = ? order by tiempoPreCompetencia1";
+			sql = "SELECT n.* FROM nadador n inner join preinscripcion nc on n.dni = nc.dni "
+					+ "where nc.nroCarrera = ? order by tiempoPreCompeticion1";
 		}
 		else
 		{
-			sql = "SELECT n.* FROM nadadores n inner join nadadorporcarrera nc on n.dni = nc.dniNadador "
-					+ "where nc.nroCarrera = ? order by tiempoPreCompetencia2";
+			sql = "SELECT n.* FROM nadador n inner join preinscripcion nc on n.dni = nc.dni "
+					+ "where nc.nroCarrera = ? order by tiempoPreCompeticion2";
 		}
 		PreparedStatement sentencia=null;
 		ResultSet rs=null;
@@ -184,8 +184,8 @@ public class CnadadoresPorCarrera {
 					nadador.setApellido(rs.getString("apellido"));
 					nadador.setEdad(rs.getInt("edad"));
 					nadador.setNombreClub(rs.getString("nombreClub"));
-					nadador.setTiempoPreCompetencia1(rs.getString("tiempoPreCompetencia1"));
-					nadador.setTiempoPreCompetencia2(rs.getString("tiempoPreCompetencia2"));
+					nadador.setTiempoPreCompetencia1(rs.getString("tiempoPreCompeticion1"));
+					nadador.setTiempoPreCompetencia2(rs.getString("tiempoPreCompeticion2"));
 					nadador.setSexo(rs.getString("sexo").charAt(0));
 
 					listaNadadores.add(nadador);
@@ -218,7 +218,7 @@ public class CnadadoresPorCarrera {
 	{
 		PreparedStatement sentencia = null;
 		Connection con = DataConnection.getInstancia().getConn();
-		String sql = "delete from nadadorporcarrera where nroCarrera = ? and dniNadador = ?";
+		String sql = "delete from preinscripcion where nroCarrera = ? and dni = ?";
 		
 		try
 		{

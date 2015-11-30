@@ -27,7 +27,7 @@ public class CatalogoCarrera {
 	
 	 //Traigo desde la base de datos la carrera que ingreso el usuario  
 	 public int buscarCarrera(int nro) {
-		String sql = "select c.tipoCarrera from natacion.carreras c where c.nroCarrera ="+nro+";" ;
+		String sql = "select c.edadCarrera from Carrera c where c.nroCarrera ="+nro+";" ;
 		Statement sentencia=null;
 		ResultSet rs=null;
 		int tipoCarr = 0; 
@@ -39,7 +39,7 @@ public class CatalogoCarrera {
 			
 				if(rs.next())
 				{
-					tipoCarr = rs.getInt("c.tipoCarrera");
+					tipoCarr = rs.getInt("c.edadCarrera");
 				}
 				
 		}
@@ -69,7 +69,7 @@ public class CatalogoCarrera {
 	public ArrayList<Carrera> traerCarrerasPorTorneo(int nroTorneo) {
 		
 		ArrayList<Carrera> listaCarreras = new ArrayList<Carrera>();
-		String sql = "SELECT * FROM carreras WHERE nroTorneo = ?;";
+		String sql = "SELECT * FROM carrera WHERE nroTorneo = ?;";
 		ResultSet rs = null;
 		PreparedStatement sentencia = null;
 		Connection con = DataConnection.getInstancia().getConn();
@@ -84,9 +84,9 @@ public class CatalogoCarrera {
 			{
 				Carrera car = new Carrera();
 				car.setNroCarrera(rs.getInt("nroCarrera"));
-				car.setTipoCarrera(rs.getInt("tipoCarrera"));
+				car.setTipoCarrera(rs.getInt("edadCarrera"));
 				car.setMetros(rs.getInt("metros"));
-				car.setSexo(String.valueOf(rs.getString("sexo")).charAt(0));
+				car.setSexo(String.valueOf(rs.getString("genero")).charAt(0));
 				car.setNroTorneo(rs.getInt("nroTorneo"));
 				listaCarreras.add(car);
 			}
@@ -117,7 +117,7 @@ public class CatalogoCarrera {
 	
 	public void cargarCarrera(int nroEst, int nro, int tipo, int metros, char sexo, int nroTor) {
 		
-		String sql = "INSERT INTO `carreras` (`nroEstilo`,`nroCarrera`,`tipoCarrera`,`metros`,`sexo`,`nroTorneo`) VALUES(?,?,?,?,?,?);";
+		String sql = "INSERT INTO carrera (`nroEstilo`,`nroCarrera`,`edadCarrera`,`metros`,`genero`,`nroTorneo`) VALUES(?,?,?,?,?,?);";
 		PreparedStatement sentencia = null;
 		Connection con = DataConnection.getInstancia().getConn();
 		

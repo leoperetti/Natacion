@@ -33,7 +33,7 @@ public class CatalogoTorneo
 			
 			while(rs.next())
 			{
-				SimpleDateFormat fecha = new SimpleDateFormat("yyyy-MM-dd");	
+				SimpleDateFormat fecha = new SimpleDateFormat("dd/MM/yyyy");	
 				Torneo t = new Torneo();
 				t.setNroTorneo(rs.getInt("nroTorneo"));
 				t.setClubAnfitrion(rs.getString("clubAnfitrion"));
@@ -87,7 +87,7 @@ public class CatalogoTorneo
 		
 		while(rs.next())
 		{
-			SimpleDateFormat fecha = new SimpleDateFormat("yyyy-MM-dd");	
+			SimpleDateFormat fecha = new SimpleDateFormat("dd/MM/yyyy");	
 			Torneo t = new Torneo();
 			t.setNroTorneo(rs.getInt("nroTorneo"));
 			t.setClubAnfitrion(rs.getString("clubAnfitrion"));

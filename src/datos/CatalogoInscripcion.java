@@ -15,7 +15,7 @@ public class CatalogoInscripcion
 	{
 		PreparedStatement sentencia = null;
 		Connection con = DataConnection.getInstancia().getConn();
-		String sql = "INSERT INTO inscripcion (nadador, serie, andarivel) VALUES(?, ?, ?)";
+		String sql = "INSERT INTO inscripcion (dni, nroSerie, nroAndarivel) VALUES(?, ?, ?)";
 		
 		try{
 			sentencia = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);

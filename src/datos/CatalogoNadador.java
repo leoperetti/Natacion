@@ -17,13 +17,63 @@ public class CatalogoNadador {
 	  public CatalogoNadador() {
 	   
 	  }
-	   public static CatalogoNadador getInstance() {
+	   public static CatalogoNadador getInstance() 
+	   {
 	      if(instance == null) {
 	         instance = new CatalogoNadador();
 	      }
 	      return instance;
 	   }
 
+	   
+	   public ArrayList<Nadador> buscarTodosNadadores()
+	   {
+		   ArrayList<Nadador> listaNadadores = new ArrayList<Nadador>();
+		   String sql = "select * from nadador" ;
+		   Statement sentencia=null;
+		   ResultSet rs=null;
+	
+		try
+		{
+			sentencia=DataConnection.getInstancia().getConn().createStatement();
+			rs = sentencia.executeQuery(sql);
+			while(rs.next())
+			{					
+				Nadador nadador = new Nadador();
+				nadador.setDni(rs.getInt("dni"));
+				nadador.setNombre(rs.getString("nombre"));
+				nadador.setApellido(rs.getString("apellido"));
+				nadador.setEdad(rs.getInt("edad"));
+				nadador.setNombreClub(rs.getString("nombreClub"));
+				nadador.setTiempoPreCompetencia1(rs.getString("tiempoPreCompeticion1"));
+				nadador.setTiempoPreCompetencia2(rs.getString("tiempoPreCompeticion2"));
+				nadador.setSexo(rs.getString("sexo").charAt(0));
+				listaNadadores.add(nadador);
+			}
+				
+		}
+		catch(SQLException e)
+			{
+			e.printStackTrace();
+			}
+		finally
+		{
+			try
+			{
+				if(sentencia!=null && !sentencia.isClosed())
+				{
+					sentencia.close();
+				}
+				DataConnection.getInstancia().CloseConn();
+			}
+			catch (SQLException sqle)
+			{
+				sqle.printStackTrace();
+			}
+		}	
+		return listaNadadores;
+	}
+	   
 	public void cargarNadador(int dni, String nombre, String apellido, String club, int edad, String tiempo1, String tiempo2, char sexo) {
 		
 	
@@ -32,7 +82,7 @@ public class CatalogoNadador {
 		Connection con = DataConnection.getInstancia().getConn();
 		
 	try{
-		sql = "INSERT INTO nadadores (`dni`,`nombre`,`apellido`,`nombreClub`,`edad`,`tiempoPreCompetencia1`,`tiempoPreCompetencia2`, `sexo`) VALUES(?,?,?,?,?,?,?,?)";
+		sql = "INSERT INTO nadador (`dni`,`nombre`,`apellido`,`nombreClub`,`edad`,`tiempoPreCompeticion1`,`tiempoPreCompeticion2`, `sexo`) VALUES(?,?,?,?,?,?,?,?)";
 		sentencia = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 		sentencia.setInt(1, dni);
 		sentencia.setString(2, nombre);
@@ -80,21 +130,21 @@ public class CatalogoNadador {
 		String sql;
 		if (edad < 18)
 		{
-			sql = "SELECT * FROM nadadores "
+			sql = "SELECT * FROM nadador "
 					+ "where edad = ? and dni not in "
-					+ "(SELECT dni FROM nadadorporcarrera nc  "
-					+ "inner join nadadores n "
-					+ "on n.dni = nc.dniNadador "
-					+ "where nroCarrera = ?) and sexo = (select sexo from carreras c where nroCarrera = ?)";
+					+ "(SELECT n.dni FROM preinscripcion nc  "
+					+ "inner join nadador n "
+					+ "on n.dni = nc.dni "
+					+ "where nroCarrera = ?) and sexo = (select sexo from carrera c where nroCarrera = ?)";
 		}
 		else
 		{
-			sql = "SELECT * FROM nadadores "
+			sql = "SELECT * FROM nadador "
 					+ "where edad > 18 and dni not in "
-					+ "(SELECT dni FROM nadadorporcarrera nc  "
-					+ "inner join nadadores n "
-					+ "on n.dni = nc.dniNadador "
-					+ "where nroCarrera = ? and sexo = (select sexo from carreras c where nroCarrera = ?))";
+					+ "(SELECT n.dni FROM preinscripcion nc  "
+					+ "inner join nadador n "
+					+ "on n.dni = nc.dni "
+					+ "where nroCarrera = ? and sexo = (select sexo from carrera c where nroCarrera = ?))";
 		}
 		PreparedStatement sentencia=null;
 		ResultSet rs=null;
@@ -123,8 +173,8 @@ public class CatalogoNadador {
 					nadador.setApellido(rs.getString("apellido"));
 					nadador.setEdad(rs.getInt("edad"));
 					nadador.setNombreClub(rs.getString("nombreClub"));
-					nadador.setTiempoPreCompetencia1(rs.getString("tiempoPreCompetencia1"));
-					//nadador.setTiempoPreCompetencia2(tiempo.parse(rs.getString("tiempoPreCompetencia2")).getTime());
+					nadador.setTiempoPreCompetencia1(rs.getString("tiempoPreCompeticion1"));
+					nadador.setTiempoPreCompetencia2(rs.getString("tiempoPreCompeticion2"));
 					nadador.setSexo(rs.getString("sexo").charAt(0));
 					listaNadadores.add(nadador);
 				}
@@ -150,6 +200,106 @@ public class CatalogoNadador {
 			}
 		}	
 		
+		return listaNadadores;
+	}
+	
+	public Nadador buscarNadadorPorDni(int dni)
+	{
+		Nadador nadador = new Nadador();
+		String sql = "select * from nadador where dni like ?" ;// like '?%'";
+		PreparedStatement sentencia=null;
+		ResultSet rs=null;
+		Connection con = DataConnection.getInstancia().getConn();
+		
+		try
+		{
+			sentencia=con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			sentencia.setString(1, Integer.toString(dni) + "%");
+			rs = sentencia.executeQuery();
+			
+			if(rs.next())
+			{					
+				nadador.setDni(rs.getInt("dni"));
+				nadador.setNombre(rs.getString("nombre"));
+				nadador.setApellido(rs.getString("apellido"));
+				nadador.setEdad(rs.getInt("edad"));
+				nadador.setNombreClub(rs.getString("nombreClub"));
+				nadador.setTiempoPreCompetencia1(rs.getString("tiempoPreCompeticion1"));
+				nadador.setTiempoPreCompetencia2(rs.getString("tiempoPreCompeticion2"));
+				nadador.setSexo(rs.getString("sexo").charAt(0));
+			}
+				
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		} 
+		finally
+		{
+			try
+			{
+				if(sentencia!=null && !sentencia.isClosed())
+				{
+					sentencia.close();
+				}
+				DataConnection.getInstancia().CloseConn();
+			}
+			catch (SQLException sqle)
+			{
+				sqle.printStackTrace();
+			}
+		}	
+		return nadador;
+	}
+	
+	public ArrayList<Nadador> buscarMuchosNadadorPorDni(int dni)
+	{
+		ArrayList <Nadador> listaNadadores = new ArrayList<Nadador>();
+		String sql = "select * from nadador where dni like ?" ;// like '?%'";
+		PreparedStatement sentencia=null;
+		ResultSet rs=null;
+		Connection con = DataConnection.getInstancia().getConn();
+		
+		try
+		{
+			sentencia=con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			sentencia.setString(1, Integer.toString(dni) + "%");
+			rs = sentencia.executeQuery();
+			
+			while(rs.next())
+			{				
+				Nadador nadador = new Nadador();
+				nadador.setDni(rs.getInt("dni"));
+				nadador.setNombre(rs.getString("nombre"));
+				nadador.setApellido(rs.getString("apellido"));
+				nadador.setEdad(rs.getInt("edad"));
+				nadador.setNombreClub(rs.getString("nombreClub"));
+				nadador.setTiempoPreCompetencia1(rs.getString("tiempoPreCompeticion1"));
+				nadador.setTiempoPreCompetencia2(rs.getString("tiempoPreCompeticion2"));
+				nadador.setSexo(rs.getString("sexo").charAt(0));
+				listaNadadores.add(nadador);
+			}
+				
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		} 
+		finally
+		{
+			try
+			{
+				if(sentencia!=null && !sentencia.isClosed())
+				{
+					sentencia.close();
+				}
+				DataConnection.getInstancia().CloseConn();
+			}
+			catch (SQLException sqle)
+			{
+				sqle.printStackTrace();
+			}
+		}	
 		return listaNadadores;
 	}
 }

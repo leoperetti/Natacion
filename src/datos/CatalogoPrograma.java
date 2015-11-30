@@ -22,7 +22,7 @@ public class CatalogoPrograma {
 	public ArrayList<Programa> buscarProgramas() {
 		
 		ArrayList<Programa> listaProgramas = new ArrayList<Programa>();
-		String sql = "SELECT * FROM programas;";
+		String sql = "SELECT * FROM programa;";
 		ResultSet rs = null;
 		Connection con = DataConnection.getInstancia().getConn();
 		Statement sentencia = null;

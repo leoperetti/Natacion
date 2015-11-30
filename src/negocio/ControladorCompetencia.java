@@ -30,6 +30,11 @@ public class ControladorCompetencia {
 
 	}
 
+	public ArrayList<Nadador> buscarTodosNadadores()
+	{
+		return cn.buscarTodosNadadores();
+	}
+	
 	public ArrayList<Torneo> buscarTorneosPorPrograma(int nroPrograma)
 	{
 		return ct.buscarTorneosPorPrograma(nroPrograma);
@@ -178,6 +183,16 @@ public class ControladorCompetencia {
 	public void quitarNadadorDeCarrera(int dni, int nroCarrera) 
 	{
 		cnpc.quitarNadadorDeCarrera(dni, nroCarrera);
+	}
+	
+	public Nadador buscarNadadorPorDni (int dni)
+	{
+		return cn.buscarNadadorPorDni(dni);
+	}
+	
+	public ArrayList<Nadador> buscarMuchosNadadoresPorDni(int dni)
+	{
+		return cn.buscarMuchosNadadorPorDni(dni);
 	}
 
 }

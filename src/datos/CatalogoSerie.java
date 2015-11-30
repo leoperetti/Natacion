@@ -68,7 +68,7 @@ public class CatalogoSerie {
 	{
 		PreparedStatement sentencia = null;
 		Connection con = DataConnection.getInstancia().getConn();
-		String sql = "INSERT INTO series (carrera) VALUES(?)";
+		String sql = "INSERT INTO serie (nroCarrera) VALUES(?)";
 		
 		try{
 			sentencia = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -99,7 +99,7 @@ public class CatalogoSerie {
 	public ArrayList<Serie> buscarSeriesPorCarrera(int nroCarrera) 
 	{
 		ArrayList<Serie> listaSeries = new ArrayList<Serie>();
-		String sql = "SELECT * FROM series where carrera = ?";
+		String sql = "SELECT * FROM serie where nroCarrera = ?";
 		PreparedStatement sentencia=null;
 		ResultSet rs=null;
 		Connection con = DataConnection.getInstancia().getConn();
@@ -114,7 +114,7 @@ public class CatalogoSerie {
 				{
 					Serie s = new Serie();
 					s.setNroSerie(rs.getInt("nroSerie"));
-					s.setNroCarrera(rs.getInt("carrera"));
+					s.setNroCarrera(rs.getInt("nroCarrera"));
 					listaSeries.add(s);
 				}
 		}

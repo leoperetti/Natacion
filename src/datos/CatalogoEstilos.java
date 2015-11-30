@@ -34,7 +34,7 @@ public class CatalogoEstilos {
 		while(rs.next())
 		{
 			Estilo e = new Estilo();
-			e.setNombreEstilo(rs.getString("nombreEstilo"));
+			e.setNombreEstilo(rs.getString("descripcion"));
 			e.setNroEstilo(rs.getInt("nroEstilo"));
 			listaEstilos.add(e);
 		}
