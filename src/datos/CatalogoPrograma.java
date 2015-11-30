@@ -5,13 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-
-import java.sql.PreparedStatement;
-
 import conexion.DataConnection;
-import entidades.Nadador;
 import entidades.Programa;
-
 public class CatalogoPrograma {
 
 	 private static CatalogoPrograma instance = null;
@@ -30,10 +25,10 @@ public class CatalogoPrograma {
 		String sql = "SELECT * FROM programas;";
 		ResultSet rs = null;
 		Connection con = DataConnection.getInstancia().getConn();
-		PreparedStatement sentencia = null;
+		Statement sentencia = null;
 		
 		try{
-			sentencia = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			sentencia = con.createStatement();
 			rs = sentencia.executeQuery(sql);
 			
 			while(rs.next())

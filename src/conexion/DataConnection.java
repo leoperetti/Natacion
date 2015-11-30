@@ -14,10 +14,7 @@ public class DataConnection
 		}
 		return instancia;
 	}
-	
-	private static String dbUrl="jdbc:mysql://localhost:3306/natacion";
-	private static String dbUser="root";
-	private static String dbPassword="1234";
+
 	
 	//Construtor Default
 	public DataConnection()
@@ -32,8 +29,8 @@ public class DataConnection
 		{
 			if(conn==null || !conn.isValid(3))
 			{
-				Class.forName("com.mysql.jdbc.Driver").newInstance();
-				conn=DriverManager.getConnection(dbUrl,dbUser,dbPassword);	
+				Class.forName("org.sqlite.JDBC").newInstance();
+				conn=DriverManager.getConnection("jdbc:sqlite::resource:resources/natacion.db");	
 			}
 			
 		} catch (InstantiationException e) 

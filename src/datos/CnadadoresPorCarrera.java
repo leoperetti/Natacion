@@ -28,7 +28,7 @@ public class CnadadoresPorCarrera {
 		
 		PreparedStatement sentencia = null;
 		Connection con = DataConnection.getInstancia().getConn();
-		String sql = "INSERT INTO `natacion`.`nadadorporcarrera` (`nroCarrera`,`dniNadador`) VALUES(?,?);";
+		String sql = "INSERT INTO nadadorporcarrera (`nroCarrera`,`dniNadador`) VALUES(?,?);";
 		
 		try{
 			sentencia = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -73,23 +73,24 @@ public class CnadadoresPorCarrera {
 			rs = sentencia.executeQuery();
 			
 				while(rs.next())
-				{
+				{					
 					Nadador nadador = new Nadador();
 					nadador.setDni(rs.getInt("dni"));
 					nadador.setNombre(rs.getString("nombre"));
 					nadador.setApellido(rs.getString("apellido"));
 					nadador.setEdad(rs.getInt("edad"));
 					nadador.setNombreClub(rs.getString("nombreClub"));
-					nadador.setTiempoPreCompetencia1(rs.getTime("tiempoPreCompetencia1"));
-					nadador.setTiempoPreCompetencia1(rs.getTime("tiempoPreCompetencia2"));
+					nadador.setTiempoPreCompetencia1(rs.getString("tiempoPreCompetencia1"));
+					nadador.setTiempoPreCompetencia2(rs.getString("tiempoPreCompetencia2"));
+					nadador.setSexo(rs.getString("sexo").charAt(0));
 					listaNadadores.add(nadador);
 				}
 				
 		}
 		catch(SQLException e)
-			{
+		{
 			e.printStackTrace();
-			}
+		} 
 		finally
 		{
 			try
@@ -176,23 +177,25 @@ public class CnadadoresPorCarrera {
 			
 				while(rs.next())
 				{
+					
 					Nadador nadador = new Nadador();
 					nadador.setDni(rs.getInt("dni"));
 					nadador.setNombre(rs.getString("nombre"));
 					nadador.setApellido(rs.getString("apellido"));
 					nadador.setEdad(rs.getInt("edad"));
 					nadador.setNombreClub(rs.getString("nombreClub"));
-					nadador.setTiempoPreCompetencia1(rs.getTime("tiempoPreCompetencia1"));
-					nadador.setTiempoPreCompetencia2(rs.getTime("tiempoPreCompetencia2"));
+					nadador.setTiempoPreCompetencia1(rs.getString("tiempoPreCompetencia1"));
+					nadador.setTiempoPreCompetencia2(rs.getString("tiempoPreCompetencia2"));
+					nadador.setSexo(rs.getString("sexo").charAt(0));
 
 					listaNadadores.add(nadador);
 				}
 				
 		}
 		catch(SQLException e)
-			{
+		{
 			e.printStackTrace();
-			}
+		}
 		finally
 		{
 			try

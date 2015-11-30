@@ -1,13 +1,20 @@
 package entidades;
 
-import java.sql.Time;;
-
 public class Nadador {
 
 	private String nombre, apellido, nombreClub;
 	private int dni, edad;
-	private Time tiempoPreCompetencia1, tiempoPreCompetencia2;
+	private String tiempoPreCompetencia1, tiempoPreCompetencia2;
+	private char sexo;
 	
+	public char getSexo() {
+		return sexo;
+	}
+
+	public void setSexo(char sexo) {
+		this.sexo = sexo;
+	}
+
 	@Override
 	public String toString(){
 		return dni + " - " + nombre + " " + apellido;
@@ -18,7 +25,7 @@ public class Nadador {
 		
 	}
 	
-	public Nadador(String nom, String ape, String nomC, int edad, Time tiempo1, Time tiempo2){
+	public Nadador(String nom, String ape, String nomC, int edad, String tiempo1, String tiempo2){
 		
 		this.setNombre(nom);
 		this.setApellido(ape);
@@ -60,19 +67,19 @@ public class Nadador {
 		this.edad = edad;
 	}
 
-	public Time getTiempoPreCompetencia1() {
+	public String getTiempoPreCompetencia1() {
 		return tiempoPreCompetencia1;
 	}
 
-	public void setTiempoPreCompetencia1(Time tiempoPreCompetencia1) {
+	public void setTiempoPreCompetencia1(String tiempoPreCompetencia1) {
 		this.tiempoPreCompetencia1 = tiempoPreCompetencia1;
 	}
 
-	public Time getTiempoPreCompetencia2() {
+	public String getTiempoPreCompetencia2() {
 		return tiempoPreCompetencia2;
 	}
 
-	public void setTiempoPreCompetencia2(Time tiempoPreCompetencia2) {
+	public void setTiempoPreCompetencia2(String tiempoPreCompetencia2) {
 		this.tiempoPreCompetencia2 = tiempoPreCompetencia2;
 	}
 	

@@ -2,11 +2,13 @@ package presentacion;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.sql.Time;
+import java.beans.PropertyChangeListener;
+import java.text.NumberFormat;
 import java.text.ParseException;
-import java.util.concurrent.TimeUnit;
+import java.util.Locale;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
@@ -14,7 +16,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
+import javax.swing.text.DocumentFilter;
 import javax.swing.text.MaskFormatter;
+import javax.swing.text.NumberFormatter;
+import javax.swing.text.PlainDocument;
 
 import negocio.ControladorCompetencia;
 import javax.swing.JFrame;
@@ -22,9 +30,10 @@ import javax.swing.JFrame;
 public class FrameABMNadadores extends JInternalFrame implements InternalFrameListener
 {
 	private static final long serialVersionUID = 1L;
-	private JTextField txtNombre, txtApellido, txtDni, txtEdad, txtClub;
+	private JTextField txtNombre, txtApellido, txtClub, txtEdad, txtDni;
 	private ControladorCompetencia cc = new ControladorCompetencia();
 	private static FrameABMNadadores instancia = null;
+
 	
 	
 	public FrameABMNadadores() 
@@ -74,8 +83,15 @@ public class FrameABMNadadores extends JInternalFrame implements InternalFrameLi
 		JLabel lblApellido = new JLabel("Apellido:");
 		lblApellido.setBounds(225, 11, 62, 26);
 		this.getContentPane().add(lblApellido);
+				
+		NumberFormat format = NumberFormat.getInstance();
+	    NumberFormatter formatter = new NumberFormatter(format);
+	    formatter.setValueClass(Integer.class);
+	    formatter.setMinimum(0);
+	    formatter.setMaximum(Integer.MAX_VALUE);
+	    formatter.setCommitsOnValidEdit(true);
 		
-		txtDni = new JTextField();
+	    JFormattedTextField txtDni = new JFormattedTextField(formatter);
 		txtDni.setColumns(10);
 		txtDni.setBounds(280, 48, 100, 20);
 		this.getContentPane().add(txtDni);
@@ -84,7 +100,7 @@ public class FrameABMNadadores extends JInternalFrame implements InternalFrameLi
 		lblDni.setBounds(225, 51, 46, 14);
 		this.getContentPane().add(lblDni);
 		
-		txtEdad = new JTextField();
+		JFormattedTextField txtEdad = new JFormattedTextField(formatter);
 		txtEdad.setColumns(10);
 		txtEdad.setBounds(72, 51, 100, 20);
 		this.getContentPane().add(txtEdad);
@@ -131,39 +147,44 @@ public class FrameABMNadadores extends JInternalFrame implements InternalFrameLi
 		txtTiempo2.setBounds(72, 165, 100, 20);
 		this.getContentPane().add(txtTiempo2);
 		
+		Object[] opciones = {"Masculino", "Femenino"};
+		
+		JComboBox<Object> cb2Genero = new JComboBox<Object>(opciones);
+		cb2Genero.setBounds(280, 79, 100, 20);
+		getContentPane().add(cb2Genero);
+		setVisible(true);
+		
 		JButton btnAgregar = new JButton("Agregar");
-		btnAgregar.setBounds(236, 164, 89, 23);
+		btnAgregar.setBounds(291, 164, 89, 23);
 
 		btnAgregar.addMouseListener(new MouseAdapter() 
 		{
 			@Override
 			public void mouseClicked(MouseEvent arg0) 
 			{
+				char sexo;
 				
 				if(!(txtNombre.getText().isEmpty() && txtApellido.getText().isEmpty() && 
 					txtEdad.getText().isEmpty() && txtClub.getText().isEmpty()
 					&& txtDni.getText().isEmpty()))
 				{
-					int dni = Integer.parseInt(txtDni.getText());
-					String nombre = txtNombre.getText();
-					String apellido = txtApellido.getText();
-					String club = txtClub.getText();
-					int edad = Integer.parseInt(txtEdad.getText());
-					String[] tiempoString1 = txtTiempo1.getText().split(":");
-					//ARREGLAR ESTO: EL timUnit.Hours.toMillis no anda bien
-					Time t1 =  new Time(TimeUnit.HOURS.toMillis(Integer.parseInt(tiempoString1[0])) + TimeUnit.MINUTES.toMillis(Integer.parseInt(tiempoString1[1])) + TimeUnit.SECONDS.toMillis(Integer.parseInt(tiempoString1[2])));
 					
-					String[] tiempoString2 = txtTiempo2.getText().split(":");
-					Time t2 =  new Time(TimeUnit.HOURS.toMillis(Integer.parseInt(tiempoString2[0])) + TimeUnit.MINUTES.toMillis(Integer.parseInt(tiempoString2[1])) + TimeUnit.SECONDS.toMillis(Integer.parseInt(tiempoString2[2])));
-					if((Integer.parseInt(tiempoString1[0]) == 00) && (Integer.parseInt(tiempoString1[1]) == 0) && (Integer.parseInt(tiempoString1[2]) == 0)
-							&& (Integer.parseInt(tiempoString2[0]) == 00) && (Integer.parseInt(tiempoString2[1]) == 0) && (Integer.parseInt(tiempoString2[2]) == 0))
+					if(cb2Genero.getSelectedIndex()==0)
 					{
-						JOptionPane.showMessageDialog(getContentPane(), "No ingresó el tiempo");
+						sexo = 'm';
 					}
 					else
 					{
-						cc.cargarNadador(dni, nombre, apellido, club, edad, t1, t2);
+						sexo = 'f';
 					}
+					int dni = (int)txtDni.getValue();
+					String nombre = txtNombre.getText();
+					String apellido = txtApellido.getText();
+					String club = txtClub.getText();
+					int edad = (int)txtEdad.getValue();
+					
+					cc.cargarNadador(dni, nombre, apellido, club, edad, txtTiempo1.getText(), txtTiempo2.getText(), sexo);
+					JOptionPane.showMessageDialog(getContentPane(), "Nadador cargado correctamente!");
 				}
 				else
 				{
@@ -173,6 +194,10 @@ public class FrameABMNadadores extends JInternalFrame implements InternalFrameLi
 			}
 		});
 		this.getContentPane().add(btnAgregar);
+		
+		JLabel lblNewLabel_1 = new JLabel("Sexo:");
+		lblNewLabel_1.setBounds(225, 76, 46, 23);
+		getContentPane().add(lblNewLabel_1);
 
 
 	}
@@ -228,3 +253,4 @@ public class FrameABMNadadores extends JInternalFrame implements InternalFrameLi
 		
 	}
 }
+

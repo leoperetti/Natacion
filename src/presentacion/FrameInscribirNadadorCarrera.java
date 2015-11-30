@@ -65,7 +65,7 @@ public class FrameInscribirNadadorCarrera extends JInternalFrame implements Inte
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setIconifiable(true);
 		setClosable(true);
-		setBounds(38, 11, 557, 350);
+		setBounds(38, 11, 624, 350);
 		getContentPane().setLayout(null);
 
 		//Con el controlador traigo los programas y se lo asigno a un modelo para el CB
@@ -79,14 +79,14 @@ public class FrameInscribirNadadorCarrera extends JInternalFrame implements Inte
 		
 		
 		JComboBox<Nadador> cbNadadores = new JComboBox<Nadador>();
-		cbNadadores.setBounds(113, 133, 218, 20);
+		cbNadadores.setBounds(81, 133, 319, 20);
 		getContentPane().add(cbNadadores);
 		
 		table = new JTable();
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
 		JComboBox<Carrera>cbCarreras = new JComboBox<Carrera>();
-		cbCarreras.setBounds(113, 70, 218, 20);
+		cbCarreras.setBounds(81, 70, 319, 20);
 		getContentPane().add(cbCarreras);
 		
 		cbCarreras.addActionListener(new ActionListener() 
@@ -99,7 +99,7 @@ public class FrameInscribirNadadorCarrera extends JInternalFrame implements Inte
 
 		
 		JComboBox<Torneo> cbTorneos = new JComboBox<Torneo>();
-		cbTorneos.setBounds(113, 42, 218, 20);
+		cbTorneos.setBounds(81, 42, 319, 20);
 		getContentPane().add(cbTorneos);
 		
 		cbTorneos.addActionListener(new ActionListener() 
@@ -113,7 +113,7 @@ public class FrameInscribirNadadorCarrera extends JInternalFrame implements Inte
 
 		
 		JComboBox<Programa> cbProgramas = new JComboBox<Programa>();
-		cbProgramas.setBounds(113, 11, 218, 20);
+		cbProgramas.setBounds(81, 11, 319, 20);
 		getContentPane().add(cbProgramas);
 		cbProgramas.setModel(modeloPrg);
 		cbProgramas.setSelectedIndex(-1);
@@ -129,18 +129,18 @@ public class FrameInscribirNadadorCarrera extends JInternalFrame implements Inte
 		
 		JLabel lblProgramas = new JLabel("Programas:");
 		lblProgramas.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblProgramas.setBounds(10, 14, 93, 14);
+		lblProgramas.setBounds(10, 14, 61, 14);
 		getContentPane().add(lblProgramas);
 		
 		JLabel lblTorneos = new JLabel("Torneos:");
 		lblTorneos.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblTorneos.setBounds(10, 45, 93, 14);
+		lblTorneos.setBounds(10, 45, 61, 14);
 		getContentPane().add(lblTorneos);
 		
 		
 		JLabel lblCarreras = new JLabel("Carreras:");
 		lblCarreras.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblCarreras.setBounds(10, 73, 93, 14);
+		lblCarreras.setBounds(10, 73, 61, 14);
 		getContentPane().add(lblCarreras);
 
 		
@@ -148,7 +148,7 @@ public class FrameInscribirNadadorCarrera extends JInternalFrame implements Inte
 		
 		JLabel lblNadadores = new JLabel("Nadadores:");
 		lblNadadores.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblNadadores.setBounds(10, 136, 93, 14);
+		lblNadadores.setBounds(10, 136, 61, 14);
 		getContentPane().add(lblNadadores);
 		
 		
@@ -171,12 +171,12 @@ public class FrameInscribirNadadorCarrera extends JInternalFrame implements Inte
 			}
 		});
 		
-		btnAgregarNadador.setBounds(341, 133, 89, 20);
+		btnAgregarNadador.setBounds(410, 133, 89, 20);
 		getContentPane().add(btnAgregarNadador);
 		
 		
 		JButton btnQuitarNadador = new JButton("Quitar");
-		btnQuitarNadador.setBounds(440, 133, 89, 20);
+		btnQuitarNadador.setBounds(509, 133, 89, 20);
 		getContentPane().add(btnQuitarNadador);
 		
 		btnQuitarNadador.addMouseListener(new MouseAdapter() 
@@ -197,7 +197,7 @@ public class FrameInscribirNadadorCarrera extends JInternalFrame implements Inte
 		});
 		
 		JButton btnGenerarSeries = new JButton("Generar Series");
-		btnGenerarSeries.setBounds(341, 10, 188, 112);
+		btnGenerarSeries.setBounds(410, 10, 188, 112);
 		getContentPane().add(btnGenerarSeries);
 		
 		btnGenerarSeries.addMouseListener(new MouseAdapter() 
@@ -214,7 +214,7 @@ public class FrameInscribirNadadorCarrera extends JInternalFrame implements Inte
 		});
 
 		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(10, 164, 521, 145);
+		scrollPane.setBounds(10, 164, 588, 145);
 		getContentPane().add(scrollPane);
 	}
 
@@ -267,6 +267,7 @@ public class FrameInscribirNadadorCarrera extends JInternalFrame implements Inte
 		{
 			ArrayList<Nadador> listaNadadores = cc.traerTodosNadadores(carrera.getTipoCarrera(), carrera.getNroCarrera());
 			
+			modeloNad.removeAllElements();
 			for(Nadador nad : listaNadadores)
 			{
 				modeloNad.addElement(nad);

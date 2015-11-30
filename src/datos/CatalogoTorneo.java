@@ -2,13 +2,15 @@ package datos;
 
 import java.util.ArrayList;
 
-import entidades.Estilo;
 import entidades.Torneo;
 import java.sql.ResultSet;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 import conexion.DataConnection;
 
 public class CatalogoTorneo 
@@ -31,14 +33,20 @@ public class CatalogoTorneo
 			
 			while(rs.next())
 			{
+				SimpleDateFormat fecha = new SimpleDateFormat("yyyy-MM-dd");	
 				Torneo t = new Torneo();
-				t.setFecha(rs.getDate("fechaTorneo"));
-				t.setNroPrograma(rs.getInt("nroPrograma"));
 				t.setNroTorneo(rs.getInt("nroTorneo"));
+				t.setClubAnfitrion(rs.getString("clubAnfitrion"));
+				t.setFecha(fecha.parse(rs.getString("fechaTorneo")));
+				t.setNroPrograma(rs.getInt("nroPrograma"));
 				listaTorneos.add(t);
 			}
 		}
 		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		catch (ParseException e)
 		{
 			e.printStackTrace();
 		}
@@ -79,15 +87,21 @@ public class CatalogoTorneo
 		
 		while(rs.next())
 		{
+			SimpleDateFormat fecha = new SimpleDateFormat("yyyy-MM-dd");	
 			Torneo t = new Torneo();
 			t.setNroTorneo(rs.getInt("nroTorneo"));
 			t.setClubAnfitrion(rs.getString("clubAnfitrion"));
-			t.setFecha(rs.getDate("fechaTorneo"));
+			t.setFecha(fecha.parse(rs.getString("fechaTorneo")));
+			t.setNroPrograma(rs.getInt("nroPrograma"));
 			listaTor.add(t);
 		}
 		
 		}
 		catch(SQLException e)
+		{
+			e.printStackTrace();
+		} 
+		catch (ParseException e) 
 		{
 			e.printStackTrace();
 		}
@@ -106,8 +120,6 @@ public class CatalogoTorneo
 				sqle.printStackTrace();
 			}
 		}	
-		
-		
 		
 		return listaTor;
 		

@@ -6,8 +6,6 @@ import entidades.Nadador;
 import entidades.Programa;
 import entidades.Serie;
 import entidades.Torneo;
-
-import java.sql.Time;
 import java.util.ArrayList;
 
 public class ControladorCompetencia {
@@ -21,9 +19,9 @@ public class ControladorCompetencia {
 	private CatalogoEstilos ce = new CatalogoEstilos();
 	private CatalogoInscripcion ci = new CatalogoInscripcion();
 
-	public void cargarNadador(int dni, String nombre, String apellido, String club, int edad, Time tiempo1, Time tiempo2) {
+	public void cargarNadador(int dni, String nombre, String apellido, String club, int edad, String tiempo1, String tiempo2, char sexo) {
 		
-		 cn.cargarNadador(dni, nombre, apellido, club, edad, tiempo1, tiempo2);
+		 cn.cargarNadador(dni, nombre, apellido, club, edad, tiempo1, tiempo2, sexo);
 		
 	}
 

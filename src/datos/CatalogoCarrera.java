@@ -117,7 +117,7 @@ public class CatalogoCarrera {
 	
 	public void cargarCarrera(int nroEst, int nro, int tipo, int metros, char sexo, int nroTor) {
 		
-		String sql = "INSERT INTO `natacion`.`carreras` (`nroEstilo`,`nroCarrera`,`tipoCarrera`,`metros`,`sexo`,`nroTorneo`) VALUES(?,?,?,?,?,?);";
+		String sql = "INSERT INTO `carreras` (`nroEstilo`,`nroCarrera`,`tipoCarrera`,`metros`,`sexo`,`nroTorneo`) VALUES(?,?,?,?,?,?);";
 		PreparedStatement sentencia = null;
 		Connection con = DataConnection.getInstancia().getConn();
 		

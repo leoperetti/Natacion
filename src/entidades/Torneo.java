@@ -1,5 +1,6 @@
 package entidades;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Torneo 
@@ -9,8 +10,11 @@ public class Torneo
 	private String clubAnfitrion;
 	
 	@Override
-	public String toString(){
-		return "Nro: "+this.nroTorneo+"  Se realiza en: "+this.clubAnfitrion+" - Fecha: "+this.fecha;
+	public String toString()
+	{
+		SimpleDateFormat fecha = new SimpleDateFormat("yyyy-MM-dd");	
+		fecha.applyPattern("dd/MM/yyyy");
+		return "Nro: "+this.nroTorneo+"  Se realiza en: "+this.clubAnfitrion+" - Fecha: "+fecha.format(this.fecha);
 	}
 	
 	public Date getFecha() {

@@ -8,8 +8,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
-import java.sql.Time;
 import java.util.ArrayList;
+
 
 public class CatalogoNadador {
 	
@@ -24,7 +24,7 @@ public class CatalogoNadador {
 	      return instance;
 	   }
 
-	public void cargarNadador(int dni, String nombre, String apellido, String club, int edad, Time tiempo1, Time tiempo2) {
+	public void cargarNadador(int dni, String nombre, String apellido, String club, int edad, String tiempo1, String tiempo2, char sexo) {
 		
 	
 		String sql;
@@ -32,15 +32,16 @@ public class CatalogoNadador {
 		Connection con = DataConnection.getInstancia().getConn();
 		
 	try{
-		sql = "INSERT INTO `natacion`.`nadadores` (`dni`,`nombre`,`apellido`,`nombreClub`,`edad`,`tiempoPreCompetencia1`,`tiempoPreCompetencia2`) VALUES(?,?,?,?,?,?,?)";
+		sql = "INSERT INTO nadadores (`dni`,`nombre`,`apellido`,`nombreClub`,`edad`,`tiempoPreCompetencia1`,`tiempoPreCompetencia2`, `sexo`) VALUES(?,?,?,?,?,?,?,?)";
 		sentencia = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 		sentencia.setInt(1, dni);
 		sentencia.setString(2, nombre);
 		sentencia.setString(3, apellido);
 		sentencia.setString(4, club);
 		sentencia.setInt(5, edad);
-		sentencia.setTime(6, tiempo1);
-		sentencia.setTime(7, tiempo2);
+		sentencia.setString(6, tiempo1);
+		sentencia.setString(7, tiempo2);
+		sentencia.setString(8, String.valueOf(sexo));
 		
 		
 		sentencia.executeUpdate();
@@ -84,7 +85,7 @@ public class CatalogoNadador {
 					+ "(SELECT dni FROM nadadorporcarrera nc  "
 					+ "inner join nadadores n "
 					+ "on n.dni = nc.dniNadador "
-					+ "where nroCarrera = ?)";
+					+ "where nroCarrera = ?) and sexo = (select sexo from carreras c where nroCarrera = ?)";
 		}
 		else
 		{
@@ -93,7 +94,7 @@ public class CatalogoNadador {
 					+ "(SELECT dni FROM nadadorporcarrera nc  "
 					+ "inner join nadadores n "
 					+ "on n.dni = nc.dniNadador "
-					+ "where nroCarrera = ?)";
+					+ "where nroCarrera = ? and sexo = (select sexo from carreras c where nroCarrera = ?))";
 		}
 		PreparedStatement sentencia=null;
 		ResultSet rs=null;
@@ -105,31 +106,34 @@ public class CatalogoNadador {
 			{
 				sentencia.setInt(1, edad);
 				sentencia.setInt(2, nroCarrera);
+				sentencia.setInt(3, nroCarrera);
 			}
 			else
 			{
 				sentencia.setInt(1, nroCarrera);
+				sentencia.setInt(2, nroCarrera);
 			}
 			rs = sentencia.executeQuery();
 			
 				while(rs.next())
-				{
+				{					
 					Nadador nadador = new Nadador();
 					nadador.setDni(rs.getInt("dni"));
 					nadador.setNombre(rs.getString("nombre"));
 					nadador.setApellido(rs.getString("apellido"));
 					nadador.setEdad(rs.getInt("edad"));
 					nadador.setNombreClub(rs.getString("nombreClub"));
-					nadador.setTiempoPreCompetencia1(rs.getTime("tiempoPreCompetencia1"));
-					nadador.setTiempoPreCompetencia2(rs.getTime("tiempoPreCompetencia2"));
+					nadador.setTiempoPreCompetencia1(rs.getString("tiempoPreCompetencia1"));
+					//nadador.setTiempoPreCompetencia2(tiempo.parse(rs.getString("tiempoPreCompetencia2")).getTime());
+					nadador.setSexo(rs.getString("sexo").charAt(0));
 					listaNadadores.add(nadador);
 				}
 				
 		}
 		catch(SQLException e)
-			{
+		{
 			e.printStackTrace();
-			}
+		} 
 		finally
 		{
 			try

@@ -17,16 +17,16 @@ public class Presentacion2 extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JDesktopPane contentPane;
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					Presentacion2 frame = new Presentacion2();
-					ImageIcon img = new ImageIcon("Icono/iconoNadador.png");
-					frame.setIconImage(img.getImage());
+					//ImageIcon img = new ImageIcon("Icono/iconoNadador.png");
+					//frame.setIconImage(img.getImage());
+					java.net.URL url = Presentacion2.class.getResource("/resources/iconoNadador.png");
+	                ImageIcon icon = new ImageIcon(url);
+					frame.setIconImage(icon.getImage());
 					frame.setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -36,9 +36,6 @@ public class Presentacion2 extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public Presentacion2() 
 	{
 		setTitle("Gestión de Competencias de Natación");
@@ -61,15 +58,15 @@ public class Presentacion2 extends JFrame {
 	
 		
 		//AGREGAR NADADOR
-		JMenuItem mntmAgregarNadador = new JMenuItem("Agregar Nadador");
+		JMenuItem mntmAgregarNadador = new JMenuItem("Administrar Nadadores");
 		mntmAgregarNadador.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{		
-				if (FrameABMNadadores.devolverInstancia() ==  null)
+				if (FrameAdministrarNadador.devolverInstancia() ==  null)
 				{
-					contentPane.add(FrameABMNadadores.obtenerInstancia());
-					FrameABMNadadores.obtenerInstancia().setVisible(true);
+					contentPane.add(FrameAdministrarNadador.obtenerInstancia());
+					FrameAdministrarNadador.obtenerInstancia().setVisible(true);
 				}
 			}
 		});
@@ -103,9 +100,27 @@ public class Presentacion2 extends JFrame {
 					contentPane.add(FrameRegistrarCarrera.obtenerInstancia());
 					FrameRegistrarCarrera.obtenerInstancia().setVisible(true);
 				}
+				
 			}
 		});
 		mnCarreras.add(mntmCarrera);
+		
+		JMenu mnTorneos = new JMenu("Torneos");
+		menuBar.add(mnTorneos);
+		
+		JMenuItem mntmAdministrarTorneos = new JMenuItem("Administrar Torneos");
+		mntmAdministrarTorneos.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				if (FrameAdministrarTorneo.devolverInstancia() ==  null)
+				{
+					contentPane.add(FrameAdministrarTorneo.obtenerInstancia());
+					FrameAdministrarTorneo.obtenerInstancia().setVisible(true);
+				}
+			}
+		});
+		mnTorneos.add(mntmAdministrarTorneos);
 		
 	}
 }
