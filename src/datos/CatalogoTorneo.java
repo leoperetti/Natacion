@@ -33,20 +33,15 @@ public class CatalogoTorneo
 			
 			while(rs.next())
 			{
-				SimpleDateFormat fecha = new SimpleDateFormat("dd/MM/yyyy");	
 				Torneo t = new Torneo();
 				t.setNroTorneo(rs.getInt("nroTorneo"));
 				t.setClubAnfitrion(rs.getString("clubAnfitrion"));
-				t.setFecha(fecha.parse(rs.getString("fechaTorneo")));
+				t.setFecha(rs.getString("fechaTorneo"));
 				t.setNroPrograma(rs.getInt("nroPrograma"));
 				listaTorneos.add(t);
 			}
 		}
 		catch (SQLException e) 
-		{
-			e.printStackTrace();
-		}
-		catch (ParseException e)
 		{
 			e.printStackTrace();
 		}
@@ -87,11 +82,10 @@ public class CatalogoTorneo
 		
 		while(rs.next())
 		{
-			SimpleDateFormat fecha = new SimpleDateFormat("dd/MM/yyyy");	
 			Torneo t = new Torneo();
 			t.setNroTorneo(rs.getInt("nroTorneo"));
 			t.setClubAnfitrion(rs.getString("clubAnfitrion"));
-			t.setFecha(fecha.parse(rs.getString("fechaTorneo")));
+			t.setFecha(rs.getString("fechaTorneo"));
 			t.setNroPrograma(rs.getInt("nroPrograma"));
 			listaTor.add(t);
 		}
@@ -101,10 +95,6 @@ public class CatalogoTorneo
 		{
 			e.printStackTrace();
 		} 
-		catch (ParseException e) 
-		{
-			e.printStackTrace();
-		}
 		finally
 		{
 			try
@@ -124,4 +114,88 @@ public class CatalogoTorneo
 		return listaTor;
 		
 	}
+	
+	
+	public int buscarUltimoNumeroDeTorneo() 
+	{
+		int nroTorneoMaximo = 0;
+		String sql = "SELECT MAX(nroTorneo) FROM torneo;";
+		Statement sentencia = null;
+		ResultSet rs = null;
+		
+		try
+		{
+			
+			sentencia = DataConnection.getInstancia().getConn().createStatement();
+			rs = sentencia.executeQuery(sql);
+		
+		if(rs.next())
+		{
+			nroTorneoMaximo = rs.getInt(1);
+		}
+		
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		} 
+		finally
+		{
+			try
+			{
+				if(sentencia!=null && !sentencia.isClosed())
+				{
+					sentencia.close();
+				}
+				DataConnection.getInstancia().CloseConn();
+			}
+			catch (SQLException sqle)
+			{
+				sqle.printStackTrace();
+			}
+		}	
+		
+		return nroTorneoMaximo;
+		
+	}
+	
+	public void cargarTorneo(int nroTorneo, int nroPrograma, String club, String fecha, String localidad)
+	{
+			
+		String sql = "INSERT INTO Torneo (nroTorneo, nroPrograma, clubAnfitrion, fechaTorneo, localidad) VALUES(?,?,?,?,?);";
+		PreparedStatement sentencia = null;
+		Connection con = DataConnection.getInstancia().getConn();
+		
+		try
+		{
+			sentencia = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			sentencia.setInt(1, nroTorneo);
+			sentencia.setInt(2, nroPrograma);
+			sentencia.setString(3, club);
+			sentencia.setString(4, fecha);
+			sentencia.setString(5, localidad);
+			sentencia.executeUpdate();
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				if(sentencia!=null && !sentencia.isClosed())
+				{
+					sentencia.close();
+				}
+				DataConnection.getInstancia().CloseConn();
+			}
+			catch (SQLException sqle)
+			{
+				sqle.printStackTrace();
+			}
+		}
+	}
+	
+	
 }

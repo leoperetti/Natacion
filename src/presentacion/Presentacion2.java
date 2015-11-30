@@ -22,8 +22,6 @@ public class Presentacion2 extends JFrame {
 			public void run() {
 				try {
 					Presentacion2 frame = new Presentacion2();
-					//ImageIcon img = new ImageIcon("Icono/iconoNadador.png");
-					//frame.setIconImage(img.getImage());
 					java.net.URL url = Presentacion2.class.getResource("/resources/iconoNadador.png");
 	                ImageIcon icon = new ImageIcon(url);
 					frame.setIconImage(icon.getImage());

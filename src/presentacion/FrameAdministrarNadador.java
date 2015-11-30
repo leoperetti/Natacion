@@ -6,6 +6,7 @@ import java.awt.event.MouseEvent;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
@@ -14,6 +15,8 @@ import javax.swing.event.InternalFrameListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 import javax.swing.text.NumberFormatter;
+
+import org.sqlite.util.StringUtils;
 
 import entidades.Nadador;
 import negocio.ControladorCompetencia;
@@ -45,6 +48,8 @@ public class FrameAdministrarNadador extends JInternalFrame implements InternalF
 	private JTextField txtModificaApellido;
 	private JTextField txtModificaClub;
 	private JTable tblEliminarNadador;
+	private JTextField txtBuscar;
+	private JTextField txtBuscarE;
 	
 	public FrameAdministrarNadador() 
 	{
@@ -206,6 +211,29 @@ public class FrameAdministrarNadador extends JInternalFrame implements InternalF
 					
 					cc.cargarNadador(dni, nombre, apellido, club, edad, txtNuevoTiempo1.getText(), txtNuevoTiempo2.getText(), sexo);
 					JOptionPane.showMessageDialog(getContentPane(), "Nadador cargado correctamente!");
+					
+					
+					DefaultTableModel modeloTabla = new DefaultTableModel()
+					{
+						private static final long serialVersionUID = 1L;
+						public boolean isCellEditable(int row, int column)
+						{
+							return false;
+						}
+					};
+					
+					ArrayList<Nadador> listaNadadores = cc.buscarTodosNadadores();
+					Object[] identifiers = {"Nombre", "Apellido", "Dni"};
+					modeloTabla.setColumnIdentifiers(identifiers);
+					for(Nadador nad : listaNadadores)
+					{
+						Object[] o = new Object[3];
+						o[0] = nad.getNombre();
+						o[1] = nad.getApellido();
+						o[2] = nad.getDni();
+						modeloTabla.addRow(o);
+					}
+					tblEliminarNadador.setModel(modeloTabla);
 				}
 				else
 				{
@@ -298,25 +326,43 @@ public class FrameAdministrarNadador extends JInternalFrame implements InternalF
 		lblBuscar.setBounds(305, 11, 51, 14);
 		pnlModificarNadador.add(lblBuscar);
 		
-		JFormattedTextField txtBuscar = new JFormattedTextField(formatter);
+		txtBuscar = new JTextField();
 		txtBuscar.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent arg0) 
 			{
-				Nadador n = cc.buscarNadadorPorDni((int)txtBuscar.getValue());
-				txtModificaDni.setText(Integer.toString(n.getDni()));
-				txtModificaEdad.setText(Integer.toString(n.getEdad()));
-				txtModificaTiempo1.setText(n.getTiempoPreCompetencia1());
-				txtModificaTiempo2.setText(n.getTiempoPreCompetencia2());
-				txtModificaNombre.setText(n.getNombre());
-				txtModificaApellido.setText(n.getApellido());
-				txtModificaClub.setText(n.getNombreClub());
-				int nro = 0;
-				if (n.getSexo() == 'm')
-					nro = 0;
-				else
-					nro = 1;
-				cbModificaSexo.setSelectedIndex(nro);
+				if (!txtBuscar.getText().isEmpty())
+				{
+				if (isNumeric(txtBuscar.getText()))
+				{
+					Nadador n = cc.buscarNadadorPorDni(Integer.parseInt(txtBuscar.getText()));
+					txtModificaDni.setText(Integer.toString(n.getDni()));
+					txtModificaEdad.setText(Integer.toString(n.getEdad()));
+					txtModificaTiempo1.setText(n.getTiempoPreCompetencia1());
+					txtModificaTiempo2.setText(n.getTiempoPreCompetencia2());
+					txtModificaNombre.setText(n.getNombre());
+					txtModificaApellido.setText(n.getApellido());
+					txtModificaClub.setText(n.getNombreClub());
+					int nro = 0;
+					if (n.getSexo() == 'm')
+						nro = 0;
+					else
+						nro = 1;
+					cbModificaSexo.setSelectedIndex(nro);
+				}
+				else if (Pattern.matches("[a-zA-Z]+", txtBuscar.getText()))
+				{
+					JOptionPane.showMessageDialog(getContentPane(), "La búsqueda es por DNI: Sólo se pueden ingresar números.");
+					txtBuscar.setText("");
+				}
+				else if (txtBuscar.getText().charAt(0) == ' ')
+				{
+					JOptionPane.showMessageDialog(getContentPane(), "La búsqueda es por DNI: Sólo se pueden ingresar números.");
+					txtBuscar.setText("");
+				}
+				
+			}
+
 			}
 		});
 		
@@ -336,42 +382,60 @@ public class FrameAdministrarNadador extends JInternalFrame implements InternalF
 		lblBuscarE.setBounds(305, 11, 51, 14);
 		pnlEliminarNadador.add(lblBuscarE);
 		
-		JFormattedTextField txtBuscarE = new JFormattedTextField(formatter);
+		txtBuscarE = new JTextField();
 		txtBuscarE.addKeyListener(new KeyAdapter() 
 		{
 			@Override
 			public void keyReleased(KeyEvent arg0) 
 			{
-				
-				
-				DefaultTableModel modeloTabla = new DefaultTableModel()
+			if (!txtBuscarE.getText().isEmpty())
+			{
+				if (isNumeric(txtBuscarE.getText()))
 				{
-					private static final long serialVersionUID = 1L;
-					public boolean isCellEditable(int row, int column)
+				
+					DefaultTableModel modeloTabla = new DefaultTableModel()
 					{
-						return false;
+						private static final long serialVersionUID = 1L;
+						public boolean isCellEditable(int row, int column)
+						{
+							return false;
+						}
+					};
+					
+					ArrayList<Nadador> listaNadadores = cc.buscarMuchosNadadoresPorDni(Integer.parseInt(txtBuscarE.getText()));
+					Object[] identifiers = {"Nombre", "Apellido", "Dni"};
+					modeloTabla.setColumnIdentifiers(identifiers);
+					for(Nadador nad : listaNadadores)
+					{
+						Object[] o = new Object[3];
+						o[0] = nad.getNombre();
+						o[1] = nad.getApellido();
+						o[2] = nad.getDni();
+						modeloTabla.addRow(o);
 					}
-				};
-				
-				ArrayList<Nadador> listaNadadores = cc.buscarMuchosNadadoresPorDni((int)txtBuscarE.getValue());
-				Object[] identifiers = {"Nombre", "Apellido", "Dni"};
-				modeloTabla.setColumnIdentifiers(identifiers);
-				for(Nadador nad : listaNadadores)
-				{
-					Object[] o = new Object[3];
-					o[0] = nad.getNombre();
-					o[1] = nad.getApellido();
-					o[2] = nad.getDni();
-					modeloTabla.addRow(o);
+					tblEliminarNadador.setModel(modeloTabla);
 				}
-				tblEliminarNadador.setModel(modeloTabla);
+				else if (Pattern.matches("[a-zA-Z]+", txtBuscarE.getText()))
+				{
+					JOptionPane.showMessageDialog(getContentPane(), "La búsqueda es por DNI: Sólo se pueden ingresar números.");
+					txtBuscarE.setText("");
+				}
+				else if (txtBuscarE.getText().charAt(0) == ' ')
+				{
+					JOptionPane.showMessageDialog(getContentPane(), "La búsqueda es por DNI: Sólo se pueden ingresar números.");
+					txtBuscarE.setText("");
+				}
 			}
+		}
+			
 		});
 		txtBuscarE.setColumns(10);
 		txtBuscarE.setBounds(366, 8, 125, 20);
 		pnlEliminarNadador.add(txtBuscarE);
 		
 		tblEliminarNadador = new JTable();
+		tblEliminarNadador.getTableHeader().setReorderingAllowed(false);
+		tblEliminarNadador.getTableHeader().setResizingAllowed(false);
 		tblEliminarNadador.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
 		DefaultTableModel modeloTabla = new DefaultTableModel()
@@ -451,9 +515,18 @@ public class FrameAdministrarNadador extends JInternalFrame implements InternalF
 		// TODO Auto-generated method stub
 		
 	}
-	private static class __Tmp {
-		private static void __tmp() {
-			  javax.swing.JPanel __wbp_panel = new javax.swing.JPanel();
-		}
-	}
+	
+	 private boolean isNumeric(String str)
+	  {
+	    try
+	    {
+	    	Integer.parseInt(str);
+	    }
+	    catch(NumberFormatException nfe)
+	    {
+		     return false;
+	    }
+	    return true;
+	  }
+	 
 }

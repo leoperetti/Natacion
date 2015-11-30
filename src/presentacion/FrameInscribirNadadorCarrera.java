@@ -83,6 +83,8 @@ public class FrameInscribirNadadorCarrera extends JInternalFrame implements Inte
 		getContentPane().add(cbNadadores);
 		
 		table = new JTable();
+		table.getTableHeader().setReorderingAllowed(false);
+		table.getTableHeader().setResizingAllowed(false);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
 		JComboBox<Carrera>cbCarreras = new JComboBox<Carrera>();

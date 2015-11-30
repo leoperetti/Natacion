@@ -135,7 +135,7 @@ public class CatalogoNadador {
 					+ "(SELECT n.dni FROM preinscripcion nc  "
 					+ "inner join nadador n "
 					+ "on n.dni = nc.dni "
-					+ "where nroCarrera = ?) and sexo = (select sexo from carrera c where nroCarrera = ?)";
+					+ "where nroCarrera = ?) and sexo = (select genero from carrera c where nroCarrera = ?)";
 		}
 		else
 		{
@@ -144,7 +144,7 @@ public class CatalogoNadador {
 					+ "(SELECT n.dni FROM preinscripcion nc  "
 					+ "inner join nadador n "
 					+ "on n.dni = nc.dni "
-					+ "where nroCarrera = ? and sexo = (select sexo from carrera c where nroCarrera = ?))";
+					+ "where nroCarrera = ?) and sexo = (select genero from carrera c where nroCarrera = ?)";
 		}
 		PreparedStatement sentencia=null;
 		ResultSet rs=null;

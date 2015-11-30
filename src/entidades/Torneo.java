@@ -5,22 +5,27 @@ import java.util.Date;
 
 public class Torneo 
 {
-	private Date fecha;
 	private int nroTorneo, nroPrograma;
-	private String clubAnfitrion;
+	private String clubAnfitrion, localidad, fecha;
 	
+	public String getLocalidad() {
+		return localidad;
+	}
+
+	public void setLocalidad(String localidad) {
+		this.localidad = localidad;
+	}
+
 	@Override
 	public String toString()
 	{
-		SimpleDateFormat fecha = new SimpleDateFormat("yyyy-MM-dd");	
-		fecha.applyPattern("dd/MM/yyyy");
-		return "Nro: "+this.nroTorneo+"  Se realiza en: "+this.clubAnfitrion+" - Fecha: "+fecha.format(this.fecha);
+		return "Nro: "+this.nroTorneo+"  Se realiza en: "+this.clubAnfitrion+" - Fecha: "+ fecha;
 	}
 	
-	public Date getFecha() {
+	public String getFecha() {
 		return fecha;
 	}
-	public void setFecha(Date fecha) {
+	public void setFecha(String fecha) {
 		this.fecha = fecha;
 	}
 	public int getNroTorneo() {

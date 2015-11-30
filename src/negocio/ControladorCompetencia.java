@@ -194,5 +194,16 @@ public class ControladorCompetencia {
 	{
 		return cn.buscarMuchosNadadorPorDni(dni);
 	}
+	
+	public int buscarUltimoNumeroTorneo()
+	{
+		return ct.buscarUltimoNumeroDeTorneo();
+	}
+	
+	public void cargarTorneo(int nroTorneo, int nroPrograma, String club, String fecha, String localidad)
+	{
+		ct.cargarTorneo(nroTorneo, nroPrograma, club, fecha, localidad);
+	}
+	
 
 }

@@ -31,9 +31,8 @@ public class DataConnection
 		{
 			if(conn==null || !conn.isValid(3))
 			{
-		        
 				Class.forName("org.sqlite.JDBC").newInstance();
-				conn=DriverManager.getConnection("jdbc:sqlite::resource:resources/natacion2.db");	
+				conn=DriverManager.getConnection("jdbc:sqlite::resource:resources/natacion2.db");
 			}
 			
 		} catch (InstantiationException e) 

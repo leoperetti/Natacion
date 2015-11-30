@@ -31,7 +31,6 @@ public class CatalogoCarrera {
 		Statement sentencia=null;
 		ResultSet rs=null;
 		int tipoCarr = 0; 
-		
 			
 		try{
 			sentencia=DataConnection.getInstancia().getConn().createStatement();
