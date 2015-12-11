@@ -24,6 +24,12 @@ public class ControladorCompetencia {
 		 cn.cargarNadador(dni, nombre, apellido, club, edad, tiempo1, tiempo2, sexo);
 		
 	}
+	
+	public void eliminarNadador(int dni){
+		
+		cn.eliminarNadador(dni);
+	
+	}
 
 	public void generarSerie(int nro) 
 	{

@@ -375,6 +375,17 @@ public class FrameAdministrarNadador extends JInternalFrame implements InternalF
 		pnlEliminarNadador.setLayout(null);
 		
 		JButton btnEliminarNadador = new JButton("Eliminar Nadador");
+		btnEliminarNadador.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				int i = tblEliminarNadador.getSelectedRow();
+				int dni = (int) tblEliminarNadador.getValueAt(i, 2);
+				cc.eliminarNadador(dni);
+				JOptionPane.showMessageDialog(getContentPane(), "Nadador eliminado Correctamente");
+				//ACA FALTA UN METODO PARA QUE ME HAGA UN "REFRESH" A LA TABLA Y ME SAQUE LA COLUMNA QUE BORRE
+				//PROBE VARIAS COSAS PERO NO FUNCIONAN, si se les ocurre algo avisen ... nico
+			}
+		});
 		btnEliminarNadador.setBounds(269, 240, 222, 31);
 		pnlEliminarNadador.add(btnEliminarNadador);
 		
@@ -438,6 +449,7 @@ public class FrameAdministrarNadador extends JInternalFrame implements InternalF
 		tblEliminarNadador.getTableHeader().setResizingAllowed(false);
 		tblEliminarNadador.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
+		
 		DefaultTableModel modeloTabla = new DefaultTableModel()
 		{
 			private static final long serialVersionUID = 1L;
@@ -463,6 +475,7 @@ public class FrameAdministrarNadador extends JInternalFrame implements InternalF
 		JScrollPane spEliminarNadador = new JScrollPane(tblEliminarNadador);
 		spEliminarNadador.setBounds(10, 36, 481, 193);
 		pnlEliminarNadador.add(spEliminarNadador);
+		
 	}
 	
 

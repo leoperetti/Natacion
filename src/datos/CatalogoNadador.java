@@ -73,6 +73,38 @@ public class CatalogoNadador {
 		}	
 		return listaNadadores;
 	}
+	
+	public void eliminarNadador(int dni) {
+		
+			String sql;
+			PreparedStatement sentencia = null;
+			Connection con = DataConnection.getInstancia().getConn();
+		try{
+			sql="DELETE FROM nadador WHERE dni=?;";
+			sentencia = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			sentencia.setInt(1, dni);
+			sentencia.executeUpdate();
+			}
+		catch(SQLException e)
+			{
+			e.printStackTrace();
+			}
+		finally
+		{
+			try
+			{
+				if(sentencia!=null && !sentencia.isClosed())
+				{
+					sentencia.close();
+				}
+				DataConnection.getInstancia().CloseConn();
+			}
+			catch (SQLException sqle)
+				{
+					sqle.printStackTrace();
+				}
+		}
+	}
 	   
 	public void cargarNadador(int dni, String nombre, String apellido, String club, int edad, String tiempo1, String tiempo2, char sexo) {
 		
