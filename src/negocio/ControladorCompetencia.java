@@ -10,114 +10,119 @@ import java.util.ArrayList;
 
 public class ControladorCompetencia {
 	
-	private CatalogoNadador cn = new CatalogoNadador();
-	private CatalogoSerie cs = new CatalogoSerie();
-	private CatalogoCarrera cc = new CatalogoCarrera();
-	private CnadadoresPorCarrera cnpc = new CnadadoresPorCarrera();
-	private CatalogoPrograma cp = new CatalogoPrograma();
-	private CatalogoTorneo ct = new CatalogoTorneo();
-	private CatalogoEstilos ce = new CatalogoEstilos();
-	private CatalogoInscripcion ci = new CatalogoInscripcion();
-
-	public void cargarNadador(int dni, String nombre, String apellido, String club, int edad, String tiempo1, String tiempo2, char sexo) {
-		
-		 cn.cargarNadador(dni, nombre, apellido, club, edad, tiempo1, tiempo2, sexo);
-		
-	}
-	
-	public void eliminarNadador(int dni){
-		
-		cn.eliminarNadador(dni);
-	
-	}
-
-	public void generarSerie(int nro) 
+	//CatálogoDeNadador
+	public void cargarNadador(int dni, String nombre, String apellido, String club, int edad, String tiempo1, String tiempo2, char sexo) 
 	{
-
+		 CatalogoNadador.getInstance().cargarNadador(dni, nombre, apellido, club, edad, tiempo1, tiempo2, sexo);
+	}
+	
+	public void eliminarNadador(int dni)
+	{
+		CatalogoNadador.getInstance().eliminarNadador(dni);
 	}
 
 	public ArrayList<Nadador> buscarTodosNadadores()
 	{
-		return cn.buscarTodosNadadores();
+		return CatalogoNadador.getInstance().buscarTodosNadadores();
 	}
 	
-	public ArrayList<Torneo> buscarTorneosPorPrograma(int nroPrograma)
-	{
-		return ct.buscarTorneosPorPrograma(nroPrograma);
-	}
-
-	public ArrayList<Nadador> buscarNadadoresPorCarrera(int nroCarrera)
-	{
-		return cnpc.buscarNadadoresPorCarrera(nroCarrera);
-	}
-
 	public ArrayList<Nadador> traerTodosNadadores(int edad, int nroCarrera) 
 	{
-		return cn.buscarNadadores(edad, nroCarrera);
+		return CatalogoNadador.getInstance().buscarNadadores(edad, nroCarrera);
 	}
 
+	public Nadador buscarNadadorPorDni(int dni)
+	{
+		return CatalogoNadador.getInstance().buscarNadadorPorDni(dni);
+	}
 	
+	public ArrayList<Nadador> buscarMuchosNadadoresPorDni(int dni)
+	{
+		return CatalogoNadador.getInstance().buscarMuchosNadadorPorDni(dni);
+	}
+	
+	//CatálogoDeTorneos
+	public ArrayList<Torneo> buscarTorneosPorPrograma(int nroPrograma)
+	{
+		return CatalogoTorneo.getInstance().buscarTorneosPorPrograma(nroPrograma);
+	}
+	
+	public ArrayList<Torneo> buscarTorneos() 
+	{
+		return CatalogoTorneo.getInstance().buscarTorneos();
+	}
+	
+	public int buscarUltimoNumeroTorneo()
+	{
+		return CatalogoTorneo.getInstance().buscarUltimoNumeroDeTorneo();
+	}
+	
+	public void cargarTorneo(int nroTorneo, int nroPrograma, String club, String fecha, String localidad)
+	{
+		CatalogoTorneo.getInstance().cargarTorneo(nroTorneo, nroPrograma, club, fecha, localidad);
+	}
+
+	//CatálogoDeNadadoresPorCarrera
+	public ArrayList<Nadador> buscarNadadoresPorCarrera(int nroCarrera)
+	{
+		return CnadadoresPorCarrera.getInstance().buscarNadadoresPorCarrera(nroCarrera);
+	}
+
 	public void cargarNadadorEnCarrera(int dni, int nroCarrera)
 	{
-		cnpc.cargarNadadorEnCarrera(dni, nroCarrera);
-	}
-
-
-	public ArrayList<Programa> traerLosProgramas() {
-		
-		return cp.buscarProgramas();
-	}
-
-
-
-	public ArrayList<Carrera> traerCarrerasPorTorneo(int nroTorneo) {
-		
-		return cc.traerCarrerasPorTorneo(nroTorneo);
-	}
-
-
-
-	public ArrayList<Estilo> traerLosEstilos() {
-		
-		return ce.traerLosEstilos();
-	}
-
-
-
-	public ArrayList<Torneo> buscarTorneos() {
-
-		return ct.buscarTorneos();
-	}
-
-
-
-	public void cargarCarrera(int nroEst, int nro, int tipo, int metros, char sexo, int nroTor) {
-		
-		cc.cargarCarrera(nroEst, nro, tipo, metros, sexo, nroTor);
-		
+		CnadadoresPorCarrera.getInstance().cargarNadadorEnCarrera(dni, nroCarrera);
 	}
 	
+	public void quitarNadadorDeCarrera(int dni, int nroCarrera) 
+	{
+		CnadadoresPorCarrera.getInstance().quitarNadadorDeCarrera(dni, nroCarrera);
+	}
+
+	//CatálogoDeProgramas
+	public ArrayList<Programa> traerLosProgramas() 
+	{
+		return CatalogoPrograma.getInstance().buscarProgramas();
+	}
+
+	//CatálogoDeCarreras
+	public ArrayList<Carrera> traerCarrerasPorTorneo(int nroTorneo) 
+	{
+		return CatalogoCarrera.getInstance().traerCarrerasPorTorneo(nroTorneo);
+	}
+	
+	public void cargarCarrera(int nroEst, int nro, int tipo, int metros, char sexo, int nroTor) 
+	{
+		CatalogoCarrera.getInstance().cargarCarrera(nroEst, nro, tipo, metros, sexo, nroTor);
+	}
+	
+	//CatálogoDeEstilos
+	public ArrayList<Estilo> traerLosEstilos() 
+	{
+		return CatalogoEstilos.getInstance().traerLosEstilos();
+	}
+
+	//Series e Inscripciones
 	public boolean generarSeriesPorCarrera(int nroCarrera)
 	{
-		int numeroNadador = cnpc.contarNadadoresEnCarrera(nroCarrera);
+		int numeroNadador = CnadadoresPorCarrera.getInstance().contarNadadoresEnCarrera(nroCarrera);
 		if (numeroNadador > 1)
 		{
 			if (numeroNadador % 6 != 0)
 			{
 				for (int i=1; i <= (int)(numeroNadador/6)+1; i++)
 				{
-					cs.insertarSerie(nroCarrera);
+					CatalogoSerie.getInstance().insertarSerie(nroCarrera);
 				}
 			}
 			else
 			{
 				for (int i=1; i <= (numeroNadador/6); i++)
 				{
-					cs.insertarSerie(nroCarrera);
+					CatalogoSerie.getInstance().insertarSerie(nroCarrera);
 				}
 			}
 			
-			this.distribuirNadadoresEnSeries(cnpc.buscarNadadoresPorCarreraOrdenadosPorTiempo(nroCarrera), cs.buscarSeriesPorCarrera(nroCarrera), numeroNadador);
+			this.distribuirNadadoresEnSeries(CnadadoresPorCarrera.getInstance().buscarNadadoresPorCarreraOrdenadosPorTiempo(nroCarrera), CatalogoSerie.getInstance().buscarSeriesPorCarrera(nroCarrera), numeroNadador);
 			return true;
 		}
 		else
@@ -146,13 +151,13 @@ public class ControladorCompetencia {
 		
 		for (int i = 1; i <= cantidadSeries; i++)
 		{
-			ci.cargarInscripciones(nadadoresEnCarreraOrdenadosPorTiempo.get(cont).getDni(), seriesEnCarrera.get(i-1).getNroSerie(), 2);
+			CatalogoInscripcion.getInstance().cargarInscripciones(nadadoresEnCarreraOrdenadosPorTiempo.get(cont).getDni(), seriesEnCarrera.get(i-1).getNroSerie(), 2);
 			cont += 1;
 		}
 		
 		for (int i = 1; i <= cantidadSeries; i++)
 		{
-			ci.cargarInscripciones(nadadoresEnCarreraOrdenadosPorTiempo.get(cont).getDni(), seriesEnCarrera.get(i-1).getNroSerie(), 3);
+			CatalogoInscripcion.getInstance().cargarInscripciones(nadadoresEnCarreraOrdenadosPorTiempo.get(cont).getDni(), seriesEnCarrera.get(i-1).getNroSerie(), 3);
 			cont += 1;
 		}
 		
@@ -161,12 +166,10 @@ public class ControladorCompetencia {
 			for (int j = 1; j<=nroNadadoresSinResto - 1; j ++)
 			{
 				if (j == 1)
-					ci.cargarInscripciones(nadadoresEnCarreraOrdenadosPorTiempo.get(cont).getDni(), seriesEnCarrera.get(contSeries).getNroSerie(), j);
+					CatalogoInscripcion.getInstance().cargarInscripciones(nadadoresEnCarreraOrdenadosPorTiempo.get(cont).getDni(), seriesEnCarrera.get(contSeries).getNroSerie(), j);
 				if (j > 1)
-					ci.cargarInscripciones(nadadoresEnCarreraOrdenadosPorTiempo.get(cont).getDni(), seriesEnCarrera.get(contSeries).getNroSerie(), j + 2);
-				
+					CatalogoInscripcion.getInstance().cargarInscripciones(nadadoresEnCarreraOrdenadosPorTiempo.get(cont).getDni(), seriesEnCarrera.get(contSeries).getNroSerie(), j + 2);
 				cont += 1;
-
 			}
 			contSeries += 1;
 		}
@@ -176,40 +179,15 @@ public class ControladorCompetencia {
 			for (int j = 1; j<=nroNadadoresSinResto - 2; j ++)
 			{
 				if (j == 1)
-					ci.cargarInscripciones(nadadoresEnCarreraOrdenadosPorTiempo.get(cont).getDni(), seriesEnCarrera.get(contSeries).getNroSerie(), j);
+					CatalogoInscripcion.getInstance().cargarInscripciones(nadadoresEnCarreraOrdenadosPorTiempo.get(cont).getDni(), seriesEnCarrera.get(contSeries).getNroSerie(), j);
 				if (j > 1)
-					ci.cargarInscripciones(nadadoresEnCarreraOrdenadosPorTiempo.get(cont).getDni(), seriesEnCarrera.get(contSeries).getNroSerie(), j + 2);
-				
+					CatalogoInscripcion.getInstance().cargarInscripciones(nadadoresEnCarreraOrdenadosPorTiempo.get(cont).getDni(), seriesEnCarrera.get(contSeries).getNroSerie(), j + 2);
 				cont += 1;
 			}
 			contSeries += 1;
 		}
 	}
+	//Fin de series e inscripciones
 
-	public void quitarNadadorDeCarrera(int dni, int nroCarrera) 
-	{
-		cnpc.quitarNadadorDeCarrera(dni, nroCarrera);
-	}
-	
-	public Nadador buscarNadadorPorDni (int dni)
-	{
-		return cn.buscarNadadorPorDni(dni);
-	}
-	
-	public ArrayList<Nadador> buscarMuchosNadadoresPorDni(int dni)
-	{
-		return cn.buscarMuchosNadadorPorDni(dni);
-	}
-	
-	public int buscarUltimoNumeroTorneo()
-	{
-		return ct.buscarUltimoNumeroDeTorneo();
-	}
-	
-	public void cargarTorneo(int nroTorneo, int nroPrograma, String club, String fecha, String localidad)
-	{
-		ct.cargarTorneo(nroTorneo, nroPrograma, club, fecha, localidad);
-	}
-	
 
 }

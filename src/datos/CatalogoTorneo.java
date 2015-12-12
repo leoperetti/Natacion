@@ -16,6 +16,20 @@ import conexion.DataConnection;
 public class CatalogoTorneo 
 {
 
+	private static CatalogoTorneo instance = null;
+	public CatalogoTorneo() 
+	{
+   
+	}
+	public static CatalogoTorneo getInstance()
+	{
+		if(instance == null) 
+		{
+			instance = new CatalogoTorneo();
+		}
+		return instance;
+	}
+	
 	public ArrayList<Torneo> buscarTorneosPorPrograma(int nroPrograma)
 	{
 		ArrayList<Torneo> listaTorneos = new ArrayList<Torneo>();

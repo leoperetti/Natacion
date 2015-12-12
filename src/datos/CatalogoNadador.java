@@ -13,17 +13,20 @@ import java.util.ArrayList;
 
 public class CatalogoNadador {
 	
-	 private static CatalogoNadador instance = null;
-	  public CatalogoNadador() {
+	private static CatalogoNadador instance = null;
+	public CatalogoNadador() 
+	{
 	   
-	  }
-	   public static CatalogoNadador getInstance() 
-	   {
-	      if(instance == null) {
-	         instance = new CatalogoNadador();
-	      }
-	      return instance;
-	   }
+	}
+	public static CatalogoNadador getInstance() 
+	{
+		if(instance == null)
+		{
+			instance = new CatalogoNadador();
+		}
+		return instance;
+	}
+	
 
 	   
 	   public ArrayList<Nadador> buscarTodosNadadores()

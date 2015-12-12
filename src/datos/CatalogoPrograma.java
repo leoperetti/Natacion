@@ -9,16 +9,19 @@ import conexion.DataConnection;
 import entidades.Programa;
 public class CatalogoPrograma {
 
-	 private static CatalogoPrograma instance = null;
-	  public CatalogoPrograma() {
-	   
-	  }
-	   public static CatalogoPrograma getInstance() {
-	      if(instance == null) {
-	         instance = new CatalogoPrograma();
-	      }
-	      return instance;
-	   }
+	private static CatalogoPrograma instance = null;
+	public CatalogoPrograma() 
+	{
+   
+	}
+	public static CatalogoPrograma getInstance()
+	{
+		if(instance == null) 
+		{
+			instance = new CatalogoPrograma();
+		}
+		return instance;
+	}
 	public ArrayList<Programa> buscarProgramas() {
 		
 		ArrayList<Programa> listaProgramas = new ArrayList<Programa>();

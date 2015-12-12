@@ -10,6 +10,19 @@ import conexion.DataConnection;
 public class CatalogoInscripcion 
 {
 
+	private static CatalogoInscripcion instance = null;
+	public CatalogoInscripcion() 
+	{
+	   
+	}
+	public static CatalogoInscripcion getInstance() 
+	{
+		if(instance == null)
+		{
+			instance = new CatalogoInscripcion();
+		}
+		return instance;
+	}
 	
 	public void cargarInscripciones(int dniNadador, int nroSerie, int nroAndarivel) 
 	{
