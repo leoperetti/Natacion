@@ -52,6 +52,7 @@ public class CatalogoTorneo
 				t.setClubAnfitrion(rs.getString("clubAnfitrion"));
 				t.setFecha(rs.getString("fechaTorneo"));
 				t.setNroPrograma(rs.getInt("nroPrograma"));
+				t.setLocalidad(rs.getString("localidad"));
 				listaTorneos.add(t);
 			}
 		}
@@ -101,6 +102,7 @@ public class CatalogoTorneo
 			t.setClubAnfitrion(rs.getString("clubAnfitrion"));
 			t.setFecha(rs.getString("fechaTorneo"));
 			t.setNroPrograma(rs.getInt("nroPrograma"));
+			t.setLocalidad(rs.getString("localidad"));
 			listaTor.add(t);
 		}
 		
@@ -188,6 +190,121 @@ public class CatalogoTorneo
 			sentencia.setString(3, club);
 			sentencia.setString(4, fecha);
 			sentencia.setString(5, localidad);
+			sentencia.executeUpdate();
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				if(sentencia!=null && !sentencia.isClosed())
+				{
+					sentencia.close();
+				}
+				DataConnection.getInstancia().CloseConn();
+			}
+			catch (SQLException sqle)
+			{
+				sqle.printStackTrace();
+			}
+		}
+	}
+	public void eliminarTorneo(int nroTorneo) 
+	{
+		String sql = "DELETE FROM Torneo WHERE nroTorneo = ?";
+		PreparedStatement sentencia = null;
+		Connection con = DataConnection.getInstancia().getConn();
+		try
+		{
+			sentencia = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			sentencia.setInt(1, nroTorneo);
+			sentencia.executeUpdate();
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				if(sentencia!=null && !sentencia.isClosed())
+				{
+					sentencia.close();
+				}
+				DataConnection.getInstancia().CloseConn();
+			}
+			catch (SQLException sqle)
+			{
+				sqle.printStackTrace();
+			}
+		}
+	}
+	public Torneo buscarTorneoPorNroTorneo(int nroTorneo) 
+	{
+		Torneo t = new Torneo();
+		String sql="select * from torneo where nroTorneo = ?";
+		PreparedStatement sentencia=null;
+		ResultSet rs=null;
+		Connection con = DataConnection.getInstancia().getConn();
+		
+		try 
+		{			
+			sentencia= con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			sentencia.setInt(1, nroTorneo);
+			rs= sentencia.executeQuery();
+			
+			if(rs.next())
+			{
+				t.setNroTorneo(rs.getInt("nroTorneo"));
+				t.setClubAnfitrion(rs.getString("clubAnfitrion"));
+				t.setFecha(rs.getString("fechaTorneo"));
+				t.setNroPrograma(rs.getInt("nroPrograma"));
+				t.setLocalidad(rs.getString("localidad"));
+			}
+		}
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				if(rs!=null)
+				{
+					rs.close();
+				}
+				if(sentencia!=null && !sentencia.isClosed())
+				{
+					sentencia.close();
+				}
+				DataConnection.getInstancia().CloseConn();
+			}
+			catch (SQLException sqle)
+			{
+				sqle.printStackTrace();
+			}
+		}
+	
+	return t;
+	}
+	public void modificarTorneo(int nroPrograma, String fechaTorneo, String clubAnfitrion, String localidad, int nroTorneo) 
+	{
+		String sql = "UPDATE Torneo set nroPrograma = ?, fechaTorneo = ? , clubAnfitrion = ?, localidad = ? where nroTorneo = ?";
+		PreparedStatement sentencia = null;
+		Connection con = DataConnection.getInstancia().getConn();
+		try
+		{
+			sentencia = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			sentencia.setInt(1, nroPrograma);
+			sentencia.setString(2, fechaTorneo);
+			sentencia.setString(3, clubAnfitrion);
+			sentencia.setString(4, localidad);
+			sentencia.setInt(5, nroTorneo);
 			sentencia.executeUpdate();
 		}
 		catch(SQLException e)

@@ -77,21 +77,21 @@ public class CatalogoNadador {
 		return listaNadadores;
 	}
 	
-	public void eliminarNadador(int dni) {
-		
-			String sql;
-			PreparedStatement sentencia = null;
-			Connection con = DataConnection.getInstancia().getConn();
-		try{
-			sql="DELETE FROM nadador WHERE dni=?;";
+	public void eliminarNadador(int dni) 
+	{	
+		String sql = "DELETE FROM nadador WHERE dni=?";
+		PreparedStatement sentencia = null;
+		Connection con = DataConnection.getInstancia().getConn();
+		try
+		{
 			sentencia = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			sentencia.setInt(1, dni);
 			sentencia.executeUpdate();
-			}
+		}
 		catch(SQLException e)
-			{
+		{
 			e.printStackTrace();
-			}
+		}
 		finally
 		{
 			try

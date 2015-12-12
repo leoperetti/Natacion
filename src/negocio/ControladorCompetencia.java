@@ -61,6 +61,21 @@ public class ControladorCompetencia {
 	{
 		CatalogoTorneo.getInstance().cargarTorneo(nroTorneo, nroPrograma, club, fecha, localidad);
 	}
+	
+	public void eliminarTorneo(int nroTorneo) 
+	{
+		CatalogoTorneo.getInstance().eliminarTorneo(nroTorneo);
+	}
+	
+	public Torneo buscarTorneosPorNroTorneo(int nroTorneo) 
+	{
+		return CatalogoTorneo.getInstance().buscarTorneoPorNroTorneo(nroTorneo);
+	}
+	
+	public void modificarTorneo(int nroPrograma, String fechaTorneo, String clubAnfitrion, String localidad, int nroTorneo) 
+	{
+		CatalogoTorneo.getInstance().modificarTorneo(nroPrograma, fechaTorneo, clubAnfitrion, localidad, nroTorneo);
+	}
 
 	//CatálogoDeNadadoresPorCarrera
 	public ArrayList<Nadador> buscarNadadoresPorCarrera(int nroCarrera)
@@ -188,6 +203,8 @@ public class ControladorCompetencia {
 		}
 	}
 	//Fin de series e inscripciones
+
+
 
 
 }

@@ -12,7 +12,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 
-public class Presentacion2 extends JFrame {
+public class FramePrincipal extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JDesktopPane contentPane;
@@ -21,8 +21,8 @@ public class Presentacion2 extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Presentacion2 frame = new Presentacion2();
-					java.net.URL url = Presentacion2.class.getResource("/resources/iconoNadador.png");
+					FramePrincipal frame = new FramePrincipal();
+					java.net.URL url = FramePrincipal.class.getResource("/resources/iconoNadador.png");
 	                ImageIcon icon = new ImageIcon(url);
 					frame.setIconImage(icon.getImage());
 					frame.setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
@@ -34,7 +34,7 @@ public class Presentacion2 extends JFrame {
 		});
 	}
 
-	public Presentacion2() 
+	public FramePrincipal() 
 	{
 		setTitle("Gestión de Competencias de Natación");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
