@@ -98,7 +98,31 @@ public class ControladorCompetencia {
 	{
 		return CatalogoPrograma.getInstance().buscarProgramas();
 	}
+	
+	public int buscarUltimoNumeroPrograma() 
+	{
+		return CatalogoPrograma.getInstance().buscarUltimoNumeroPrograma();
+	}
 
+	public void cargarPrograma(int nroPrograma, String descripcion) 
+	{
+		CatalogoPrograma.getInstance().cargarPrograma(nroPrograma, descripcion);
+	}
+	
+	public Programa buscarProgramaPorNroPrograma(int nroProgramaActual) 
+	{
+		return CatalogoPrograma.getInstance().buscarProgramaPorNroPrograma(nroProgramaActual) ;
+	}
+	
+	public void modificarProgrma(String descripcion, int nroPrograma) 
+	{
+		CatalogoPrograma.getInstance().modificarPrograma(descripcion, nroPrograma);
+	}
+	
+	public void eliminarPrograma(int nroProgramaActual) 
+	{
+		CatalogoPrograma.getInstance().eliminarPrograma(nroProgramaActual);
+	}
 	//CatálogoDeCarreras
 	public ArrayList<Carrera> traerCarrerasPorTorneo(int nroTorneo) 
 	{
@@ -114,6 +138,16 @@ public class ControladorCompetencia {
 	public ArrayList<Estilo> traerLosEstilos() 
 	{
 		return CatalogoEstilos.getInstance().traerLosEstilos();
+	}
+	
+	public int buscarUltimoNumeroEstilo() 
+	{
+		return CatalogoEstilos.getInstance().buscarUltimoNumeroEstilo();
+	}
+	
+	public void cargarEstilo(int nroEstilo, String descripcion) 
+	{
+		CatalogoEstilos.getInstance().cargarEstilo(nroEstilo, descripcion);
 	}
 
 	//Series e Inscripciones
@@ -203,8 +237,6 @@ public class ControladorCompetencia {
 		}
 	}
 	//Fin de series e inscripciones
-
-
 
 
 }

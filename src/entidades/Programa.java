@@ -3,11 +3,21 @@ package entidades;
 public class Programa {
 
 	private int nroPrograma;
+	private String descripcion;
 	//private String estilo1, estilo2;
 	
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
 	@Override
-	public String toString(){
-		return "Programa nro: "+this.nroPrograma;
+	public String toString()
+	{
+		return this.nroPrograma + " " + this.descripcion;
 	}
 	
 	public Programa(){

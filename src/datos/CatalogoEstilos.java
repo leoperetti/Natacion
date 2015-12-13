@@ -1,5 +1,7 @@
 package datos;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -63,6 +65,76 @@ public class CatalogoEstilos {
 		
 		
 		return listaEstilos;
+	}
+	public int buscarUltimoNumeroEstilo()
+	{
+		int nroEstiloMaximo = 0;
+		String sql = "SELECT MAX(nroEstilo) FROM Estilo";
+		Statement sentencia = null;
+		ResultSet rs = null;
+		try
+		{
+			sentencia = DataConnection.getInstancia().getConn().createStatement();
+			rs = sentencia.executeQuery(sql);
+			if(rs.next())
+			{
+				nroEstiloMaximo = rs.getInt(1);
+			}
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		} 
+		finally
+		{
+			try
+			{
+				if(sentencia!=null && !sentencia.isClosed())
+				{
+					sentencia.close();
+				}
+				DataConnection.getInstancia().CloseConn();
+			}
+			catch (SQLException sqle)
+			{
+				sqle.printStackTrace();
+			}
+		}	
+		
+		return nroEstiloMaximo;
+	}
+	public void cargarEstilo(int nroEstilo, String descripcion) 
+	{
+		String sql = "INSERT INTO Estilo VALUES(?,?)";
+		PreparedStatement sentencia = null;
+		Connection con = DataConnection.getInstancia().getConn();
+		
+		try
+		{
+			sentencia = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			sentencia.setInt(1, nroEstilo);
+			sentencia.setString(2, descripcion);
+			sentencia.executeUpdate();
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				if(sentencia!=null && !sentencia.isClosed())
+				{
+					sentencia.close();
+				}
+				DataConnection.getInstancia().CloseConn();
+			}
+			catch (SQLException sqle)
+			{
+				sqle.printStackTrace();
+			}
+		}		
 	}
 	
 }

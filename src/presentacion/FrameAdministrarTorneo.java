@@ -297,6 +297,7 @@ public class FrameAdministrarTorneo extends JInternalFrame implements InternalFr
 		cc.cargarTorneo(Integer.parseInt(txtNroTorneo.getText()), programa.getNroPrograma(), txtClubAnfitrion.getText(), txtFecha.getText(), txtLugarDeTorneo.getText());
 		JOptionPane.showMessageDialog(getContentPane(), "Torneo cargado.");
 		tablaEliminarModificar.setModel(generarModeloTabla(cc.buscarTorneos()));
+		txtNroTorneo.setText(Integer.toString(cc.buscarUltimoNumeroTorneo() + 1));
 	}
 	
 	private DefaultTableModel generarModeloTabla(ArrayList<Torneo> listaTorneo)
@@ -319,7 +320,7 @@ public class FrameAdministrarTorneo extends JInternalFrame implements InternalFr
 			o[1] = tor.getFecha();
 			o[2] = tor.getClubAnfitrion();
 			o[3] = tor.getLocalidad();
-			o[5] = tor.getNroPrograma();
+			o[4] = tor.getNroPrograma();
 			modeloTabla.addRow(o);
 		}
 		return modeloTabla;
@@ -332,12 +333,13 @@ public class FrameAdministrarTorneo extends JInternalFrame implements InternalFr
 		if ((JOptionPane.showConfirmDialog(getContentPane(), "Si elimina un torneo los datos del mismo no se podrán volver a recuperar.\nSólo se recomienda usar este botón si se equivocó al cargar por primera vez el torneo.\n¿Está seguro que desea hacerlo?") == JOptionPane.YES_OPTION))
 		{
 			cc.eliminarTorneo(nroTorneo);
-			JOptionPane.showMessageDialog(getContentPane(), "Torneo eliminado");
+			JOptionPane.showMessageDialog(getContentPane(), "Torneo eliminado.");
 			tablaEliminarModificar.setModel(generarModeloTabla(cc.buscarTorneos()));
+			txtNroTorneo.setText(Integer.toString(cc.buscarUltimoNumeroTorneo() + 1));
 		}
 		else
 		{
-			JOptionPane.showMessageDialog(getContentPane(), "El torneo no se eliminará");
+			JOptionPane.showMessageDialog(getContentPane(), "El torneo no se eliminará.");
 		}
 	}
 	

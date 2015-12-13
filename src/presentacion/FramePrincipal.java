@@ -55,7 +55,7 @@ public class FramePrincipal extends JFrame {
 		menuBar.add(mnCarreras);
 	
 		
-		//AGREGAR NADADOR
+		//ADMINISTRAR NADADORES
 		JMenuItem mntmAgregarNadador = new JMenuItem("Administrar Nadadores");
 		mntmAgregarNadador.addActionListener(new ActionListener() 
 		{
@@ -106,6 +106,7 @@ public class FramePrincipal extends JFrame {
 		JMenu mnTorneos = new JMenu("Torneos");
 		menuBar.add(mnTorneos);
 		
+		//ADMINISTRAR TORNEOS
 		JMenuItem mntmAdministrarTorneos = new JMenuItem("Administrar Torneos");
 		mntmAdministrarTorneos.addActionListener(new ActionListener() 
 		{
@@ -119,6 +120,42 @@ public class FramePrincipal extends JFrame {
 			}
 		});
 		mnTorneos.add(mntmAdministrarTorneos);
+		
+		JMenu mnProgramas = new JMenu("Programas");
+		menuBar.add(mnProgramas);
+		
+		//ADMINISTRAR PROGRAMAS
+		JMenuItem mntmAdministrarProgramas = new JMenuItem("Administrar Programas");
+		mntmAdministrarProgramas.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				if (FrameAdministrarProgramas.devolverInstancia() ==  null)
+				{
+					contentPane.add(FrameAdministrarProgramas.obtenerInstancia());
+					FrameAdministrarProgramas.obtenerInstancia().setVisible(true);
+				}
+			}
+		});
+		mnProgramas.add(mntmAdministrarProgramas);
+		
+		JMenu mnEstilos = new JMenu("Estilos");
+		menuBar.add(mnEstilos);
+		
+		//ADMINISTRAR ESTILOS
+		JMenuItem mntmAdministrarEstilos = new JMenuItem("Administrar Estilos");
+		mntmAdministrarEstilos.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				if (FrameAdministrarEstilos.devolverInstancia() ==  null)
+				{
+					contentPane.add(FrameAdministrarEstilos.obtenerInstancia());
+					FrameAdministrarEstilos.obtenerInstancia().setVisible(true);
+				}
+			}
+		});
+		mnEstilos.add(mntmAdministrarEstilos);
 		
 	}
 }
