@@ -41,6 +41,16 @@ public class ControladorCompetencia {
 		return CatalogoNadador.getInstance().buscarMuchosNadadorPorDni(dni);
 	}
 	
+	public ArrayList<Nadador> buscarMuchosNadadoresPorNombreYApellido(String text) 
+	{
+		return CatalogoNadador.getInstance().buscarMuchosNadadoresPorNombreYApellido(text);
+	}
+	
+	public void modificarNadador(String apellido, String nombre, String club, int edad, String tiempo1, String tiempo2, char sexo, int dni) 
+	{
+		CatalogoNadador.getInstance().modificarNadador(nombre, apellido, club, edad, tiempo1, tiempo2, sexo, dni);
+	}
+	
 	//CatálogoDeTorneos
 	public ArrayList<Torneo> buscarTorneosPorPrograma(int nroPrograma)
 	{
@@ -129,10 +139,21 @@ public class ControladorCompetencia {
 		return CatalogoCarrera.getInstance().traerCarrerasPorTorneo(nroTorneo);
 	}
 	
-	public void cargarCarrera(int nroEst, int nro, int tipo, int metros, char sexo, int nroTor) 
+	public void cargarCarrera(int nroEstilo, int nroCarrera, int edadCarrera, int metros, char sexo, int nroTorneo) 
 	{
-		CatalogoCarrera.getInstance().cargarCarrera(nroEst, nro, tipo, metros, sexo, nroTor);
+		CatalogoCarrera.getInstance().cargarCarrera(nroEstilo, nroCarrera, edadCarrera, metros, sexo, nroTorneo);
 	}
+	
+	public int buscarUltimoNumeroCarrera() 
+	{
+		return CatalogoCarrera.getInstance().buscarUltimoNroCarrera();
+	}
+	
+	public ArrayList<Carrera> buscarCarreras() 
+	{
+		return CatalogoCarrera.getInstance().buscarCarreras();
+	}
+
 	
 	//CatálogoDeEstilos
 	public ArrayList<Estilo> traerLosEstilos() 
@@ -148,6 +169,21 @@ public class ControladorCompetencia {
 	public void cargarEstilo(int nroEstilo, String descripcion) 
 	{
 		CatalogoEstilos.getInstance().cargarEstilo(nroEstilo, descripcion);
+	}
+	
+	public void eliminarEstilo(int nroEstiloActual) 
+	{
+		CatalogoEstilos.getInstance().eliminarEstilo(nroEstiloActual);
+	}
+	
+	public Estilo buscarEstiloPorNroEstilo(int nroEstiloActual)
+	{
+		return CatalogoEstilos.getInstance().buscarEstiloPorNroEstilo(nroEstiloActual);
+	}
+
+	public void modificarEstilo(int nroEstilo, String descripcion) 
+	{
+		CatalogoEstilos.getInstance().modificarEstilo(nroEstilo, descripcion);
 	}
 
 	//Series e Inscripciones

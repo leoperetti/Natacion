@@ -1,5 +1,6 @@
 package presentacion;
 
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -15,7 +16,10 @@ import javax.swing.SwingConstants;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
 
+import entidades.Carrera;
 import entidades.Estilo;
+import entidades.Nadador;
+import entidades.Programa;
 import entidades.Torneo;
 import negocio.ControladorCompetencia;
 
@@ -107,9 +111,10 @@ public class FrameRegistrarCarrera extends JInternalFrame implements InternalFra
 		getContentPane().add(cb2Genero);
 		setVisible(true);
 		
-		ArrayList<Estilo> estilos = cc.traerLosEstilos();
+		
 		
 		DefaultComboBoxModel<Estilo> modeloEstilos = new DefaultComboBoxModel<Estilo>();
+		ArrayList<Estilo> estilos = cc.traerLosEstilos();
 		for(Estilo est: estilos)
 		{
 			modeloEstilos.addElement(est);
@@ -166,6 +171,8 @@ public class FrameRegistrarCarrera extends JInternalFrame implements InternalFra
 		lblEstilo.setBounds(10, 42, 46, 14);
 		getContentPane().add(lblEstilo);
 	}
+	
+	
 
 	@Override
 	public void internalFrameActivated(InternalFrameEvent arg0) {

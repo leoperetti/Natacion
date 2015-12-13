@@ -2,7 +2,15 @@ package entidades;
 
 public class Carrera {
 
-	private int nroCarrera, tipoCarrera, metros, nroTorneo;
+	private int nroCarrera, tipoCarrera, metros, nroTorneo, nroEstilo;
+	public int getNroEstilo() {
+		return nroEstilo;
+	}
+
+	public void setNroEstilo(int nroEstilo) {
+		this.nroEstilo = nroEstilo;
+	}
+
 	private char sexo;
 	
 	//Cuando traigo la carrera desde la db, pongo un atributo nro programa? o tengo q instanciar un programa?

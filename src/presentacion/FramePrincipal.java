@@ -3,6 +3,7 @@ package presentacion;
 import java.awt.EventQueue;
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import javax.swing.border.EmptyBorder;
 import javax.swing.ImageIcon;
 import javax.swing.JMenuBar;
@@ -53,8 +54,7 @@ public class FramePrincipal extends JFrame {
 		
 		JMenu mnCarreras = new JMenu("Carreras");
 		menuBar.add(mnCarreras);
-	
-		
+			
 		//ADMINISTRAR NADADORES
 		JMenuItem mntmAgregarNadador = new JMenuItem("Administrar Nadadores");
 		mntmAgregarNadador.addActionListener(new ActionListener() 
@@ -63,7 +63,7 @@ public class FramePrincipal extends JFrame {
 			{		
 				if (FrameAdministrarNadador.devolverInstancia() ==  null)
 				{
-					contentPane.add(FrameAdministrarNadador.obtenerInstancia());
+					agregarAlPanel(FrameAdministrarNadador.obtenerInstancia());
 					FrameAdministrarNadador.obtenerInstancia().setVisible(true);
 				}
 			}
@@ -79,7 +79,7 @@ public class FramePrincipal extends JFrame {
 			{
 				if (FrameInscribirNadadorCarrera.devolverInstancia() ==  null)
 				{
-					contentPane.add(FrameInscribirNadadorCarrera.obtenerInstancia());
+					agregarAlPanel(FrameInscribirNadadorCarrera.obtenerInstancia());
 					FrameInscribirNadadorCarrera.obtenerInstancia().setVisible(true);
 				}
 			}
@@ -88,15 +88,15 @@ public class FramePrincipal extends JFrame {
 		
 		
 		//CARGAR NUEVA CARRERA
-		JMenuItem mntmCarrera = new JMenuItem("Cargar nueva carrera");
+		JMenuItem mntmCarrera = new JMenuItem("Administrar carreras");
 		mntmCarrera.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				if (FrameRegistrarCarrera.devolverInstancia() ==  null)
+				if (FrameAdministrarCarrera.devolverInstancia() ==  null)
 				{
-					contentPane.add(FrameRegistrarCarrera.obtenerInstancia());
-					FrameRegistrarCarrera.obtenerInstancia().setVisible(true);
+					agregarAlPanel(FrameAdministrarCarrera.obtenerInstancia());
+					FrameAdministrarCarrera.obtenerInstancia().setVisible(true);
 				}
 				
 			}
@@ -114,7 +114,7 @@ public class FramePrincipal extends JFrame {
 			{
 				if (FrameAdministrarTorneo.devolverInstancia() ==  null)
 				{
-					contentPane.add(FrameAdministrarTorneo.obtenerInstancia());
+					agregarAlPanel(FrameAdministrarTorneo.obtenerInstancia());
 					FrameAdministrarTorneo.obtenerInstancia().setVisible(true);
 				}
 			}
@@ -132,7 +132,7 @@ public class FramePrincipal extends JFrame {
 			{
 				if (FrameAdministrarProgramas.devolverInstancia() ==  null)
 				{
-					contentPane.add(FrameAdministrarProgramas.obtenerInstancia());
+					agregarAlPanel(FrameAdministrarProgramas.obtenerInstancia());
 					FrameAdministrarProgramas.obtenerInstancia().setVisible(true);
 				}
 			}
@@ -150,13 +150,21 @@ public class FramePrincipal extends JFrame {
 			{
 				if (FrameAdministrarEstilos.devolverInstancia() ==  null)
 				{
-					contentPane.add(FrameAdministrarEstilos.obtenerInstancia());
+					agregarAlPanel(FrameAdministrarEstilos.obtenerInstancia());
 					FrameAdministrarEstilos.obtenerInstancia().setVisible(true);
 				}
 			}
 		});
 		mnEstilos.add(mntmAdministrarEstilos);
 		
+	}
+	
+	//Esto pone un panel adelante del otro y con la forma tipo "en cascada"
+	private void agregarAlPanel(JInternalFrame frame)
+	{
+		frame.setBounds(10 * (contentPane.getAllFrames().length + 1), 10 * (contentPane.getAllFrames().length + 1), (int)frame.getBounds().getWidth(), (int)frame.getBounds().getHeight());
+		contentPane.add(frame);
+		frame.moveToFront();
 	}
 }
 

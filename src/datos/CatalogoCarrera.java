@@ -114,20 +114,21 @@ public class CatalogoCarrera {
 	}
 	
 	
-	public void cargarCarrera(int nroEst, int nro, int tipo, int metros, char sexo, int nroTor) {
+	public void cargarCarrera(int nroEstilo, int nroCarrera, int edadCarrera, int metros, char sexo, int nroTorneo) 
+	{
 		
-		String sql = "INSERT INTO carrera (`nroEstilo`,`nroCarrera`,`edadCarrera`,`metros`,`genero`,`nroTorneo`) VALUES(?,?,?,?,?,?);";
+		String sql = "INSERT INTO carrera (nroEstilo, nroCarrera, edadCarrera ,metros , genero, nroTorneo) VALUES(?,?,?,?,?,?);";
 		PreparedStatement sentencia = null;
 		Connection con = DataConnection.getInstancia().getConn();
 		
 		try{
 			sentencia = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			sentencia.setInt(1, nroEst);
-			sentencia.setInt(2, nro);
-			sentencia.setInt(3, tipo);
+			sentencia.setInt(1, nroEstilo);
+			sentencia.setInt(2, nroCarrera);
+			sentencia.setInt(3, edadCarrera);
 			sentencia.setInt(4, metros);
 			sentencia.setString(5,String.valueOf(sexo));
-			sentencia.setInt(6, nroTor);
+			sentencia.setInt(6, nroTorneo);
 			sentencia.executeUpdate();
 			
 			}
@@ -151,9 +152,92 @@ public class CatalogoCarrera {
 			}
 		}
 	}
+	
+	public int buscarUltimoNroCarrera() 
+	{
+		int nroCarreraMaximo = 0;
+		String sql = "SELECT MAX(nroCarrera) FROM Carrera";
+		Statement sentencia = null;
+		ResultSet rs = null;
+		try
+		{
+			sentencia = DataConnection.getInstancia().getConn().createStatement();
+			rs = sentencia.executeQuery(sql);
+			if(rs.next())
+			{
+				nroCarreraMaximo = rs.getInt(1);
+			}
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		} 
+		finally
+		{
+			try
+			{
+				if(sentencia!=null && !sentencia.isClosed())
+				{
+					sentencia.close();
+				}
+				DataConnection.getInstancia().CloseConn();
+			}
+			catch (SQLException sqle)
+			{
+				sqle.printStackTrace();
+			}
+		}	
 		
-	 	
+		return nroCarreraMaximo;
 	}
+	public ArrayList<Carrera> buscarCarreras() 
+	{
+		ArrayList<Carrera> listaCarrera = new ArrayList<Carrera>();
+		String sql = "SELECT * FROM Carrera;";
+		Statement sentencia = null;
+		ResultSet rs = null;
+		
+		try
+		{
+			sentencia = DataConnection.getInstancia().getConn().createStatement();
+			rs = sentencia.executeQuery(sql);
+			
+			while(rs.next())
+			{
+				Carrera c = new Carrera();
+				c.setNroCarrera(rs.getInt("nroCarrera"));
+				c.setNroEstilo(rs.getInt("nroEstilo"));
+				c.setMetros(rs.getInt("metros"));
+				c.setNroTorneo(rs.getInt("nroTorneo"));
+				c.setSexo(rs.getString("genero").charAt(0));
+				c.setTipoCarrera(rs.getInt("edadCarrera"));
+				listaCarrera.add(c);
+			}
+		
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				if(sentencia!=null && !sentencia.isClosed())
+				{
+					sentencia.close();
+				}
+				DataConnection.getInstancia().CloseConn();
+			}
+			catch (SQLException sqle)
+			{
+				sqle.printStackTrace();
+			}	
+		}
+		return listaCarrera;
+	}
+	 	
+}
 	   
 	   
 	 

@@ -175,7 +175,8 @@ public class FrameAdministrarProgramas extends JInternalFrame implements Interna
 	
 	private void modificarPrograma()
 	{
-		int nroProgramaActual = (int)tablaProgramas.getValueAt(tablaProgramas.getSelectedRow(), 0);		CardLayout cardLayout = (CardLayout) getContentPane().getLayout();
+		int nroProgramaActual = (int)tablaProgramas.getValueAt(tablaProgramas.getSelectedRow(), 0);		
+		CardLayout cardLayout = (CardLayout) getContentPane().getLayout();
 		cardLayout.show(getContentPane(), "panelModificar");
 		Programa programaActual = cc.buscarProgramaPorNroPrograma(nroProgramaActual);
 		txtNroProgramaModificar.setText(Integer.toString(nroProgramaActual));

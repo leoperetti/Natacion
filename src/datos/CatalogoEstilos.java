@@ -136,5 +136,110 @@ public class CatalogoEstilos {
 			}
 		}		
 	}
+	public void eliminarEstilo(int nroEstiloActual) 
+	{
+		String sql = "DELETE FROM Estilo WHERE nroEstilo = ?";
+		PreparedStatement sentencia = null;
+		Connection con = DataConnection.getInstancia().getConn();
+		try
+		{
+			sentencia = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			sentencia.setInt(1, nroEstiloActual);
+			sentencia.executeUpdate();
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				if(sentencia!=null && !sentencia.isClosed())
+				{
+					sentencia.close();
+				}
+				DataConnection.getInstancia().CloseConn();
+			}
+			catch (SQLException sqle)
+				{
+					sqle.printStackTrace();
+				}
+		}		
+	}
+	public Estilo buscarEstiloPorNroEstilo(int nroEstiloActual) 
+	{
+		Estilo estilo = new Estilo();
+		String sql = "select * from Estilo where nroEstilo = ?";
+		PreparedStatement sentencia=null;
+		ResultSet rs=null;
+		Connection con = DataConnection.getInstancia().getConn();
+		
+		try
+		{
+			sentencia=con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			sentencia.setInt(1, nroEstiloActual);
+			rs = sentencia.executeQuery();
+			
+			if(rs.next())
+			{					
+				estilo.setNroEstilo(rs.getInt("nroEstilo"));
+				estilo.setNombreEstilo(rs.getString("descripcion"));
+			}
+				
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		} 
+		finally
+		{
+			try
+			{
+				if(sentencia!=null && !sentencia.isClosed())
+				{
+					sentencia.close();
+				}
+				DataConnection.getInstancia().CloseConn();
+			}
+			catch (SQLException sqle)
+			{
+				sqle.printStackTrace();
+			}
+		}	
+		return estilo;
+	}
+	public void modificarEstilo(int nroEstilo, String descripcion) 
+	{
+		String sql = "UPDATE Estilo set descripcion = ? where nroEstilo = ?";
+		PreparedStatement sentencia = null;
+		Connection con = DataConnection.getInstancia().getConn();
+		try
+		{
+			sentencia = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			sentencia.setString(1, descripcion);
+			sentencia.setInt(2, nroEstilo);
+			sentencia.executeUpdate();
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				if(sentencia!=null && !sentencia.isClosed())
+				{
+					sentencia.close();
+				}
+				DataConnection.getInstancia().CloseConn();
+			}
+			catch (SQLException sqle)
+			{
+				sqle.printStackTrace();
+			}
+		}				
+	}
 	
 }

@@ -337,4 +337,120 @@ public class CatalogoNadador {
 		}	
 		return listaNadadores;
 	}
+	public ArrayList<Nadador> buscarMuchosNadadoresPorNombreYApellido(String text) 
+	{
+		ArrayList <Nadador> listaNadadores = new ArrayList<Nadador>();
+		String sql = "select * from nadador where (nombre || ' ' || apellido) like ?";
+		String sql2 = "select * from nadador where (apellido || ' ' || nombre) like ?";
+		PreparedStatement sentencia=null, sentencia2=null;
+		ResultSet rs=null, rs2=null;
+		Connection con = DataConnection.getInstancia().getConn();
+		
+		try
+		{
+			sentencia=con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			sentencia2=con.prepareStatement(sql2, Statement.RETURN_GENERATED_KEYS);
+			sentencia.setString(1, text + "%");
+			sentencia2.setString(1, text + "%");
+			rs = sentencia.executeQuery();
+			rs2 = sentencia2.executeQuery();
+			
+			while(rs.next())
+			{				
+				Nadador nadador = new Nadador();
+				nadador.setDni(rs.getInt("dni"));
+				nadador.setNombre(rs.getString("nombre"));
+				nadador.setApellido(rs.getString("apellido"));
+				nadador.setEdad(rs.getInt("edad"));
+				nadador.setNombreClub(rs.getString("nombreClub"));
+				nadador.setTiempoPreCompetencia1(rs.getString("tiempoPreCompeticion1"));
+				nadador.setTiempoPreCompetencia2(rs.getString("tiempoPreCompeticion2"));
+				nadador.setSexo(rs.getString("sexo").charAt(0));
+				listaNadadores.add(nadador);
+			}
+			while(rs2.next())
+			{		
+				Nadador nadador = new Nadador();
+				nadador.setDni(rs2.getInt("dni"));
+				nadador.setNombre(rs2.getString("nombre"));
+				nadador.setApellido(rs2.getString("apellido"));
+				nadador.setEdad(rs2.getInt("edad"));
+				nadador.setNombreClub(rs2.getString("nombreClub"));
+				nadador.setTiempoPreCompetencia1(rs2.getString("tiempoPreCompeticion1"));
+				nadador.setTiempoPreCompetencia2(rs2.getString("tiempoPreCompeticion2"));
+				nadador.setSexo(rs2.getString("sexo").charAt(0));
+				boolean repetido = false;
+				for(Nadador n : listaNadadores)
+				{
+					if (n.getDni() == nadador.getDni())
+					{
+						repetido = true;
+					}
+				}
+				if (!repetido)
+					listaNadadores.add(nadador);
+
+			}
+				
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		} 
+		finally
+		{
+			try
+			{
+				if(sentencia!=null && !sentencia.isClosed())
+				{
+					sentencia.close();
+				}
+				DataConnection.getInstancia().CloseConn();
+			}
+			catch (SQLException sqle)
+			{
+				sqle.printStackTrace();
+			}
+		}	
+		return listaNadadores;
+	}
+	
+	public void modificarNadador(String nombre, String apellido, String club, int edad, String tiempo1, String tiempo2, char sexo , int dni)
+	{
+		String sql = "UPDATE Nadador set nombre = ?, apellido = ?, nombreClub = ?, edad = ?, tiempoPreCompeticion1 = ?, tiempoPreCompeticion2 = ?, sexo = ? where dni = ?";
+		PreparedStatement sentencia = null;
+		Connection con = DataConnection.getInstancia().getConn();
+		try
+		{
+			sentencia = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			sentencia.setString(1, nombre);
+			sentencia.setString(2, apellido);
+			sentencia.setString(3, club);
+			sentencia.setInt(4, edad);
+			sentencia.setString(5, tiempo1);
+			sentencia.setString(6, tiempo2);
+			sentencia.setString(7, Character.toString(sexo));
+			sentencia.setInt(8, dni);
+			sentencia.executeUpdate();
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				if(sentencia!=null && !sentencia.isClosed())
+				{
+					sentencia.close();
+				}
+				DataConnection.getInstancia().CloseConn();
+			}
+			catch (SQLException sqle)
+			{
+				sqle.printStackTrace();
+			}
+		}		
+	}
 }
