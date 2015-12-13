@@ -4,7 +4,9 @@ Bundle-Name: NATACION
 Bundle-SymbolicName: NATACION
 Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: NATACION.jar,
- mysql-connector-java-5.1.36/mysql-connector-java-5.1.36-bin.jar
+ mysql-connector-java-5.1.36/mysql-connector-java-5.1.36-bin.jar,
+ jgoodies-common-1.8.0.jar,
+ jgoodies-forms-1.8.0.jar
 Export-Package: conexion,
  datos,
  entidades,

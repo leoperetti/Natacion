@@ -255,7 +255,7 @@ public class FrameInscribirNadadorCarrera extends JInternalFrame implements Inte
 		if (cc.generarSeriesPorCarrera(car.getNroCarrera()))
 			JOptionPane.showMessageDialog(getContentPane(), "Éxito al generar serie(s)");
 		else
-			JOptionPane.showMessageDialog(getContentPane(), "La carrera no puede tener menos de 1 nadador");
+			JOptionPane.showMessageDialog(getContentPane(), "La carrera debe tener más de 1 nadador");
 	}
 	
 	private void quitarNadador()

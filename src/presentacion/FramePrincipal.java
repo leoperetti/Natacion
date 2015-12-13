@@ -11,17 +11,23 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-
+import javax.swing.UIManager;
 
 public class FramePrincipal extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JDesktopPane contentPane;
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
+	public static void main(String[] args)
+	{
+		EventQueue.invokeLater(new Runnable() 
+		{
+			public void run()
+			{
+				try 
+				{
+					UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+					//UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
 					FramePrincipal frame = new FramePrincipal();
 					java.net.URL url = FramePrincipal.class.getResource("/resources/iconoNadador.png");
 	                ImageIcon icon = new ImageIcon(url);
