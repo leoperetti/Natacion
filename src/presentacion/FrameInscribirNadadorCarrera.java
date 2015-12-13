@@ -1,5 +1,6 @@
 package presentacion;
 
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -11,12 +12,15 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListCellRenderer;
 import javax.swing.SwingConstants;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
+import javax.swing.plaf.basic.BasicComboBoxRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import entidades.Carrera;
@@ -26,6 +30,8 @@ import entidades.Torneo;
 import negocio.ControladorCompetencia;
 import javax.swing.JFrame;
 import javax.swing.ListSelectionModel;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 public class FrameInscribirNadadorCarrera extends JInternalFrame implements InternalFrameListener
 {
@@ -38,6 +44,10 @@ public class FrameInscribirNadadorCarrera extends JInternalFrame implements Inte
 	private DefaultComboBoxModel<Nadador> modeloNad = new DefaultComboBoxModel<Nadador>();
 	private JTable table;
 	private DefaultTableModel mt = new DefaultTableModel();
+	private JComboBox<Programa> cbProgramas;
+	private JComboBox<Torneo> cbTorneos;
+	private JComboBox<Nadador> cbNadadores;
+	private JComboBox<Carrera> cbCarreras;
 
 	public FrameInscribirNadadorCarrera()
 	{
@@ -68,17 +78,8 @@ public class FrameInscribirNadadorCarrera extends JInternalFrame implements Inte
 		setBounds(38, 11, 624, 350);
 		getContentPane().setLayout(null);
 
-		//Con el controlador traigo los programas y se lo asigno a un modelo para el CB
-		ArrayList<Programa> programas = cc.traerLosProgramas();
 		
-		DefaultComboBoxModel<Programa> modeloPrg = new DefaultComboBoxModel<Programa>();
-		for(Programa prg: programas)
-		{
-			modeloPrg.addElement(prg);
-		}
-		
-		
-		JComboBox<Nadador> cbNadadores = new JComboBox<Nadador>();
+		cbNadadores = new JComboBox<Nadador>();
 		cbNadadores.setBounds(81, 133, 319, 20);
 		getContentPane().add(cbNadadores);
 		
@@ -87,47 +88,56 @@ public class FrameInscribirNadadorCarrera extends JInternalFrame implements Inte
 		table.getTableHeader().setResizingAllowed(false);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
-		JComboBox<Carrera>cbCarreras = new JComboBox<Carrera>();
+		cbCarreras = new JComboBox<Carrera>();
 		cbCarreras.setBounds(81, 70, 319, 20);
 		getContentPane().add(cbCarreras);
 		
-		cbCarreras.addActionListener(new ActionListener() 
-		{
-			public void actionPerformed(ActionEvent arg0)
+				
+		ActionListener alCarreras = new ActionListener() 
+		{	
+			@Override
+			public void actionPerformed(ActionEvent e) 
 			{
-				buscarNadadoresYActualizarTabla(cbCarreras, cbNadadores);
+				buscarNadadoresYActualizarTabla();
 			}
-		});
+		};
 
+		cbCarreras.addActionListener(alCarreras);
 		
-		JComboBox<Torneo> cbTorneos = new JComboBox<Torneo>();
+		cbTorneos = new JComboBox<Torneo>();
 		cbTorneos.setBounds(81, 42, 319, 20);
 		getContentPane().add(cbTorneos);
 		
-		cbTorneos.addActionListener(new ActionListener() 
-		{
-			public void actionPerformed(ActionEvent arg0) 
-			{	
-				buscarCarrerasPorTorneo(cbTorneos, cbCarreras);
-			}
-		});
 		
+		ActionListener alTorneos = new ActionListener() 
+		{	
+			@Override
+			public void actionPerformed(ActionEvent e) 
+			{
+				buscarCarrerasPorTorneo(alCarreras);
+			}
+		};
+		
+		cbTorneos.addActionListener(alTorneos);
 
 		
-		JComboBox<Programa> cbProgramas = new JComboBox<Programa>();
+		cbProgramas = new JComboBox<Programa>();
 		cbProgramas.setBounds(81, 11, 319, 20);
 		getContentPane().add(cbProgramas);
-		cbProgramas.setModel(modeloPrg);
+		cbProgramas.setModel(generarComboProgramas(cc.traerLosProgramas()));
+		cbProgramas.setRenderer(new PromptComboBoxRenderer("<-Seleccione un Programa->"));
 		cbProgramas.setSelectedIndex(-1);
 		
-		
-		cbProgramas.addActionListener(new ActionListener() 
-		{
-			public void actionPerformed(ActionEvent arg0) 
+		ActionListener alPrograma = new ActionListener() 
+		{	
+			@Override
+			public void actionPerformed(ActionEvent e) 
 			{
-				buscarTorneosPorProgramas(cbTorneos, cbProgramas);				
+				buscarTorneosPorProgramas(alCarreras, alTorneos);;				
 			}
-		});
+		};
+		
+		cbProgramas.addActionListener(alPrograma);
 		
 		JLabel lblProgramas = new JLabel("Programas:");
 		lblProgramas.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -145,9 +155,6 @@ public class FrameInscribirNadadorCarrera extends JInternalFrame implements Inte
 		lblCarreras.setBounds(10, 73, 61, 14);
 		getContentPane().add(lblCarreras);
 
-		
-
-		
 		JLabel lblNadadores = new JLabel("Nadadores:");
 		lblNadadores.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblNadadores.setBounds(10, 136, 61, 14);
@@ -161,15 +168,7 @@ public class FrameInscribirNadadorCarrera extends JInternalFrame implements Inte
 			@Override
 			public void mouseClicked(MouseEvent arg0) 
 			{
-				Nadador n = (Nadador)cbNadadores.getSelectedItem();
-				if (n == null)
-					JOptionPane.showMessageDialog(getContentPane(), "No hay nadador para agregar");
-				else
-				{
-					Carrera c = (Carrera)cbCarreras.getSelectedItem();
-					cc.cargarNadadorEnCarrera(n.getDni(), c.getNroCarrera());				
-					buscarNadadoresYActualizarTabla(cbCarreras, cbNadadores);
-				}
+				agregarNadador();
 			}
 		});
 		
@@ -186,15 +185,7 @@ public class FrameInscribirNadadorCarrera extends JInternalFrame implements Inte
 			@Override
 			public void mouseClicked(MouseEvent arg0) 
 			{
-				if(table.getSelectedRow() == -1)
-					JOptionPane.showMessageDialog(getContentPane(), "Debe seleccionar un nadador de la grilla para quitarlo");
-				else
-				{
-					Carrera carrera = (Carrera)cbCarreras.getSelectedItem();
-					int dni = (int)table.getValueAt(table.getSelectedRow(), 2);
-					cc.quitarNadadorDeCarrera(dni ,carrera.getNroCarrera());
-					buscarNadadoresYActualizarTabla(cbCarreras, cbNadadores);
-				}
+				quitarNadador();
 			}
 		});
 		
@@ -207,11 +198,7 @@ public class FrameInscribirNadadorCarrera extends JInternalFrame implements Inte
 			@Override
 			public void mouseClicked(MouseEvent arg0) 
 			{
-				Carrera car = (Carrera)cbCarreras.getSelectedItem();
-				if (cc.generarSeriesPorCarrera(car.getNroCarrera()))
-					JOptionPane.showMessageDialog(getContentPane(), "Éxito al generar serie(s)");
-				else
-					JOptionPane.showMessageDialog(getContentPane(), "La carrera no puede tener menos de 1 nadador");
+				generarSerie();
 			}
 		});
 
@@ -262,87 +249,169 @@ public class FrameInscribirNadadorCarrera extends JInternalFrame implements Inte
 		
 	}
 	
-	private void buscarNadadoresYActualizarTabla(JComboBox<Carrera> cbCarreras, JComboBox<Nadador> cbNadadores)
+	private void generarSerie()
 	{
-		Carrera carrera = (Carrera)cbCarreras.getSelectedItem();
-		if (carrera!= null)
-		{
-			ArrayList<Nadador> listaNadadores = cc.traerTodosNadadores(carrera.getTipoCarrera(), carrera.getNroCarrera());
-			
-			modeloNad.removeAllElements();
-			for(Nadador nad : listaNadadores)
-			{
-				modeloNad.addElement(nad);
-			}
-			cbNadadores.setModel(modeloNad);
+		Carrera car = (Carrera)cbCarreras.getSelectedItem();
+		if (cc.generarSeriesPorCarrera(car.getNroCarrera()))
+			JOptionPane.showMessageDialog(getContentPane(), "Éxito al generar serie(s)");
+		else
+			JOptionPane.showMessageDialog(getContentPane(), "La carrera no puede tener menos de 1 nadador");
+	}
 	
-			
-			ArrayList<Nadador> listaNadadoresPorCarrera = cc.buscarNadadoresPorCarrera(carrera.getNroCarrera());
-			
-			DefaultTableModel modeloTabla = new DefaultTableModel()
-			{
-				private static final long serialVersionUID = 1L;
-				public boolean isCellEditable(int row, int column)
-				{
-					return false;
-				}
-			};
-			
-			mt = modeloTabla;
-			
-			Object[] identifiers = {"Nombre", "Apellido", "Dni"};
-			modeloTabla.setColumnIdentifiers(identifiers);
-			for(Nadador nad : listaNadadoresPorCarrera)
-			{
-				Object[] o = new Object[3];
-				o[0] = nad.getNombre();
-				o[1] = nad.getApellido();
-				o[2] = nad.getDni();
-				modeloTabla.addRow(o);
-			}
-			table.setModel(modeloTabla);
+	private void quitarNadador()
+	{
+		if(table.getSelectedRow() == -1)
+			JOptionPane.showMessageDialog(getContentPane(), "Debe seleccionar un nadador de la grilla para quitarlo");
+		else
+		{
+			Carrera carrera = (Carrera)cbCarreras.getSelectedItem();
+			int dni = (int)table.getValueAt(table.getSelectedRow(), 2);
+			cc.quitarNadadorDeCarrera(dni ,carrera.getNroCarrera());
+			buscarNadadoresYActualizarTabla();
 		}
+	}
+	
+	private void agregarNadador()
+	{
+		Nadador n = (Nadador)cbNadadores.getSelectedItem();
+		if (n == null)
+			JOptionPane.showMessageDialog(getContentPane(), "No hay nadador para agregar");
+		else
+		{
+			Carrera c = (Carrera)cbCarreras.getSelectedItem();
+			cc.cargarNadadorEnCarrera(n.getDni(), c.getNroCarrera());				
+			buscarNadadoresYActualizarTabla();
+		}
+	}
+	
+	private void buscarNadadoresYActualizarTabla()
+	{
+
+		Carrera carrera = (Carrera)cbCarreras.getSelectedItem();
+		ArrayList<Nadador> listaNadadores = cc.traerTodosNadadores(carrera.getTipoCarrera(), carrera.getNroCarrera());
+		
+		modeloNad.removeAllElements();
+		for(Nadador nad : listaNadadores)
+		{
+			modeloNad.addElement(nad);
+		}
+		cbNadadores.setModel(modeloNad);
+		cbNadadores.setRenderer(new PromptComboBoxRenderer("<-Seleccione un Nadador->"));
+		cbNadadores.setSelectedIndex(-1);
+		
+		ArrayList<Nadador> listaNadadoresPorCarrera = cc.buscarNadadoresPorCarrera(carrera.getNroCarrera());
+		
+		DefaultTableModel modeloTabla = new DefaultTableModel()
+		{
+			private static final long serialVersionUID = 1L;
+			public boolean isCellEditable(int row, int column)
+			{
+				return false;
+			}
+		};
+		
+		mt = modeloTabla;
+		
+		Object[] identifiers = {"Nombre", "Apellido", "Dni"};
+		modeloTabla.setColumnIdentifiers(identifiers);
+		for(Nadador nad : listaNadadoresPorCarrera)
+		{
+			Object[] o = new Object[3];
+			o[0] = nad.getNombre();
+			o[1] = nad.getApellido();
+			o[2] = nad.getDni();
+			modeloTabla.addRow(o);
+		}
+		table.setModel(modeloTabla);
+				
 	}
 
-	private void buscarCarrerasPorTorneo(JComboBox<Torneo> cbTorneos, JComboBox<Carrera> cbCarreras)
+	private DefaultComboBoxModel<Programa> generarComboProgramas (ArrayList<Programa> programas)
 	{
-		Torneo tor = (Torneo)cbTorneos.getSelectedItem();		
-		if (tor != null)
+		DefaultComboBoxModel<Programa> modeloPrg = new DefaultComboBoxModel<Programa>();
+		
+		for(Programa prg: programas)
 		{
-			ArrayList<Carrera> carrerasPorPrograma = cc.traerCarrerasPorTorneo(tor.getNroTorneo());
-			modeloCar.removeAllElements();
-			for(Carrera cars: carrerasPorPrograma)
-			{
-					modeloCar.addElement(cars);
-			}
-			cbCarreras.setModel(modeloCar);
-			for (int i = mt.getRowCount()- 1; i >= 0; i--)
-			    mt.removeRow(i);
-			modeloNad.removeAllElements();
+			modeloPrg.addElement(prg);
 		}
+		return modeloPrg;
 	}
 	
-	private void buscarTorneosPorProgramas(JComboBox<Torneo> cbTorneos, JComboBox<Programa> cbProgramas)
+	private void buscarCarrerasPorTorneo(ActionListener alCarrera)
 	{
-		Programa prog = (Programa)cbProgramas.getSelectedItem();
-		if (prog != null)
+
+		Torneo tor = (Torneo)cbTorneos.getSelectedItem();		
+		ArrayList<Carrera> carrerasPorPrograma = cc.traerCarrerasPorTorneo(tor.getNroTorneo());
+		
+		cbCarreras.removeActionListener(alCarrera);
+		modeloCar.removeAllElements();
+		for(Carrera cars: carrerasPorPrograma)
 		{
-			
-			for (int i = mt.getRowCount()- 1; i >= 0; i--)
-			    mt.removeRow(i);
-			
-			int nroProg = prog.getNroPrograma();
-			
-			ArrayList<Torneo> torneosPorPrograma = cc.buscarTorneosPorPrograma(nroProg);
-			
-			modeloTor.removeAllElements();
-			for(Torneo tors: torneosPorPrograma)
-			{
-				modeloTor.addElement(tors);
-			}
-			cbTorneos.setModel(modeloTor);
-			modeloNad.removeAllElements();
-			modeloCar.removeAllElements();
+			modeloCar.addElement(cars);
 		}
+		cbCarreras.setModel(modeloCar);
+		cbCarreras.setRenderer(new PromptComboBoxRenderer("<-Seleccione una Carrera->"));
+		cbCarreras.setSelectedIndex(-1);
+		for (int i = mt.getRowCount()- 1; i >= 0; i--)
+		    mt.removeRow(i);
+		modeloNad.removeAllElements();
+		cbNadadores.setRenderer(new JComboBox<Nadador>().getRenderer());
+		cbCarreras.addActionListener(alCarrera);
+
+	}
+	
+	private void buscarTorneosPorProgramas(ActionListener alCarrera, ActionListener alTorneo)
+	{
+		for (int i = mt.getRowCount()- 1; i >= 0; i--)
+		    mt.removeRow(i);
+		
+		cbCarreras.removeActionListener(alCarrera);
+		modeloCar.removeAllElements();
+		cbCarreras.setRenderer(new JComboBox<Carrera>().getRenderer());
+		cbCarreras.setSelectedItem(-1);
+		cbCarreras.addActionListener(alCarrera);
+		
+		modeloNad.removeAllElements();
+		cbNadadores.setRenderer(new JComboBox<Nadador>().getRenderer());
+		cbNadadores.setSelectedItem(-1);
+		
+		Programa prog = (Programa)cbProgramas.getSelectedItem();
+		
+		cbTorneos.removeActionListener(alTorneo);
+		ArrayList<Torneo> torneosPorPrograma = cc.buscarTorneosPorPrograma(prog.getNroPrograma());
+		modeloTor.removeAllElements();
+		for(Torneo tors: torneosPorPrograma)
+		{
+			modeloTor.addElement(tors);
+		}
+		
+		cbTorneos.setModel(modeloTor);		
+		cbTorneos.setRenderer(new PromptComboBoxRenderer("<-Seleccione un Torneo->"));
+		cbTorneos.setSelectedIndex(-1);
+		cbTorneos.addActionListener(alTorneo);
 	}
 }
+
+//ESTO ES PARA SETEAR UN PRIMER VALOR EN LOS COMBOBOX
+class PromptComboBoxRenderer extends BasicComboBoxRenderer
+{
+	private static final long serialVersionUID = 1L;
+	private String prompt;
+
+	public PromptComboBoxRenderer(String prompt)
+	{
+		this.prompt = prompt;
+	}
+
+	public Component getListCellRendererComponent(
+		JList list, Object value, int index, boolean isSelected, boolean cellHasFocus)
+	{
+		super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+
+		if (value == null)
+			setText( prompt );
+
+		return this;
+	}
+}
+
