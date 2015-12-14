@@ -12,9 +12,9 @@ import java.util.ArrayList;
 public class ControladorCompetencia {
 	
 	//CatálogoDeNadador
-	public void cargarNadador(int dni, String nombre, String apellido, String club, int edad, String tiempo1, String tiempo2, char sexo) 
+	public void cargarNadador(int dni, String nombre, String apellido, int club, String fechaNacimiento, String tiempo1, String tiempo2, char sexo) 
 	{
-		 CatalogoNadador.getInstance().cargarNadador(dni, nombre, apellido, club, edad, tiempo1, tiempo2, sexo);
+		 CatalogoNadador.getInstance().cargarNadador(dni, nombre, apellido, club, fechaNacimiento, tiempo1, tiempo2, sexo);
 	}
 	
 	public void eliminarNadador(int dni)
@@ -47,9 +47,9 @@ public class ControladorCompetencia {
 		return CatalogoNadador.getInstance().buscarMuchosNadadoresPorNombreYApellido(text);
 	}
 	
-	public void modificarNadador(String apellido, String nombre, String club, int edad, String tiempo1, String tiempo2, char sexo, int dni) 
+	public void modificarNadador(String apellido, String nombre, int nroClub, String fechaNacimiento, String tiempo1, String tiempo2, char sexo, int dni) 
 	{
-		CatalogoNadador.getInstance().modificarNadador(nombre, apellido, club, edad, tiempo1, tiempo2, sexo, dni);
+		CatalogoNadador.getInstance().modificarNadador(nombre, apellido, nroClub, fechaNacimiento, tiempo1, tiempo2, sexo, dni);
 	}
 	
 	//CatalogoClub

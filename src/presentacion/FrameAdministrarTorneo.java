@@ -7,6 +7,7 @@ import javax.swing.event.InternalFrameListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 
+import entidades.Club;
 import entidades.Nadador;
 import entidades.Programa;
 import entidades.Torneo;
@@ -84,30 +85,34 @@ public class FrameAdministrarTorneo extends JInternalFrame implements InternalFr
 		
 		
 		JComboBox<Programa> cbProgramas = new JComboBox<Programa>();
-		cbProgramas.setBounds(127, 35, 200, 20);
+		cbProgramas.setBounds(127, 50, 200, 31);
 		pnlNuevoTorneo.add(cbProgramas);
 		cbProgramas.setModel(generarModeloComboBoxPrograma(cc.traerLosProgramas()));
 		
 		JLabel lblProgramas = new JLabel("Programa:");
 		lblProgramas.setHorizontalAlignment(SwingConstants.LEFT);
-		lblProgramas.setBounds(10, 38, 107, 14);
+		lblProgramas.setBounds(10, 58, 107, 14);
 		pnlNuevoTorneo.add(lblProgramas);
 		
 		JLabel lblClubAnfitrion = new JLabel("Club anfitri\u00F3n:");
 		lblClubAnfitrion.setHorizontalAlignment(SwingConstants.LEFT);
-		lblClubAnfitrion.setBounds(10, 63, 107, 14);
+		lblClubAnfitrion.setBounds(10, 100, 107, 14);
 		pnlNuevoTorneo.add(lblClubAnfitrion);
 		
 		JLabel lblFechaQueSe = new JLabel("Fecha que se corre:");
 		lblFechaQueSe.setHorizontalAlignment(SwingConstants.LEFT);
-		lblFechaQueSe.setBounds(10, 88, 107, 14);
+		lblFechaQueSe.setBounds(10, 142, 107, 14);
 		pnlNuevoTorneo.add(lblFechaQueSe);
 		
 
 		JFormattedTextField txtFecha = new JFormattedTextField(generarMascara());
 		txtFecha.setColumns(10);
-		txtFecha.setBounds(127, 85, 200, 20);
+		txtFecha.setBounds(127, 134, 200, 31);
 		pnlNuevoTorneo.add(txtFecha);
+		
+		JComboBox<Club> cbClubAnfitrion = new JComboBox<Club>(generarModeloTablaClub(cc.buscarClubes()));
+		cbClubAnfitrion.setBounds(127, 92, 200, 31);
+		pnlNuevoTorneo.add(cbClubAnfitrion);
 		
 		JButton btnCargarTorneo = new JButton("Cargar Torneo");
 		btnCargarTorneo.addMouseListener(new MouseAdapter() 
@@ -115,7 +120,7 @@ public class FrameAdministrarTorneo extends JInternalFrame implements InternalFr
 			@Override
 			public void mouseClicked(MouseEvent arg0) 
 			{
-				cargarTorneo(cbProgramas, txtFecha);
+				cargarTorneo(cbProgramas, txtFecha, cbClubAnfitrion);
 			}
 		});
 		btnCargarTorneo.setBounds(243, 267, 222, 31);
@@ -123,19 +128,15 @@ public class FrameAdministrarTorneo extends JInternalFrame implements InternalFr
 		
 		JLabel lblNroTorneo = new JLabel("N\u00FAmero:");
 		lblNroTorneo.setHorizontalAlignment(SwingConstants.LEFT);
-		lblNroTorneo.setBounds(10, 14, 107, 14);
+		lblNroTorneo.setBounds(10, 18, 107, 14);
 		pnlNuevoTorneo.add(lblNroTorneo);
 		
 		txtNroTorneo = new JTextField();
 		txtNroTorneo.setEnabled(false);
 		txtNroTorneo.setColumns(10);
-		txtNroTorneo.setBounds(127, 11, 200, 20);
+		txtNroTorneo.setBounds(127, 11, 200, 28);
 		pnlNuevoTorneo.add(txtNroTorneo);
 		txtNroTorneo.setText(Integer.toString(cc.buscarUltimoNumeroTorneo() + 1));
-		
-		JComboBox<Programa> cbClubAnfitrion = new JComboBox();
-		cbClubAnfitrion.setBounds(127, 60, 200, 20);
-		pnlNuevoTorneo.add(cbClubAnfitrion);
 				
 		JPanel pnlEliminarTorneo = new JPanel();
 		tabbedPane.addTab("Modificar/Eliminar Torneo", null, pnlEliminarTorneo, null);
@@ -278,13 +279,15 @@ public class FrameAdministrarTorneo extends JInternalFrame implements InternalFr
 	}
 
 	
-	private void cargarTorneo(JComboBox<Programa> cbProgramas, JFormattedTextField txtFecha)
+	private void cargarTorneo(JComboBox<Programa> cbProgramas, JFormattedTextField txtFecha, JComboBox<Club> cbClubes)
 	{
 		Programa programa = (Programa) cbProgramas.getSelectedItem();
-		cc.cargarTorneo(Integer.parseInt(txtNroTorneo.getText()), programa.getNroPrograma(), 0, txtFecha.getText());
+		Club clubSeleccionado = (Club) cbClubes.getSelectedItem();
+		cc.cargarTorneo(Integer.parseInt(txtNroTorneo.getText()), programa.getNroPrograma(), clubSeleccionado.getNroClub(), txtFecha.getText());
 		JOptionPane.showMessageDialog(getContentPane(), "Torneo cargado.");
 		tablaEliminarModificar.setModel(generarModeloTabla(cc.buscarTorneos()));
 		txtNroTorneo.setText(Integer.toString(cc.buscarUltimoNumeroTorneo() + 1));
+		txtFecha.setText("");
 	}
 	
 	private DefaultTableModel generarModeloTabla(ArrayList<Torneo> listaTorneo)
@@ -310,6 +313,18 @@ public class FrameAdministrarTorneo extends JInternalFrame implements InternalFr
 			modeloTabla.addRow(o);
 		}
 		return modeloTabla;
+		
+	}
+	
+	private DefaultComboBoxModel<Club> generarModeloTablaClub(ArrayList<Club> listaClub)
+	{
+		DefaultComboBoxModel<Club> modeloCombo = new DefaultComboBoxModel<Club>();
+		
+		for(Club clu : listaClub)
+		{
+			modeloCombo.addElement(clu);
+		}
+		return modeloCombo;
 		
 	}
 	

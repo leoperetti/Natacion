@@ -78,7 +78,7 @@ public class CnadadoresPorCarrera {
 					nadador.setDni(rs.getInt("dni"));
 					nadador.setNombre(rs.getString("nombre"));
 					nadador.setApellido(rs.getString("apellido"));
-					nadador.setEdad(rs.getInt("edad"));
+					nadador.setFechaNacimiento(rs.getString("fechaNacimiento"));
 					nadador.setNroClub(rs.getInt("nroClub"));
 					nadador.setTiempoPreCompetencia1(rs.getString("tiempoPreCompeticion1"));
 					nadador.setTiempoPreCompetencia2(rs.getString("tiempoPreCompeticion2"));
@@ -182,7 +182,7 @@ public class CnadadoresPorCarrera {
 					nadador.setDni(rs.getInt("dni"));
 					nadador.setNombre(rs.getString("nombre"));
 					nadador.setApellido(rs.getString("apellido"));
-					nadador.setEdad(rs.getInt("edad"));
+					nadador.setFechaNacimiento(rs.getString("fechaNacimiento"));
 					nadador.setNroClub(rs.getInt("nroClub"));
 					nadador.setTiempoPreCompetencia1(rs.getString("tiempoPreCompeticion1"));
 					nadador.setTiempoPreCompetencia2(rs.getString("tiempoPreCompeticion2"));

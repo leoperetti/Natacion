@@ -18,6 +18,7 @@ import javax.swing.text.NumberFormatter;
 
 import org.sqlite.util.StringUtils;
 
+import entidades.Club;
 import entidades.Nadador;
 import negocio.ControladorCompetencia;
 
@@ -29,6 +30,7 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import java.awt.event.KeyAdapter;
@@ -45,10 +47,8 @@ public class FrameAdministrarNadador extends JInternalFrame implements InternalF
 	private ControladorCompetencia cc = new ControladorCompetencia();
 	private JTextField txtNuevoNombre;
 	private JTextField txtNuevoApellido;
-	private JTextField txtNuevoClub;
 	private JTextField txtModificaNombre;
 	private JTextField txtModificaApellido;
-	private JTextField txtModificaClub;
 	private JTable tblEliminarNadador;
 	private JTextField txtBuscarE;
 	private JTextField txtNuevoDni;
@@ -100,9 +100,9 @@ public class FrameAdministrarNadador extends JInternalFrame implements InternalF
 		lblApellido.setBounds(10, 61, 79, 14);
 		pnlAgregarNadador.add(lblApellido);
 		
-		JLabel lblEdad = new JLabel("Edad:");
-		lblEdad.setBounds(10, 86, 79, 14);
-		pnlAgregarNadador.add(lblEdad);
+		JLabel lblFechaNacimiento = new JLabel("Nacimiento:");
+		lblFechaNacimiento.setBounds(10, 86, 79, 14);
+		pnlAgregarNadador.add(lblFechaNacimiento);
 		
 		JLabel lblClub = new JLabel("Club:");
 		lblClub.setBounds(10, 111, 79, 14);
@@ -151,16 +151,10 @@ public class FrameAdministrarNadador extends JInternalFrame implements InternalF
 		txtNuevoApellido.setBounds(95, 58, 200, 20);
 		pnlAgregarNadador.add(txtNuevoApellido);
 		
-		txtNuevoEdad = new JTextField();
+		txtNuevoEdad = new JFormattedTextField(generarMascara());
 		txtNuevoEdad.setColumns(10);
 		txtNuevoEdad.setBounds(95, 83, 200, 20);
 		pnlAgregarNadador.add(txtNuevoEdad);
-		validarValoresNumericos(txtNuevoEdad, lblErrorEdadNuevoNadador);
-		
-		txtNuevoClub = new JTextField();
-		txtNuevoClub.setColumns(10);
-		txtNuevoClub.setBounds(95, 108, 200, 20);
-		pnlAgregarNadador.add(txtNuevoClub);
 		
 		
 		Object[] opciones = {"Masculino", "Femenino"};
@@ -179,14 +173,17 @@ public class FrameAdministrarNadador extends JInternalFrame implements InternalF
 		JButton btnCargarJugador = new JButton("Cargar Nadador");
 		btnCargarJugador.setBounds(289, 262, 222, 31);
 		pnlAgregarNadador.add(btnCargarJugador);
-		
+
+		JComboBox<Club> cbClubes = new JComboBox<Club>(generarModeloClub(cc.buscarClubes()));
+		cbClubes.setBounds(95, 108, 200, 20);
+		pnlAgregarNadador.add(cbClubes);
 
 		btnCargarJugador.addMouseListener(new MouseAdapter() 
 		{
 			@Override
 			public void mouseClicked(MouseEvent arg0) 
 			{
-				cargarNadador(cbNuevoSexo, txtNuevoTiempo1, txtNuevoTiempo2);
+				cargarNadador(cbNuevoSexo, txtNuevoTiempo1, txtNuevoTiempo2, cbClubes);
 			}
 		});
 		
@@ -253,13 +250,17 @@ public class FrameAdministrarNadador extends JInternalFrame implements InternalF
 		cbModificaSexo.setBounds(119, 152, 200, 20);
 		pnlModificarNadador.add(cbModificaSexo);
 		
+		JComboBox<Club> cbModificarClubAnfitrion = new JComboBox<Club>(generarModeloClub(cc.buscarClubes()));
+		cbModificarClubAnfitrion.setBounds(119, 126, 200, 23);
+		pnlModificarNadador.add(cbModificarClubAnfitrion);
+		
 		JButton btnModificarNadador = new JButton("Modificar Nadador");
 		btnModificarNadador.addMouseListener(new MouseAdapter() 
 		{
 			@Override
 			public void mouseReleased(MouseEvent arg0) 
 			{
-				cargarPanelModificar(txtModificaTiempo1, txtModificaTiempo2, cbModificaSexo);
+				cargarPanelModificar(txtModificaTiempo1, txtModificaTiempo2, cbModificaSexo, cbModificarClubAnfitrion);
 			}
 		});
 		btnModificarNadador.setBounds(10, 262, 222, 31);
@@ -293,16 +294,16 @@ public class FrameAdministrarNadador extends JInternalFrame implements InternalF
 		txtModificaApellido.setBounds(119, 77, 200, 20);
 		pnlModificarNadador.add(txtModificaApellido);
 		
-		JLabel label_3 = new JLabel("Edad:");
-		label_3.setBounds(34, 105, 79, 14);
-		pnlModificarNadador.add(label_3);
+		JLabel lblNacimiento = new JLabel("Nacimiento:");
+		lblNacimiento.setBounds(34, 105, 79, 14);
+		pnlModificarNadador.add(lblNacimiento);
 		
 		JLabel lblErrorEdadModificarNadador = new JLabel("");
 		lblErrorEdadModificarNadador.setForeground(Color.RED);
 		lblErrorEdadModificarNadador.setBounds(305, 86, 186, 14);
 		pnlModificarNadador.add(lblErrorEdadModificarNadador);
 		
-		txtModificaEdad = new JTextField();
+		txtModificaEdad = new JFormattedTextField(generarMascara());
 		txtModificaEdad.setColumns(10);
 		txtModificaEdad.setBounds(119, 102, 200, 20);
 		pnlModificarNadador.add(txtModificaEdad);
@@ -311,11 +312,6 @@ public class FrameAdministrarNadador extends JInternalFrame implements InternalF
 		JLabel label_4 = new JLabel("Club:");
 		label_4.setBounds(34, 130, 79, 14);
 		pnlModificarNadador.add(label_4);
-		
-		txtModificaClub = new JTextField();
-		txtModificaClub.setColumns(10);
-		txtModificaClub.setBounds(119, 127, 200, 20);
-		pnlModificarNadador.add(txtModificaClub);
 		
 		JLabel label_5 = new JLabel("Sexo:");
 		label_5.setBounds(34, 155, 79, 14);
@@ -330,17 +326,20 @@ public class FrameAdministrarNadador extends JInternalFrame implements InternalF
 		label_7.setBounds(34, 205, 79, 14);
 		pnlModificarNadador.add(label_7);
 		
+
 		JButton btnGuardarDatos = new JButton("Guardar Datos");
 		btnGuardarDatos.addMouseListener(new MouseAdapter() 
 		{
 			@Override
 			public void mouseReleased(MouseEvent arg0) 
 			{
-				modificarNadador(txtModificaTiempo1, txtModificaTiempo2, cbModificaSexo);
+				modificarNadador(txtModificaTiempo1, txtModificaTiempo2, cbModificaSexo, cbModificarClubAnfitrion);
 			}
 		});
 		btnGuardarDatos.setBounds(294, 290, 222, 31);
 		pnlModificarNadador.add(btnGuardarDatos);
+		
+
 	}
 	
 	//Todo lo de los eventos separado a métodos privados:
@@ -354,15 +353,20 @@ public class FrameAdministrarNadador extends JInternalFrame implements InternalF
 		tblEliminarNadador.setModel(generarModeloTabla(cc.buscarTodosNadadores()));
 	}
 	
-	private void cargarPanelModificar(JFormattedTextField txtModificaTiempo1, JFormattedTextField txtModificaTiempo2, JComboBox cbModificaSexo)
+	private void cargarPanelModificar(JFormattedTextField txtModificaTiempo1, JFormattedTextField txtModificaTiempo2, JComboBox cbModificaSexo, JComboBox<Club> cbClub)
 	{
 		int dniNadadorActual = (int)tblEliminarNadador.getValueAt(tblEliminarNadador.getSelectedRow(), 2);
 		Nadador nadadorActual = cc.buscarNadadorPorDni(dniNadadorActual);
 		txtModificaDni.setText(Integer.toString(dniNadadorActual));
 		txtModificaApellido.setText(nadadorActual.getApellido());
 		txtModificaNombre.setText(nadadorActual.getNombre());
-		txtModificaClub.setText(Integer.toString(nadadorActual.getNroClub()));
-		txtModificaEdad.setText(Integer.toString(nadadorActual.getEdad()));
+		txtModificaEdad.setText(nadadorActual.getFechaNacimiento());
+		
+		for(Club c : cc.buscarClubes())
+		{
+			if (c.getNroClub() == nadadorActual.getNroClub())
+				cbClub.getModel().setSelectedItem(c);
+		}
 		txtModificaTiempo1.setText(nadadorActual.getTiempoPreCompetencia1());
 		txtModificaTiempo2.setText(nadadorActual.getTiempoPreCompetencia2());
 
@@ -379,14 +383,11 @@ public class FrameAdministrarNadador extends JInternalFrame implements InternalF
 		cardLayout.show(getContentPane(), "pnlModificarNadador");
 	}
 	
-	private void cargarNadador(JComboBox cbNuevoSexo, JFormattedTextField txtNuevoTiempo1, JFormattedTextField txtNuevoTiempo2)
+	private void cargarNadador(JComboBox cbNuevoSexo, JFormattedTextField txtNuevoTiempo1, JFormattedTextField txtNuevoTiempo2, JComboBox<Club> cbClubes)
 	{
 		char sexo;
-		if(!(txtNuevoNombre.getText().isEmpty() && txtNuevoApellido.getText().isEmpty() && 
-			txtNuevoEdad.getText().isEmpty() && txtNuevoClub.getText().isEmpty()
-			&& txtNuevoDni.getText().isEmpty()))
+		if(!(txtNuevoNombre.getText().isEmpty() && txtNuevoApellido.getText().isEmpty() && txtNuevoEdad.getText().isEmpty() && txtNuevoDni.getText().isEmpty()))
 		{
-			
 			if(cbNuevoSexo.getSelectedIndex()==0)
 			{
 				sexo = 'm';
@@ -398,10 +399,10 @@ public class FrameAdministrarNadador extends JInternalFrame implements InternalF
 			int dni = Integer.parseInt(txtNuevoDni.getText());
 			String nombre = txtNuevoNombre.getText();
 			String apellido = txtNuevoApellido.getText();
-			String club = txtNuevoClub.getText();
-			int edad = Integer.parseInt(txtNuevoEdad.getText());
+			Club clubSeleccionado = (Club)cbClubes.getSelectedItem();
+			String fechaNacimiento = txtNuevoEdad.getText();
 			
-			cc.cargarNadador(dni, nombre, apellido, club, edad, txtNuevoTiempo1.getText(), txtNuevoTiempo2.getText(), sexo);
+			cc.cargarNadador(dni, nombre, apellido, clubSeleccionado.getNroClub(), fechaNacimiento, txtNuevoTiempo1.getText(), txtNuevoTiempo2.getText(), sexo);
 			JOptionPane.showMessageDialog(getContentPane(), "Nadador cargado correctamente!");
 			limpiarCampos();
 			tblEliminarNadador.setModel(generarModeloTabla(cc.buscarTodosNadadores()));
@@ -413,7 +414,7 @@ public class FrameAdministrarNadador extends JInternalFrame implements InternalF
 		}
 	}
 	
-	private void modificarNadador(JFormattedTextField txtModificaTiempo1, JFormattedTextField txtModificaTiempo2, JComboBox cbModificaSexo)
+	private void modificarNadador(JFormattedTextField txtModificaTiempo1, JFormattedTextField txtModificaTiempo2, JComboBox cbModificaSexo, JComboBox<Club> cbClub)
 	{
 		char sexo;
 		if(cbModificaSexo.getSelectedIndex()==0)
@@ -424,7 +425,8 @@ public class FrameAdministrarNadador extends JInternalFrame implements InternalF
 		{
 			sexo = 'f';
 		}
-		cc.modificarNadador(txtModificaApellido.getText(), txtModificaNombre.getText(), txtModificaClub.getText(), Integer.parseInt(txtModificaEdad.getText()),	txtModificaTiempo1.getText(), txtModificaTiempo2.getText(), sexo, Integer.parseInt(txtModificaDni.getText()));
+		Club clubSeleccionado = (Club) cbClub.getSelectedItem();
+		cc.modificarNadador(txtModificaApellido.getText(), txtModificaNombre.getText(), clubSeleccionado.getNroClub(), txtModificaEdad.getText(), txtModificaTiempo1.getText(), txtModificaTiempo2.getText(), sexo, Integer.parseInt(txtModificaDni.getText()));
 		tblEliminarNadador.setModel(generarModeloTabla(cc.buscarTodosNadadores()));
 		JOptionPane.showMessageDialog(getContentPane(), "Nadador modificado.");
 		CardLayout cardLayout = (CardLayout) getContentPane().getLayout();
@@ -457,6 +459,33 @@ public class FrameAdministrarNadador extends JInternalFrame implements InternalF
 		});
 	}
 
+	private DefaultComboBoxModel<Club> generarModeloClub(ArrayList<Club> listaClub)
+	{
+		DefaultComboBoxModel<Club> modeloCombo = new DefaultComboBoxModel<Club>();
+		
+		for(Club clu : listaClub)
+		{
+			modeloCombo.addElement(clu);
+		}
+		return modeloCombo;
+		
+	}
+	
+	private MaskFormatter generarMascara()
+	{
+		MaskFormatter mask = null;
+        try 
+        {
+            mask = new MaskFormatter("##/##/####");//the # is for numeric values
+            mask.setPlaceholderCharacter(' ');
+        } 
+        catch (ParseException e) 
+        {
+            e.printStackTrace();
+        }
+        return mask;
+	}
+	
 	private MaskFormatter crearMascaraTiempo()
 	{
 		MaskFormatter mask = null;
@@ -587,7 +616,6 @@ public class FrameAdministrarNadador extends JInternalFrame implements InternalF
 	 private void limpiarCampos(){
 		 txtNuevoApellido.setText("");
 		 txtNuevoNombre.setText("");
-		 txtNuevoClub.setText("");
 		 txtNuevoDni.setText("");
 		 txtNuevoEdad.setText("");
 	 }

@@ -4,6 +4,12 @@ public class Club {
 	private int NroClub;
 	private String nombre, localidad;
 	
+	@Override
+	public String toString()
+	{
+		return nombre + " - " + localidad; 
+	}
+	
 	public int getNroClub() {
 		return NroClub;
 	}

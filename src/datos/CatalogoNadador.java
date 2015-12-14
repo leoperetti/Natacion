@@ -46,7 +46,7 @@ public class CatalogoNadador {
 				nadador.setDni(rs.getInt("dni"));
 				nadador.setNombre(rs.getString("nombre"));
 				nadador.setApellido(rs.getString("apellido"));
-				nadador.setEdad(rs.getInt("edad"));
+				nadador.setFechaNacimiento(rs.getString("fechaNacimiento"));
 				nadador.setNroClub(rs.getInt("nroClub"));
 				nadador.setTiempoPreCompetencia1(rs.getString("tiempoPreCompeticion1"));
 				nadador.setTiempoPreCompetencia2(rs.getString("tiempoPreCompeticion2"));
@@ -109,7 +109,7 @@ public class CatalogoNadador {
 		}
 	}
 	   
-	public void cargarNadador(int dni, String nombre, String apellido, String club, int edad, String tiempo1, String tiempo2, char sexo) {
+	public void cargarNadador(int dni, String nombre, String apellido, int nroClub, String fechaNacimiento, String tiempo1, String tiempo2, char sexo) {
 		
 	
 		String sql;
@@ -117,13 +117,13 @@ public class CatalogoNadador {
 		Connection con = DataConnection.getInstancia().getConn();
 		
 	try{
-		sql = "INSERT INTO nadador (`dni`,`nombre`,`apellido`,`nombreClub`,`edad`,`tiempoPreCompeticion1`,`tiempoPreCompeticion2`, `sexo`) VALUES(?,?,?,?,?,?,?,?)";
+		sql = "INSERT INTO nadador (dni, nombre, apellido, nroClub, fechaNacimiento, tiempoPreCompeticion1 , tiempoPreCompeticion2, sexo) VALUES(?,?,?,?,?,?,?,?)";
 		sentencia = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 		sentencia.setInt(1, dni);
 		sentencia.setString(2, nombre);
 		sentencia.setString(3, apellido);
-		sentencia.setString(4, club);
-		sentencia.setInt(5, edad);
+		sentencia.setInt(4, nroClub);
+		sentencia.setString(5, fechaNacimiento);
 		sentencia.setString(6, tiempo1);
 		sentencia.setString(7, tiempo2);
 		sentencia.setString(8, String.valueOf(sexo));
@@ -206,7 +206,7 @@ public class CatalogoNadador {
 					nadador.setDni(rs.getInt("dni"));
 					nadador.setNombre(rs.getString("nombre"));
 					nadador.setApellido(rs.getString("apellido"));
-					nadador.setEdad(rs.getInt("edad"));
+					nadador.setFechaNacimiento(rs.getString("fechaNacimiento"));
 					nadador.setNroClub(rs.getInt("nroClub"));
 					nadador.setTiempoPreCompetencia1(rs.getString("tiempoPreCompeticion1"));
 					nadador.setTiempoPreCompetencia2(rs.getString("tiempoPreCompeticion2"));
@@ -257,7 +257,7 @@ public class CatalogoNadador {
 				nadador.setDni(rs.getInt("dni"));
 				nadador.setNombre(rs.getString("nombre"));
 				nadador.setApellido(rs.getString("apellido"));
-				nadador.setEdad(rs.getInt("edad"));
+				nadador.setFechaNacimiento(rs.getString("fechaNacimiento"));
 				nadador.setNroClub(rs.getInt("nroClub"));
 				nadador.setTiempoPreCompetencia1(rs.getString("tiempoPreCompeticion1"));
 				nadador.setTiempoPreCompetencia2(rs.getString("tiempoPreCompeticion2"));
@@ -307,7 +307,7 @@ public class CatalogoNadador {
 				nadador.setDni(rs.getInt("dni"));
 				nadador.setNombre(rs.getString("nombre"));
 				nadador.setApellido(rs.getString("apellido"));
-				nadador.setEdad(rs.getInt("edad"));
+				nadador.setFechaNacimiento(rs.getString("fechaNacimiento"));
 				nadador.setNroClub(rs.getInt("nroClub"));
 				nadador.setTiempoPreCompetencia1(rs.getString("tiempoPreCompeticion1"));
 				nadador.setTiempoPreCompetencia2(rs.getString("tiempoPreCompeticion2"));
@@ -361,7 +361,7 @@ public class CatalogoNadador {
 				nadador.setDni(rs.getInt("dni"));
 				nadador.setNombre(rs.getString("nombre"));
 				nadador.setApellido(rs.getString("apellido"));
-				nadador.setEdad(rs.getInt("edad"));
+				nadador.setFechaNacimiento(rs.getString("fechaNacimiento"));
 				nadador.setNroClub(rs.getInt("nroClub"));
 				nadador.setTiempoPreCompetencia1(rs.getString("tiempoPreCompeticion1"));
 				nadador.setTiempoPreCompetencia2(rs.getString("tiempoPreCompeticion2"));
@@ -374,8 +374,8 @@ public class CatalogoNadador {
 				nadador.setDni(rs2.getInt("dni"));
 				nadador.setNombre(rs2.getString("nombre"));
 				nadador.setApellido(rs2.getString("apellido"));
-				nadador.setEdad(rs2.getInt("edad"));
-				nadador.setNroClub(rs.getInt("nroClub"));
+				nadador.setFechaNacimiento(rs2.getString("fechaNacimiento"));
+				nadador.setNroClub(rs2.getInt("nroClub"));
 				nadador.setTiempoPreCompetencia1(rs2.getString("tiempoPreCompeticion1"));
 				nadador.setTiempoPreCompetencia2(rs2.getString("tiempoPreCompeticion2"));
 				nadador.setSexo(rs2.getString("sexo").charAt(0));
@@ -415,9 +415,9 @@ public class CatalogoNadador {
 		return listaNadadores;
 	}
 	
-	public void modificarNadador(String nombre, String apellido, String club, int edad, String tiempo1, String tiempo2, char sexo , int dni)
+	public void modificarNadador(String nombre, String apellido, int nroClub, String fechaNacimiento, String tiempo1, String tiempo2, char sexo , int dni)
 	{
-		String sql = "UPDATE Nadador set nombre = ?, apellido = ?, nombreClub = ?, edad = ?, tiempoPreCompeticion1 = ?, tiempoPreCompeticion2 = ?, sexo = ? where dni = ?";
+		String sql = "UPDATE Nadador set nombre = ?, apellido = ?, nroClub = ?, fechaNacimiento = ?, tiempoPreCompeticion1 = ?, tiempoPreCompeticion2 = ?, sexo = ? where dni = ?";
 		PreparedStatement sentencia = null;
 		Connection con = DataConnection.getInstancia().getConn();
 		try
@@ -425,8 +425,8 @@ public class CatalogoNadador {
 			sentencia = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			sentencia.setString(1, nombre);
 			sentencia.setString(2, apellido);
-			sentencia.setString(3, club);
-			sentencia.setInt(4, edad);
+			sentencia.setInt(3, nroClub);
+			sentencia.setString(4, fechaNacimiento);
 			sentencia.setString(5, tiempo1);
 			sentencia.setString(6, tiempo2);
 			sentencia.setString(7, Character.toString(sexo));

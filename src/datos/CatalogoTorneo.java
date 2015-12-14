@@ -174,7 +174,7 @@ public class CatalogoTorneo
 	public void cargarTorneo(int nroTorneo, int nroPrograma, int club, String fecha)
 	{
 			
-		String sql = "INSERT INTO Torneo (nroTorneo, nroPrograma, clubAnfitrion, fechaTorneo, localidad) VALUES(?,?,?,?,?);";
+		String sql = "INSERT INTO Torneo (nroTorneo, nroPrograma, nroClub, fechaTorneo) VALUES(?,?,?,?);";
 		PreparedStatement sentencia = null;
 		Connection con = DataConnection.getInstancia().getConn();
 		

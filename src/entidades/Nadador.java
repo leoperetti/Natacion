@@ -2,8 +2,16 @@ package entidades;
 
 public class Nadador {
 
-	private String nombre, apellido;
-	private int dni, edad, nroClub;
+	private String nombre, apellido, fechaNacimiento;
+	public String getFechaNacimiento() {
+		return fechaNacimiento;
+	}
+
+	public void setFechaNacimiento(String fechaNacimiento) {
+		this.fechaNacimiento = fechaNacimiento;
+	}
+
+	private int dni, nroClub;
 	private String tiempoPreCompetencia1, tiempoPreCompetencia2;
 	private char sexo;
 	
@@ -25,12 +33,12 @@ public class Nadador {
 		
 	}
 	
-	public Nadador(String nom, String ape, int nroC, int edad, String tiempo1, String tiempo2){
+	public Nadador(String nom, String ape, int nroC, String fecha, String tiempo1, String tiempo2){
 		
 		this.setNombre(nom);
 		this.setApellido(ape);
 		this.setNroClub(nroC);
-		this.setEdad(edad);
+		this.setFechaNacimiento(fecha);
 		this.setTiempoPreCompetencia1(tiempo1);
 		this.setTiempoPreCompetencia2(tiempo2);
 		
@@ -59,12 +67,6 @@ public class Nadador {
 	}
 	public void setDni(int dni) {
 		this.dni = dni;
-	}
-	public int getEdad() {
-		return edad;
-	}
-	public void setEdad(int edad) {
-		this.edad = edad;
 	}
 
 	public String getTiempoPreCompetencia1() {

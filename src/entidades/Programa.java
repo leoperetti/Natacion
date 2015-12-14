@@ -17,7 +17,7 @@ public class Programa {
 	@Override
 	public String toString()
 	{
-		return this.nroPrograma + " " + this.descripcion;
+		return this.nroPrograma + " - " + this.descripcion;
 	}
 	
 	public Programa(){
