@@ -5,21 +5,14 @@ import java.util.Date;
 
 public class Torneo 
 {
-	private int nroTorneo, nroPrograma;
-	private String clubAnfitrion, localidad, fecha;
+	private int nroTorneo, nroPrograma, nroClub;
+	private String fecha;
 	
-	public String getLocalidad() {
-		return localidad;
-	}
-
-	public void setLocalidad(String localidad) {
-		this.localidad = localidad;
-	}
 
 	@Override
 	public String toString()
 	{
-		return "Nro: "+this.nroTorneo+"  Se realiza en: "+this.clubAnfitrion+" - Fecha: "+ fecha;
+		return "Nro: "+this.nroTorneo+"  Se realiza en: "+this.nroClub+" - Fecha: "+ fecha;
 	}
 	
 	public String getFecha() {
@@ -41,12 +34,14 @@ public class Torneo
 		this.nroPrograma = nroPrograma;
 	}
 
-	public String getClubAnfitrion() {
-		return clubAnfitrion;
+	public int getNroClub() {
+		return nroClub;
 	}
 
-	public void setClubAnfitrion(String clubAnfitrion) {
-		this.clubAnfitrion = clubAnfitrion;
+	public void setNroClub(int nroClub) {
+		this.nroClub = nroClub;
 	}
+
+
 	
 }

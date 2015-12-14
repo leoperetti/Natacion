@@ -57,7 +57,7 @@ public class FrameAdministrarEstilos extends JInternalFrame implements InternalF
 
 	private void initComponents() 
 	{
-		setTitle("Administrar Programas");
+		setTitle("Administrar Estilos");
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setIconifiable(true);
 		setClosable(true);
@@ -193,7 +193,7 @@ public class FrameAdministrarEstilos extends JInternalFrame implements InternalF
 		}
 		else
 		{
-			JOptionPane.showMessageDialog(getContentPane(), "El programa no se eliminará");
+			JOptionPane.showMessageDialog(getContentPane(), "El estilo no se eliminará");
 		}
 	}
 	

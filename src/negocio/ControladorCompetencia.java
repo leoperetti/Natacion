@@ -1,6 +1,7 @@
 package negocio;
 import datos.*;
 import entidades.Carrera;
+import entidades.Club;
 import entidades.Estilo;
 import entidades.Nadador;
 import entidades.Programa;
@@ -51,7 +52,13 @@ public class ControladorCompetencia {
 		CatalogoNadador.getInstance().modificarNadador(nombre, apellido, club, edad, tiempo1, tiempo2, sexo, dni);
 	}
 	
-	//CatálogoDeTorneos
+	//CatalogoClub
+	public ArrayList<Club> buscarClubes()
+	{
+		return CatalogoClub.getInstance().buscarClubes();
+	}
+	
+	//CatálogoTorneos
 	public ArrayList<Torneo> buscarTorneosPorPrograma(int nroPrograma)
 	{
 		return CatalogoTorneo.getInstance().buscarTorneosPorPrograma(nroPrograma);
@@ -67,9 +74,9 @@ public class ControladorCompetencia {
 		return CatalogoTorneo.getInstance().buscarUltimoNumeroDeTorneo();
 	}
 	
-	public void cargarTorneo(int nroTorneo, int nroPrograma, String club, String fecha, String localidad)
+	public void cargarTorneo(int nroTorneo, int nroPrograma, int club, String fecha)
 	{
-		CatalogoTorneo.getInstance().cargarTorneo(nroTorneo, nroPrograma, club, fecha, localidad);
+		CatalogoTorneo.getInstance().cargarTorneo(nroTorneo, nroPrograma, club, fecha);
 	}
 	
 	public void eliminarTorneo(int nroTorneo) 

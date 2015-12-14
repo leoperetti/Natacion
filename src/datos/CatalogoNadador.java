@@ -47,7 +47,7 @@ public class CatalogoNadador {
 				nadador.setNombre(rs.getString("nombre"));
 				nadador.setApellido(rs.getString("apellido"));
 				nadador.setEdad(rs.getInt("edad"));
-				nadador.setNombreClub(rs.getString("nombreClub"));
+				nadador.setNroClub(rs.getInt("nroClub"));
 				nadador.setTiempoPreCompetencia1(rs.getString("tiempoPreCompeticion1"));
 				nadador.setTiempoPreCompetencia2(rs.getString("tiempoPreCompeticion2"));
 				nadador.setSexo(rs.getString("sexo").charAt(0));
@@ -207,7 +207,7 @@ public class CatalogoNadador {
 					nadador.setNombre(rs.getString("nombre"));
 					nadador.setApellido(rs.getString("apellido"));
 					nadador.setEdad(rs.getInt("edad"));
-					nadador.setNombreClub(rs.getString("nombreClub"));
+					nadador.setNroClub(rs.getInt("nroClub"));
 					nadador.setTiempoPreCompetencia1(rs.getString("tiempoPreCompeticion1"));
 					nadador.setTiempoPreCompetencia2(rs.getString("tiempoPreCompeticion2"));
 					nadador.setSexo(rs.getString("sexo").charAt(0));
@@ -258,7 +258,7 @@ public class CatalogoNadador {
 				nadador.setNombre(rs.getString("nombre"));
 				nadador.setApellido(rs.getString("apellido"));
 				nadador.setEdad(rs.getInt("edad"));
-				nadador.setNombreClub(rs.getString("nombreClub"));
+				nadador.setNroClub(rs.getInt("nroClub"));
 				nadador.setTiempoPreCompetencia1(rs.getString("tiempoPreCompeticion1"));
 				nadador.setTiempoPreCompetencia2(rs.getString("tiempoPreCompeticion2"));
 				nadador.setSexo(rs.getString("sexo").charAt(0));
@@ -308,7 +308,7 @@ public class CatalogoNadador {
 				nadador.setNombre(rs.getString("nombre"));
 				nadador.setApellido(rs.getString("apellido"));
 				nadador.setEdad(rs.getInt("edad"));
-				nadador.setNombreClub(rs.getString("nombreClub"));
+				nadador.setNroClub(rs.getInt("nroClub"));
 				nadador.setTiempoPreCompetencia1(rs.getString("tiempoPreCompeticion1"));
 				nadador.setTiempoPreCompetencia2(rs.getString("tiempoPreCompeticion2"));
 				nadador.setSexo(rs.getString("sexo").charAt(0));
@@ -362,7 +362,7 @@ public class CatalogoNadador {
 				nadador.setNombre(rs.getString("nombre"));
 				nadador.setApellido(rs.getString("apellido"));
 				nadador.setEdad(rs.getInt("edad"));
-				nadador.setNombreClub(rs.getString("nombreClub"));
+				nadador.setNroClub(rs.getInt("nroClub"));
 				nadador.setTiempoPreCompetencia1(rs.getString("tiempoPreCompeticion1"));
 				nadador.setTiempoPreCompetencia2(rs.getString("tiempoPreCompeticion2"));
 				nadador.setSexo(rs.getString("sexo").charAt(0));
@@ -375,7 +375,7 @@ public class CatalogoNadador {
 				nadador.setNombre(rs2.getString("nombre"));
 				nadador.setApellido(rs2.getString("apellido"));
 				nadador.setEdad(rs2.getInt("edad"));
-				nadador.setNombreClub(rs2.getString("nombreClub"));
+				nadador.setNroClub(rs.getInt("nroClub"));
 				nadador.setTiempoPreCompetencia1(rs2.getString("tiempoPreCompeticion1"));
 				nadador.setTiempoPreCompetencia2(rs2.getString("tiempoPreCompeticion2"));
 				nadador.setSexo(rs2.getString("sexo").charAt(0));

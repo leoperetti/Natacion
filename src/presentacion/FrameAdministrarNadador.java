@@ -361,7 +361,7 @@ public class FrameAdministrarNadador extends JInternalFrame implements InternalF
 		txtModificaDni.setText(Integer.toString(dniNadadorActual));
 		txtModificaApellido.setText(nadadorActual.getApellido());
 		txtModificaNombre.setText(nadadorActual.getNombre());
-		txtModificaClub.setText(nadadorActual.getNombreClub());
+		txtModificaClub.setText(Integer.toString(nadadorActual.getNroClub()));
 		txtModificaEdad.setText(Integer.toString(nadadorActual.getEdad()));
 		txtModificaTiempo1.setText(nadadorActual.getTiempoPreCompetencia1());
 		txtModificaTiempo2.setText(nadadorActual.getTiempoPreCompetencia2());
@@ -403,6 +403,7 @@ public class FrameAdministrarNadador extends JInternalFrame implements InternalF
 			
 			cc.cargarNadador(dni, nombre, apellido, club, edad, txtNuevoTiempo1.getText(), txtNuevoTiempo2.getText(), sexo);
 			JOptionPane.showMessageDialog(getContentPane(), "Nadador cargado correctamente!");
+			limpiarCampos();
 			tblEliminarNadador.setModel(generarModeloTabla(cc.buscarTodosNadadores()));
 		}
 		else
@@ -583,4 +584,11 @@ public class FrameAdministrarNadador extends JInternalFrame implements InternalF
 	    }
 	    return true;
 	  }
+	 private void limpiarCampos(){
+		 txtNuevoApellido.setText("");
+		 txtNuevoNombre.setText("");
+		 txtNuevoClub.setText("");
+		 txtNuevoDni.setText("");
+		 txtNuevoEdad.setText("");
+	 }
 }

@@ -38,8 +38,6 @@ public class FrameAdministrarTorneo extends JInternalFrame implements InternalFr
 
 	private static final long serialVersionUID = 1L;
 	private static FrameAdministrarTorneo instancia = null;
-	private JTextField txtClubAnfitrion;
-	private JTextField txtLugarDeTorneo;
 	private JTextField txtModificarClubAnfitrion;
 	private JTextField txtModificarLugar;
 	private ControladorCompetencia cc = new ControladorCompetencia();
@@ -100,30 +98,15 @@ public class FrameAdministrarTorneo extends JInternalFrame implements InternalFr
 		lblClubAnfitrion.setBounds(10, 63, 107, 14);
 		pnlNuevoTorneo.add(lblClubAnfitrion);
 		
-		JLabel lblSeRealizaEn = new JLabel("Se realiza en:");
-		lblSeRealizaEn.setHorizontalAlignment(SwingConstants.LEFT);
-		lblSeRealizaEn.setBounds(10, 88, 107, 14);
-		pnlNuevoTorneo.add(lblSeRealizaEn);
-		
 		JLabel lblFechaQueSe = new JLabel("Fecha que se corre:");
 		lblFechaQueSe.setHorizontalAlignment(SwingConstants.LEFT);
-		lblFechaQueSe.setBounds(10, 113, 107, 14);
+		lblFechaQueSe.setBounds(10, 88, 107, 14);
 		pnlNuevoTorneo.add(lblFechaQueSe);
-		
-		txtClubAnfitrion = new JTextField();
-		txtClubAnfitrion.setBounds(127, 60, 200, 20);
-		pnlNuevoTorneo.add(txtClubAnfitrion);
-		txtClubAnfitrion.setColumns(10);
-		
-		txtLugarDeTorneo = new JTextField();
-		txtLugarDeTorneo.setColumns(10);
-		txtLugarDeTorneo.setBounds(127, 85, 200, 20);
-		pnlNuevoTorneo.add(txtLugarDeTorneo);
 		
 
 		JFormattedTextField txtFecha = new JFormattedTextField(generarMascara());
 		txtFecha.setColumns(10);
-		txtFecha.setBounds(127, 110, 200, 20);
+		txtFecha.setBounds(127, 85, 200, 20);
 		pnlNuevoTorneo.add(txtFecha);
 		
 		JButton btnCargarTorneo = new JButton("Cargar Torneo");
@@ -149,6 +132,10 @@ public class FrameAdministrarTorneo extends JInternalFrame implements InternalFr
 		txtNroTorneo.setBounds(127, 11, 200, 20);
 		pnlNuevoTorneo.add(txtNroTorneo);
 		txtNroTorneo.setText(Integer.toString(cc.buscarUltimoNumeroTorneo() + 1));
+		
+		JComboBox<Programa> cbClubAnfitrion = new JComboBox();
+		cbClubAnfitrion.setBounds(127, 60, 200, 20);
+		pnlNuevoTorneo.add(cbClubAnfitrion);
 				
 		JPanel pnlEliminarTorneo = new JPanel();
 		tabbedPane.addTab("Modificar/Eliminar Torneo", null, pnlEliminarTorneo, null);
@@ -294,7 +281,7 @@ public class FrameAdministrarTorneo extends JInternalFrame implements InternalFr
 	private void cargarTorneo(JComboBox<Programa> cbProgramas, JFormattedTextField txtFecha)
 	{
 		Programa programa = (Programa) cbProgramas.getSelectedItem();
-		cc.cargarTorneo(Integer.parseInt(txtNroTorneo.getText()), programa.getNroPrograma(), txtClubAnfitrion.getText(), txtFecha.getText(), txtLugarDeTorneo.getText());
+		cc.cargarTorneo(Integer.parseInt(txtNroTorneo.getText()), programa.getNroPrograma(), 0, txtFecha.getText());
 		JOptionPane.showMessageDialog(getContentPane(), "Torneo cargado.");
 		tablaEliminarModificar.setModel(generarModeloTabla(cc.buscarTorneos()));
 		txtNroTorneo.setText(Integer.toString(cc.buscarUltimoNumeroTorneo() + 1));
@@ -311,16 +298,15 @@ public class FrameAdministrarTorneo extends JInternalFrame implements InternalFr
 			}
 		};
 		
-		Object[] identifiers = {"NroTorneo", "Fecha", "Club", "Localidad", "Programa"};
+		Object[] identifiers = {"NroTorneo", "Fecha", "Club", "Programa"};
 		modeloTabla.setColumnIdentifiers(identifiers);
 		for(Torneo tor : listaTorneo)
 		{
-			Object[] o = new Object[5];
+			Object[] o = new Object[4];
 			o[0] = tor.getNroTorneo();
 			o[1] = tor.getFecha();
-			o[2] = tor.getClubAnfitrion();
-			o[3] = tor.getLocalidad();
-			o[4] = tor.getNroPrograma();
+			o[2] = tor.getNroClub();
+			o[3] = tor.getNroPrograma();
 			modeloTabla.addRow(o);
 		}
 		return modeloTabla;
@@ -351,8 +337,7 @@ public class FrameAdministrarTorneo extends JInternalFrame implements InternalFr
 		Torneo torneoActual = cc.buscarTorneosPorNroTorneo(nroTorneo);
 		txtNroTorneoModificar.setText(Integer.toString(nroTorneo));
 		txtProgramaActual.setText(Integer.toString(torneoActual.getNroPrograma()));
-		txtModificarClubAnfitrion.setText(torneoActual.getClubAnfitrion());
-		txtModificarLugar.setText(torneoActual.getLocalidad());
+		txtModificarClubAnfitrion.setText(Integer.toString(torneoActual.getNroClub()));
 		txtModificarFecha.setText(torneoActual.getFecha());
 		cbModificarPrograma.setModel(generarModeloComboBoxPrograma(cc.traerLosProgramas()));
 	}

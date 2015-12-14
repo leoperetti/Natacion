@@ -8,8 +8,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 import conexion.DataConnection;
 
@@ -49,10 +47,9 @@ public class CatalogoTorneo
 			{
 				Torneo t = new Torneo();
 				t.setNroTorneo(rs.getInt("nroTorneo"));
-				t.setClubAnfitrion(rs.getString("clubAnfitrion"));
+				t.setNroClub(rs.getInt("nroClub"));
 				t.setFecha(rs.getString("fechaTorneo"));
 				t.setNroPrograma(rs.getInt("nroPrograma"));
-				t.setLocalidad(rs.getString("localidad"));
 				listaTorneos.add(t);
 			}
 		}
@@ -99,10 +96,9 @@ public class CatalogoTorneo
 		{
 			Torneo t = new Torneo();
 			t.setNroTorneo(rs.getInt("nroTorneo"));
-			t.setClubAnfitrion(rs.getString("clubAnfitrion"));
+			t.setNroClub(rs.getInt("nroClub"));
 			t.setFecha(rs.getString("fechaTorneo"));
 			t.setNroPrograma(rs.getInt("nroPrograma"));
-			t.setLocalidad(rs.getString("localidad"));
 			listaTor.add(t);
 		}
 		
@@ -175,7 +171,7 @@ public class CatalogoTorneo
 		
 	}
 	
-	public void cargarTorneo(int nroTorneo, int nroPrograma, String club, String fecha, String localidad)
+	public void cargarTorneo(int nroTorneo, int nroPrograma, int club, String fecha)
 	{
 			
 		String sql = "INSERT INTO Torneo (nroTorneo, nroPrograma, clubAnfitrion, fechaTorneo, localidad) VALUES(?,?,?,?,?);";
@@ -187,9 +183,8 @@ public class CatalogoTorneo
 			sentencia = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			sentencia.setInt(1, nroTorneo);
 			sentencia.setInt(2, nroPrograma);
-			sentencia.setString(3, club);
+			sentencia.setInt(3, club);
 			sentencia.setString(4, fecha);
-			sentencia.setString(5, localidad);
 			sentencia.executeUpdate();
 		}
 		catch(SQLException e)
@@ -260,10 +255,9 @@ public class CatalogoTorneo
 			if(rs.next())
 			{
 				t.setNroTorneo(rs.getInt("nroTorneo"));
-				t.setClubAnfitrion(rs.getString("clubAnfitrion"));
+				t.setNroClub(rs.getInt("nroClub"));
 				t.setFecha(rs.getString("fechaTorneo"));
 				t.setNroPrograma(rs.getInt("nroPrograma"));
-				t.setLocalidad(rs.getString("localidad"));
 			}
 		}
 		catch (SQLException e) 
