@@ -79,7 +79,7 @@ public class FrameAdministrarCarrera extends JInternalFrame implements InternalF
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setIconifiable(true);
 		setClosable(true);
-		setBounds(10, 0, 542, 275);
+		setBounds(10, 0, 673, 345);
 		
         getContentPane().setLayout(new CardLayout(0, 0));
         
@@ -91,42 +91,42 @@ public class FrameAdministrarCarrera extends JInternalFrame implements InternalF
         panelNuevo.setLayout(null);
         
         JLabel lblNroCarreraNuevo = new JLabel("N\u00FAmero de Carrera:");
-        lblNroCarreraNuevo.setBounds(10, 93, 138, 14);
+        lblNroCarreraNuevo.setBounds(10, 88, 138, 14);
         panelNuevo.add(lblNroCarreraNuevo);
         
         txtNroCarreraNuevo = new JTextField(Integer.toString(cc.buscarUltimoNumeroCarrera() + 1));
         txtNroCarreraNuevo.setEnabled(false);
         txtNroCarreraNuevo.setColumns(10);
-        txtNroCarreraNuevo.setBounds(175, 87, 171, 20);
+        txtNroCarreraNuevo.setBounds(175, 83, 171, 25);
         panelNuevo.add(txtNroCarreraNuevo);
         
         JLabel lblEdadCompetidoresNuevo = new JLabel("Edad de los competidores:");
-        lblEdadCompetidoresNuevo.setBounds(10, 118, 138, 14);
+        lblEdadCompetidoresNuevo.setBounds(10, 124, 138, 14);
         panelNuevo.add(lblEdadCompetidoresNuevo);
         
         txtEdadCompetidoresNuevo = new JTextField();
         txtEdadCompetidoresNuevo.setColumns(10);
-        txtEdadCompetidoresNuevo.setBounds(175, 112, 171, 20);
+        txtEdadCompetidoresNuevo.setBounds(175, 119, 239, 25);
         panelNuevo.add(txtEdadCompetidoresNuevo);
         
         JLabel lblMetrosNuevo = new JLabel("Metros:");
-        lblMetrosNuevo.setBounds(10, 143, 138, 14);
+        lblMetrosNuevo.setBounds(10, 160, 138, 14);
         panelNuevo.add(lblMetrosNuevo);
         
         txtMetrosNuevo = new JTextField();
         txtMetrosNuevo.setColumns(10);
-        txtMetrosNuevo.setBounds(175, 137, 171, 20);
+        txtMetrosNuevo.setBounds(175, 155, 239, 25);
         panelNuevo.add(txtMetrosNuevo);
         
         JLabel lblGeneroNuevo = new JLabel("G\u00E9nero:");
-        lblGeneroNuevo.setBounds(10, 167, 138, 14);
+        lblGeneroNuevo.setBounds(10, 196, 138, 14);
         panelNuevo.add(lblGeneroNuevo);
         
         cbProgramasNuevo = new JComboBox<Programa>();
         cbProgramasNuevo.setModel(generarComboProgramas(cc.traerLosProgramas()));
         cbProgramasNuevo.setRenderer(new PromptComboBoxRenderer("<-Seleccione un Programa->"));
         cbProgramasNuevo.setSelectedIndex(-1);
-        cbProgramasNuevo.setBounds(175, 11, 336, 20);
+        cbProgramasNuevo.setBounds(175, 11, 336, 25);
         panelNuevo.add(cbProgramasNuevo);
         ActionListener alPrograma = new ActionListener() 
 		{	
@@ -142,12 +142,12 @@ public class FrameAdministrarCarrera extends JInternalFrame implements InternalF
         Object[] opciones = {"Masculino", "Femenino"};
         
         cbGeneroNuevo = new JComboBox(opciones);
-        cbGeneroNuevo.setBounds(175, 161, 171, 20);
+        cbGeneroNuevo.setBounds(175, 191, 239, 25);
         panelNuevo.add(cbGeneroNuevo);
 
         
         cbTorneosNuevo = new JComboBox<Torneo>();
-        cbTorneosNuevo.setBounds(175, 39, 336, 20);
+        cbTorneosNuevo.setBounds(175, 47, 336, 25);
         panelNuevo.add(cbTorneosNuevo);
         
         DefaultComboBoxModel<Estilo> modeloEstilo = new DefaultComboBoxModel<Estilo>();
@@ -158,19 +158,19 @@ public class FrameAdministrarCarrera extends JInternalFrame implements InternalF
 		}
 		
         cbEstilosNuevo = new JComboBox<Estilo>(modeloEstilo);
-        cbEstilosNuevo.setBounds(175, 186, 171, 20);
+        cbEstilosNuevo.setBounds(175, 227, 239, 25);
         panelNuevo.add(cbEstilosNuevo);
         
         JLabel lblEstiloNuevo = new JLabel("Estilo:");
-        lblEstiloNuevo.setBounds(10, 192, 138, 14);
+        lblEstiloNuevo.setBounds(10, 232, 138, 14);
         panelNuevo.add(lblEstiloNuevo);
         
         JLabel lblProgramaNuevo = new JLabel("Programas:");
-        lblProgramaNuevo.setBounds(10, 14, 138, 14);
+        lblProgramaNuevo.setBounds(10, 16, 138, 14);
         panelNuevo.add(lblProgramaNuevo);
         
         JLabel lblTorneoNuevo = new JLabel("Torneos:");
-        lblTorneoNuevo.setBounds(10, 42, 138, 14);
+        lblTorneoNuevo.setBounds(10, 52, 138, 14);
         panelNuevo.add(lblTorneoNuevo);
         
         JButton btnAgregarCarrera = new JButton("Agregar Carrera");
@@ -182,7 +182,7 @@ public class FrameAdministrarCarrera extends JInternalFrame implements InternalF
         		cargarCarrera();
         	}
         });
-        btnAgregarCarrera.setBounds(356, 87, 155, 121);
+        btnAgregarCarrera.setBounds(487, 131, 155, 121);
         panelNuevo.add(btnAgregarCarrera);
         
         JPanel pnlEliminarModificar = new JPanel();
@@ -192,15 +192,15 @@ public class FrameAdministrarCarrera extends JInternalFrame implements InternalF
         tablaCarrera = new JTable(generarModeloTabla(cc.buscarCarreras()));
         
         JScrollPane scrollPane = new JScrollPane(tablaCarrera);
-        scrollPane.setBounds(10, 11, 501, 150);
+        scrollPane.setBounds(10, 11, 632, 220);
         pnlEliminarModificar.add(scrollPane);
         
         JButton btnModificarCarrera = new JButton("Modificar Carrera");
-        btnModificarCarrera.setBounds(10, 172, 226, 34);
+        btnModificarCarrera.setBounds(10, 242, 226, 34);
         pnlEliminarModificar.add(btnModificarCarrera);
         
         JButton btnEliminarCarrera = new JButton("Eliminar Carrera");
-        btnEliminarCarrera.setBounds(285, 172, 226, 34);
+        btnEliminarCarrera.setBounds(426, 242, 226, 34);
         pnlEliminarModificar.add(btnEliminarCarrera);
         
         JPanel panelModificar = new JPanel();
@@ -208,38 +208,38 @@ public class FrameAdministrarCarrera extends JInternalFrame implements InternalF
         panelModificar.setLayout(null);
         
         JLabel lblProgramasModificar = new JLabel("Programas:");
-        lblProgramasModificar.setBounds(10, 26, 138, 14);
+        lblProgramasModificar.setBounds(10, 14, 138, 14);
         panelModificar.add(lblProgramasModificar);
         
         JLabel label_1 = new JLabel("Torneos:");
-        label_1.setBounds(10, 54, 138, 14);
+        label_1.setBounds(10, 47, 138, 14);
         panelModificar.add(label_1);
         
         JComboBox cbPogramasModificar = new JComboBox();
-        cbPogramasModificar.setBounds(260, 23, 251, 20);
+        cbPogramasModificar.setBounds(260, 11, 387, 20);
         panelModificar.add(cbPogramasModificar);
         
         JComboBox cbTorneosModificar = new JComboBox();
-        cbTorneosModificar.setBounds(260, 51, 251, 20);
+        cbTorneosModificar.setBounds(260, 42, 387, 25);
         panelModificar.add(cbTorneosModificar);
         
         JLabel lblNroCarreraModificar = new JLabel("N\u00FAmero de Carrera:");
-        lblNroCarreraModificar.setBounds(10, 105, 138, 14);
+        lblNroCarreraModificar.setBounds(10, 83, 138, 14);
         panelModificar.add(lblNroCarreraModificar);
         
         txtNroCarreraModificar = new JTextField();
         txtNroCarreraModificar.setEnabled(false);
         txtNroCarreraModificar.setColumns(10);
-        txtNroCarreraModificar.setBounds(175, 99, 171, 20);
+        txtNroCarreraModificar.setBounds(175, 78, 307, 25);
         panelModificar.add(txtNroCarreraModificar);
         
         JLabel lblEdadCompetidoresModificar = new JLabel("Edad de los competidores:");
-        lblEdadCompetidoresModificar.setBounds(10, 130, 138, 14);
+        lblEdadCompetidoresModificar.setBounds(10, 119, 138, 14);
         panelModificar.add(lblEdadCompetidoresModificar);
         
         txtEdadCompetidoresModificar = new JTextField();
         txtEdadCompetidoresModificar.setColumns(10);
-        txtEdadCompetidoresModificar.setBounds(175, 124, 171, 20);
+        txtEdadCompetidoresModificar.setBounds(175, 114, 307, 25);
         panelModificar.add(txtEdadCompetidoresModificar);
         
         JLabel lblMetrosModificar = new JLabel("Metros:");
@@ -248,39 +248,39 @@ public class FrameAdministrarCarrera extends JInternalFrame implements InternalF
         
         txtMetrosModificar = new JTextField();
         txtMetrosModificar.setColumns(10);
-        txtMetrosModificar.setBounds(175, 149, 171, 20);
+        txtMetrosModificar.setBounds(175, 150, 307, 25);
         panelModificar.add(txtMetrosModificar);
         
         JLabel lblGeneroModificar = new JLabel("G\u00E9nero:");
-        lblGeneroModificar.setBounds(10, 179, 138, 14);
+        lblGeneroModificar.setBounds(10, 191, 138, 14);
         panelModificar.add(lblGeneroModificar);
         
         JLabel lblEstiloModificar = new JLabel("Estilo:");
-        lblEstiloModificar.setBounds(10, 204, 138, 14);
+        lblEstiloModificar.setBounds(10, 227, 138, 14);
         panelModificar.add(lblEstiloModificar);
         
         JComboBox<Object> txtEstiloModificar = new JComboBox<Object>(new Object[]{});
-        txtEstiloModificar.setBounds(175, 198, 171, 20);
+        txtEstiloModificar.setBounds(175, 222, 307, 25);
         panelModificar.add(txtEstiloModificar);
         
         JComboBox<Object> cbGeneroModificar = new JComboBox<Object>(new Object[]{});
-        cbGeneroModificar.setBounds(175, 173, 171, 20);
+        cbGeneroModificar.setBounds(175, 186, 307, 25);
         panelModificar.add(cbGeneroModificar);
         
         JButton btnGuardarDatos = new JButton("Guardar Datos");
-        btnGuardarDatos.setBounds(356, 99, 155, 121);
+        btnGuardarDatos.setBounds(492, 126, 155, 121);
         panelModificar.add(btnGuardarDatos);
         
         txtProgramasModificar = new JTextField();
         txtProgramasModificar.setEnabled(false);
-        txtProgramasModificar.setBounds(175, 23, 75, 20);
+        txtProgramasModificar.setBounds(175, 11, 75, 20);
         panelModificar.add(txtProgramasModificar);
         txtProgramasModificar.setColumns(10);
         
         txtTorneosModificar = new JTextField();
         txtTorneosModificar.setEnabled(false);
         txtTorneosModificar.setColumns(10);
-        txtTorneosModificar.setBounds(175, 51, 75, 20);
+        txtTorneosModificar.setBounds(175, 44, 75, 20);
         panelModificar.add(txtTorneosModificar);
 	}
 	

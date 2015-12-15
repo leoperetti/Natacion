@@ -6,13 +6,22 @@ import java.util.Date;
 public class Torneo 
 {
 	private int nroTorneo, nroPrograma, nroClub;
-	private String fecha;
-	
+	private String fecha, nombreClub;
+
+	public String getNombreClub()
+	{
+		return nombreClub;
+	}
+
+	public void setNombreClub(String nombreClub) 
+	{
+		this.nombreClub = nombreClub;
+	}
 
 	@Override
 	public String toString()
 	{
-		return "Nro: "+this.nroTorneo+"  Se realiza en: "+this.nroClub+" - Fecha: "+ fecha;
+		return "Nro: " + this.nroTorneo+ " - Se realiza en: " + this.nombreClub +" - Fecha: "+ fecha;
 	}
 	
 	public String getFecha() {

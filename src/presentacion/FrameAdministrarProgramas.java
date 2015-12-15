@@ -61,7 +61,7 @@ public class FrameAdministrarProgramas extends JInternalFrame implements Interna
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setIconifiable(true);
 		setClosable(true);
-		setBounds(10, 0, 378, 210);
+		setBounds(10, 0, 466, 292);
 		getContentPane().setLayout(new CardLayout(0, 0));
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
@@ -72,22 +72,22 @@ public class FrameAdministrarProgramas extends JInternalFrame implements Interna
 		pnlNuevoPrograma.setLayout(null);
 		
 		JLabel lblNmeroDeProgramaNuevo = new JLabel("N\u00FAmero de Programa:");
-		lblNmeroDeProgramaNuevo.setBounds(10, 11, 117, 14);
+		lblNmeroDeProgramaNuevo.setBounds(10, 13, 117, 14);
 		pnlNuevoPrograma.add(lblNmeroDeProgramaNuevo);
 		
 		JLabel lblDescripcionNuevo = new JLabel("Descripci\u00F3n:");
-		lblDescripcionNuevo.setBounds(10, 36, 117, 14);
+		lblDescripcionNuevo.setBounds(10, 49, 117, 14);
 		pnlNuevoPrograma.add(lblDescripcionNuevo);
 		
 		txtNroProgramaNuevo = new JTextField(Integer.toString(cc.buscarUltimoNumeroPrograma() + 1));
 		txtNroProgramaNuevo.setEnabled(false);
-		txtNroProgramaNuevo.setBounds(137, 8, 210, 20);
+		txtNroProgramaNuevo.setBounds(137, 8, 298, 25);
 		pnlNuevoPrograma.add(txtNroProgramaNuevo);
 		txtNroProgramaNuevo.setColumns(10);
 		
 		txtDescripcionNuevo = new JTextField();
 		txtDescripcionNuevo.setColumns(10);
-		txtDescripcionNuevo.setBounds(137, 33, 210, 20);
+		txtDescripcionNuevo.setBounds(137, 44, 298, 25);
 		pnlNuevoPrograma.add(txtDescripcionNuevo);
 		
 		JButton btnAgregarPrograma = new JButton("Agregar Programa");
@@ -99,7 +99,7 @@ public class FrameAdministrarProgramas extends JInternalFrame implements Interna
 				cargarPrograma();
 			}
 		});
-		btnAgregarPrograma.setBounds(186, 102, 161, 39);
+		btnAgregarPrograma.setBounds(274, 184, 161, 39);
 		pnlNuevoPrograma.add(btnAgregarPrograma);
 		
 		JPanel pnlEliminarModificarPrograma = new JPanel();
@@ -116,7 +116,7 @@ public class FrameAdministrarProgramas extends JInternalFrame implements Interna
 				eliminarPrograma();
 			}
 		});
-		btnEliminarPrograma.setBounds(186, 102, 161, 39);
+		btnEliminarPrograma.setBounds(274, 184, 161, 39);
 		pnlEliminarModificarPrograma.add(btnEliminarPrograma);
 		
 		JButton btnModificarPrograma = new JButton("Modificar Programa");
@@ -128,13 +128,13 @@ public class FrameAdministrarProgramas extends JInternalFrame implements Interna
 				modificarPrograma();
 			}
 		});
-		btnModificarPrograma.setBounds(10, 102, 161, 39);
+		btnModificarPrograma.setBounds(10, 184, 161, 39);
 		pnlEliminarModificarPrograma.add(btnModificarPrograma);
 		
 		tablaProgramas = new JTable(generarModeloTabla(cc.traerLosProgramas()));
 	
 		JScrollPane spProgramas = new JScrollPane(tablaProgramas);
-		spProgramas.setBounds(10, 11, 337, 80);
+		spProgramas.setBounds(10, 11, 425, 162);
 		pnlEliminarModificarPrograma.add(spProgramas);
 		
 		JPanel panelModificar = new JPanel();
@@ -142,22 +142,22 @@ public class FrameAdministrarProgramas extends JInternalFrame implements Interna
 		panelModificar.setLayout(null);
 		
 		JLabel lblNroProgramaModificar = new JLabel("N\u00FAmero de Programa:");
-		lblNroProgramaModificar.setBounds(10, 14, 117, 14);
+		lblNroProgramaModificar.setBounds(10, 16, 117, 14);
 		panelModificar.add(lblNroProgramaModificar);
 		
 		JLabel lblDescripcionModificar = new JLabel("Descripci\u00F3n:");
-		lblDescripcionModificar.setBounds(10, 39, 117, 14);
+		lblDescripcionModificar.setBounds(10, 52, 117, 14);
 		panelModificar.add(lblDescripcionModificar);
 		
 		txtNroProgramaModificar = new JTextField();
 		txtNroProgramaModificar.setEnabled(false);
 		txtNroProgramaModificar.setColumns(10);
-		txtNroProgramaModificar.setBounds(137, 11, 215, 20);
+		txtNroProgramaModificar.setBounds(137, 11, 215, 25);
 		panelModificar.add(txtNroProgramaModificar);
 		
 		txtDescripcionModificar = new JTextField();
 		txtDescripcionModificar.setColumns(10);
-		txtDescripcionModificar.setBounds(137, 36, 215, 20);
+		txtDescripcionModificar.setBounds(137, 47, 215, 25);
 		panelModificar.add(txtDescripcionModificar);
 		
 		JButton btnGuardarDatosModificados = new JButton("GuardarDatos");
@@ -169,7 +169,7 @@ public class FrameAdministrarProgramas extends JInternalFrame implements Interna
 				guardarModificacion();
 			}
 		});
-		btnGuardarDatosModificados.setBounds(191, 130, 161, 39);
+		btnGuardarDatosModificados.setBounds(279, 212, 161, 39);
 		panelModificar.add(btnGuardarDatosModificados);
 	}
 	

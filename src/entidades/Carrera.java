@@ -1,21 +1,15 @@
 package entidades;
 
-public class Carrera {
+public class Carrera
+{
 
-	private int nroCarrera, tipoCarrera, metros, nroTorneo, nroEstilo;
-	public int getNroEstilo() {
-		return nroEstilo;
-	}
-
-	public void setNroEstilo(int nroEstilo) {
-		this.nroEstilo = nroEstilo;
-	}
-
+	private int nroCarrera, tipoCarrera, metros, nroPrograma;
+	String estilo;
 	private char sexo;
 	
-	//Cuando traigo la carrera desde la db, pongo un atributo nro programa? o tengo q instanciar un programa?
 	@Override
-	public String toString(){
+	public String toString()
+	{
 		return "Número: "+this.nroCarrera+"  Edad: ("+this.tipoCarrera+")" + " Sexo: "+this.sexo;
 	}
 	
@@ -49,12 +43,20 @@ public class Carrera {
 	}
 
 
-	public int getNroTorneo() {
-		return nroTorneo;
+	public int getNroPrograma() {
+		return nroPrograma;
 	}
 
-	public void setNroTorneo(int nroTorneo) {
-		this.nroTorneo = nroTorneo;
+	public void setNroPrograma(int nroPrograma) {
+		this.nroPrograma = nroPrograma;
+	}
+
+	public String getEstilo() {
+		return estilo;
+	}
+
+	public void setEstilo(String estilo) {
+		this.estilo = estilo;
 	}
 
 	public char getSexo() {

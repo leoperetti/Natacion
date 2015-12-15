@@ -23,6 +23,7 @@ import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -30,6 +31,7 @@ import javax.swing.JTable;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.CardLayout;
@@ -39,8 +41,6 @@ public class FrameAdministrarTorneo extends JInternalFrame implements InternalFr
 
 	private static final long serialVersionUID = 1L;
 	private static FrameAdministrarTorneo instancia = null;
-	private JTextField txtModificarClubAnfitrion;
-	private JTextField txtModificarLugar;
 	private ControladorCompetencia cc = new ControladorCompetencia();
 	private JTextField txtNroTorneo;
 	private JTextField txtProgramaActual;
@@ -85,34 +85,34 @@ public class FrameAdministrarTorneo extends JInternalFrame implements InternalFr
 		
 		
 		JComboBox<Programa> cbProgramas = new JComboBox<Programa>();
-		cbProgramas.setBounds(127, 50, 200, 31);
+		cbProgramas.setBounds(166, 50, 299, 31);
 		pnlNuevoTorneo.add(cbProgramas);
 		cbProgramas.setModel(generarModeloComboBoxPrograma(cc.traerLosProgramas()));
 		
 		JLabel lblProgramas = new JLabel("Programa:");
 		lblProgramas.setHorizontalAlignment(SwingConstants.LEFT);
-		lblProgramas.setBounds(10, 58, 107, 14);
+		lblProgramas.setBounds(10, 58, 144, 14);
 		pnlNuevoTorneo.add(lblProgramas);
 		
 		JLabel lblClubAnfitrion = new JLabel("Club anfitri\u00F3n:");
 		lblClubAnfitrion.setHorizontalAlignment(SwingConstants.LEFT);
-		lblClubAnfitrion.setBounds(10, 100, 107, 14);
+		lblClubAnfitrion.setBounds(10, 100, 144, 14);
 		pnlNuevoTorneo.add(lblClubAnfitrion);
 		
 		JLabel lblFechaQueSe = new JLabel("Fecha que se corre:");
 		lblFechaQueSe.setHorizontalAlignment(SwingConstants.LEFT);
-		lblFechaQueSe.setBounds(10, 142, 107, 14);
+		lblFechaQueSe.setBounds(10, 142, 144, 14);
 		pnlNuevoTorneo.add(lblFechaQueSe);
 		
 
 		JFormattedTextField txtFecha = new JFormattedTextField(generarMascara());
 		txtFecha.setColumns(10);
-		txtFecha.setBounds(127, 134, 200, 31);
+		txtFecha.setBounds(166, 134, 299, 31);
 		pnlNuevoTorneo.add(txtFecha);
 		
-		JComboBox<Club> cbClubAnfitrion = new JComboBox<Club>(generarModeloTablaClub(cc.buscarClubes()));
-		cbClubAnfitrion.setBounds(127, 92, 200, 31);
-		pnlNuevoTorneo.add(cbClubAnfitrion);
+		JComboBox<Club> cbClubNuevo = new JComboBox<Club>(generarModeloTablaClub(cc.buscarClubes()));
+		cbClubNuevo.setBounds(166, 92, 299, 31);
+		pnlNuevoTorneo.add(cbClubNuevo);
 		
 		JButton btnCargarTorneo = new JButton("Cargar Torneo");
 		btnCargarTorneo.addMouseListener(new MouseAdapter() 
@@ -120,7 +120,7 @@ public class FrameAdministrarTorneo extends JInternalFrame implements InternalFr
 			@Override
 			public void mouseClicked(MouseEvent arg0) 
 			{
-				cargarTorneo(cbProgramas, txtFecha, cbClubAnfitrion);
+				cargarTorneo(cbProgramas, txtFecha, cbClubNuevo);
 			}
 		});
 		btnCargarTorneo.setBounds(243, 267, 222, 31);
@@ -128,13 +128,13 @@ public class FrameAdministrarTorneo extends JInternalFrame implements InternalFr
 		
 		JLabel lblNroTorneo = new JLabel("N\u00FAmero:");
 		lblNroTorneo.setHorizontalAlignment(SwingConstants.LEFT);
-		lblNroTorneo.setBounds(10, 18, 107, 14);
+		lblNroTorneo.setBounds(10, 18, 144, 14);
 		pnlNuevoTorneo.add(lblNroTorneo);
 		
 		txtNroTorneo = new JTextField();
 		txtNroTorneo.setEnabled(false);
 		txtNroTorneo.setColumns(10);
-		txtNroTorneo.setBounds(127, 11, 200, 28);
+		txtNroTorneo.setBounds(166, 11, 299, 28);
 		pnlNuevoTorneo.add(txtNroTorneo);
 		txtNroTorneo.setText(Integer.toString(cc.buscarUltimoNumeroTorneo() + 1));
 				
@@ -165,7 +165,7 @@ public class FrameAdministrarTorneo extends JInternalFrame implements InternalFr
 		
 		JFormattedTextField txtModificarFecha = new JFormattedTextField(generarMascara());
 		txtModificarFecha.setColumns(10);
-		txtModificarFecha.setBounds(147, 164, 318, 20);
+		txtModificarFecha.setBounds(149, 119, 318, 25);
 		pnlModificarTorneo.add(txtModificarFecha);
 		
 		JComboBox<Programa> cbModificarPrograma = new JComboBox<Programa>();
@@ -181,8 +181,13 @@ public class FrameAdministrarTorneo extends JInternalFrame implements InternalFr
 				}
 			}
 		});
-		cbModificarPrograma.setBounds(265, 89, 200, 20);
+		cbModificarPrograma.setBounds(267, 44, 200, 25);
 		pnlModificarTorneo.add(cbModificarPrograma);
+		
+		
+		JComboBox<Club> cbClubModifica = new JComboBox<Club>(generarModeloTablaClub(cc.buscarClubes()));
+		cbClubModifica.setBounds(147, 81, 318, 26);
+		pnlModificarTorneo.add(cbClubModifica);
 		
 		JButton btnModificarTorneo = new JButton("Modificar Torneo");
 		btnModificarTorneo.addMouseListener(new MouseAdapter()
@@ -190,7 +195,7 @@ public class FrameAdministrarTorneo extends JInternalFrame implements InternalFr
 			@Override
 			public void mouseReleased(MouseEvent e) 
 			{
-				modificarTorneo(txtModificarFecha, cbModificarPrograma);
+				modificarTorneo(txtModificarFecha, cbModificarPrograma, cbClubModifica);
 			}
 		});
 		btnModificarTorneo.setBounds(10, 267, 222, 31);
@@ -204,40 +209,25 @@ public class FrameAdministrarTorneo extends JInternalFrame implements InternalFr
 				
 		JLabel lblModificarTorneo = new JLabel("Torneo:");
 		lblModificarTorneo.setHorizontalAlignment(SwingConstants.LEFT);
-		lblModificarTorneo.setBounds(10, 67, 127, 14);
+		lblModificarTorneo.setBounds(10, 12, 127, 14);
 		pnlModificarTorneo.add(lblModificarTorneo);
 		
-		JLabel lblModificarClubAnfitrion = new JLabel("Club anfitri\u00F3n:");
-		lblModificarClubAnfitrion.setHorizontalAlignment(SwingConstants.LEFT);
-		lblModificarClubAnfitrion.setBounds(10, 117, 127, 14);
-		pnlModificarTorneo.add(lblModificarClubAnfitrion);
-		
-		txtModificarClubAnfitrion = new JTextField();
-		txtModificarClubAnfitrion.setColumns(10);
-		txtModificarClubAnfitrion.setBounds(147, 114, 318, 20);
-		pnlModificarTorneo.add(txtModificarClubAnfitrion);
-		
-		txtModificarLugar = new JTextField();
-		txtModificarLugar.setColumns(10);
-		txtModificarLugar.setBounds(147, 139, 318, 20);
-		pnlModificarTorneo.add(txtModificarLugar);
-		
-		JLabel lblModificarLugar = new JLabel("Se realiza en:");
-		lblModificarLugar.setHorizontalAlignment(SwingConstants.LEFT);
-		lblModificarLugar.setBounds(10, 142, 127, 14);
-		pnlModificarTorneo.add(lblModificarLugar);
+		JLabel lblClubAnfitrionModificar = new JLabel("Club Anfitri\u00F3n:");
+		lblClubAnfitrionModificar.setHorizontalAlignment(SwingConstants.LEFT);
+		lblClubAnfitrionModificar.setBounds(10, 87, 127, 14);
+		pnlModificarTorneo.add(lblClubAnfitrionModificar);
 		
 		JLabel lblModificarFecha = new JLabel("Fecha que se corre:");
 		lblModificarFecha.setHorizontalAlignment(SwingConstants.LEFT);
-		lblModificarFecha.setBounds(10, 167, 127, 14);
+		lblModificarFecha.setBounds(10, 125, 127, 14);
 		pnlModificarTorneo.add(lblModificarFecha);
 		
 		
 		JLabel lblModificarPrograma = new JLabel("Programa:");
 		lblModificarPrograma.setHorizontalAlignment(SwingConstants.LEFT);
-		lblModificarPrograma.setBounds(10, 92, 127, 14);
+		lblModificarPrograma.setBounds(10, 49, 127, 14);
 		pnlModificarTorneo.add(lblModificarPrograma);
-		
+
 		
 		JButton btnGuardarDatosModificados = new JButton("Guardar Datos");
 		btnGuardarDatosModificados.addMouseListener(new MouseAdapter()
@@ -245,7 +235,7 @@ public class FrameAdministrarTorneo extends JInternalFrame implements InternalFr
 			@Override
 			public void mouseReleased(MouseEvent e) 
 			{
-				guardarModificacion(txtModificarFecha);
+				guardarModificacion(txtModificarFecha, cbClubModifica);
 			}
 		});
 		
@@ -255,12 +245,12 @@ public class FrameAdministrarTorneo extends JInternalFrame implements InternalFr
 		txtProgramaActual = new JTextField();
 		txtProgramaActual.setEnabled(false);
 		txtProgramaActual.setColumns(10);
-		txtProgramaActual.setBounds(147, 89, 108, 20);
+		txtProgramaActual.setBounds(147, 43, 108, 25);
 		pnlModificarTorneo.add(txtProgramaActual);
 		
 		txtNroTorneoModificar = new JTextField();
 		txtNroTorneoModificar.setEnabled(false);
-		txtNroTorneoModificar.setBounds(147, 64, 318, 20);
+		txtNroTorneoModificar.setBounds(147, 6, 318, 25);
 		pnlModificarTorneo.add(txtNroTorneoModificar);
 		txtNroTorneoModificar.setColumns(10);
 		
@@ -276,6 +266,7 @@ public class FrameAdministrarTorneo extends JInternalFrame implements InternalFr
 		});
 		btnVolver.setBounds(10, 295, 222, 31);
 		pnlModificarTorneo.add(btnVolver);
+		
 	}
 
 	
@@ -308,7 +299,7 @@ public class FrameAdministrarTorneo extends JInternalFrame implements InternalFr
 			Object[] o = new Object[4];
 			o[0] = tor.getNroTorneo();
 			o[1] = tor.getFecha();
-			o[2] = tor.getNroClub();
+			o[2] = tor.getNombreClub();
 			o[3] = tor.getNroPrograma();
 			modeloTabla.addRow(o);
 		}
@@ -344,7 +335,7 @@ public class FrameAdministrarTorneo extends JInternalFrame implements InternalFr
 		}
 	}
 	
-	private void modificarTorneo(JFormattedTextField txtModificarFecha, JComboBox<Programa> cbModificarPrograma)
+	private void modificarTorneo(JFormattedTextField txtModificarFecha, JComboBox<Programa> cbModificarPrograma, JComboBox<Club> cbClub)
 	{
 		int nroTorneo = (int) tablaEliminarModificar.getValueAt(tablaEliminarModificar.getSelectedRow(), 0);
 		CardLayout cardLayout = (CardLayout) getContentPane().getLayout();
@@ -352,14 +343,30 @@ public class FrameAdministrarTorneo extends JInternalFrame implements InternalFr
 		Torneo torneoActual = cc.buscarTorneosPorNroTorneo(nroTorneo);
 		txtNroTorneoModificar.setText(Integer.toString(nroTorneo));
 		txtProgramaActual.setText(Integer.toString(torneoActual.getNroPrograma()));
-		txtModificarClubAnfitrion.setText(Integer.toString(torneoActual.getNroClub()));
-		txtModificarFecha.setText(torneoActual.getFecha());
+		
+		Date date = null;
+		try 
+		{
+			date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(torneoActual.getFecha());
+		} catch (ParseException e) 
+		{
+			e.printStackTrace();
+		}
+		String fechaCorta = new SimpleDateFormat("dd/MM/yyyy").format(date);
+		
+		txtModificarFecha.setText(fechaCorta);
+		for(Club c : cc.buscarClubes())
+		{
+			if (c.getNroClub() == torneoActual.getNroClub())
+				cbClub.getModel().setSelectedItem(c);
+		}
 		cbModificarPrograma.setModel(generarModeloComboBoxPrograma(cc.traerLosProgramas()));
 	}
 	
-	private void guardarModificacion(JFormattedTextField txtModificarFecha)
+	private void guardarModificacion(JFormattedTextField txtModificarFecha, JComboBox<Club> cbClub)
 	{
-		cc.modificarTorneo(Integer.parseInt(txtProgramaActual.getText()), txtModificarFecha.getText(), txtModificarClubAnfitrion.getText(), txtModificarLugar.getText(), Integer.parseInt(txtNroTorneoModificar.getText()));
+		Club clubSeleccionado = (Club)cbClub.getSelectedItem();
+		cc.modificarTorneo(Integer.parseInt(txtProgramaActual.getText()), txtModificarFecha.getText(), clubSeleccionado.getNroClub(), Integer.parseInt(txtNroTorneoModificar.getText()));
 		JOptionPane.showMessageDialog(getContentPane(), "Torneo Modificado.");
 		tablaEliminarModificar.setModel(generarModeloTabla(cc.buscarTorneos()));
 		CardLayout cardLayout = (CardLayout) getContentPane().getLayout();

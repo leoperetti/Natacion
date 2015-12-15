@@ -1,6 +1,7 @@
 package datos;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import entidades.Torneo;
 import java.sql.ResultSet;
@@ -8,6 +9,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import conexion.DataConnection;
 
@@ -32,7 +35,7 @@ public class CatalogoTorneo
 	{
 		ArrayList<Torneo> listaTorneos = new ArrayList<Torneo>();
 		
-		String sql="select * from torneo where nroPrograma = ?";
+		String sql="select t.nroTorneo, t.nroClub, t.fechaTorneo, t.nroPrograma , c.nombre from torneo as t inner join Club as c on t.nroClub = c.nroClub where t.nroPrograma = ?";
 		PreparedStatement sentencia=null;
 		ResultSet rs=null;
 		Connection con = DataConnection.getInstancia().getConn();
@@ -46,10 +49,11 @@ public class CatalogoTorneo
 			while(rs.next())
 			{
 				Torneo t = new Torneo();
-				t.setNroTorneo(rs.getInt("nroTorneo"));
-				t.setNroClub(rs.getInt("nroClub"));
-				t.setFecha(rs.getString("fechaTorneo"));
-				t.setNroPrograma(rs.getInt("nroPrograma"));
+				t.setNroTorneo(rs.getInt(1));
+				t.setNroClub(rs.getInt(2));
+				t.setFecha(rs.getString(3));
+				t.setNroPrograma(rs.getInt(4));
+				t.setNombreClub(rs.getString(5));
 				listaTorneos.add(t);
 			}
 		}
@@ -83,7 +87,7 @@ public class CatalogoTorneo
 	public ArrayList<Torneo> buscarTorneos() {
 		
 		ArrayList<Torneo> listaTor = new ArrayList<Torneo>();
-		String sql = "SELECT * FROM torneo;";
+		String sql = "select t.nroTorneo, t.nroClub, t.fechaTorneo, t.nroPrograma , c.nombre from torneo as t inner join Club as c on t.nroClub = c.nroClub";
 		Statement sentencia = null;
 		ResultSet rs = null;
 		
@@ -95,10 +99,11 @@ public class CatalogoTorneo
 		while(rs.next())
 		{
 			Torneo t = new Torneo();
-			t.setNroTorneo(rs.getInt("nroTorneo"));
-			t.setNroClub(rs.getInt("nroClub"));
-			t.setFecha(rs.getString("fechaTorneo"));
-			t.setNroPrograma(rs.getInt("nroPrograma"));
+			t.setNroTorneo(rs.getInt(1));
+			t.setNroClub(rs.getInt(2));
+			t.setFecha(rs.getString(3));
+			t.setNroPrograma(rs.getInt(4));
+			t.setNombreClub(rs.getString(5));
 			listaTor.add(t);
 		}
 		
@@ -180,15 +185,21 @@ public class CatalogoTorneo
 		
 		try
 		{
+			Date date = new SimpleDateFormat("dd/MM/yyyy").parse(fecha);
+			String fechaLarga = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
+			
 			sentencia = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			sentencia.setInt(1, nroTorneo);
 			sentencia.setInt(2, nroPrograma);
 			sentencia.setInt(3, club);
-			sentencia.setString(4, fecha);
+			sentencia.setString(4, fechaLarga);
 			sentencia.executeUpdate();
 		}
 		catch(SQLException e)
 		{
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		finally
@@ -241,7 +252,7 @@ public class CatalogoTorneo
 	public Torneo buscarTorneoPorNroTorneo(int nroTorneo) 
 	{
 		Torneo t = new Torneo();
-		String sql="select * from torneo where nroTorneo = ?";
+		String sql="SELECT t.nroTorneo, t.nroClub, t.fechaTorneo, t.nroPrograma, c.nombre FROM torneo as t inner join Club as c on t.nroClub = c.nroClub where t.nroTorneo = ?";
 		PreparedStatement sentencia=null;
 		ResultSet rs=null;
 		Connection con = DataConnection.getInstancia().getConn();
@@ -254,10 +265,11 @@ public class CatalogoTorneo
 			
 			if(rs.next())
 			{
-				t.setNroTorneo(rs.getInt("nroTorneo"));
-				t.setNroClub(rs.getInt("nroClub"));
-				t.setFecha(rs.getString("fechaTorneo"));
-				t.setNroPrograma(rs.getInt("nroPrograma"));
+				t.setNroTorneo(rs.getInt(1));
+				t.setNroClub(rs.getInt(2));
+				t.setFecha(rs.getString(3));
+				t.setNroPrograma(rs.getInt(4));
+				t.setNombreClub(rs.getString(5));
 			}
 		}
 		catch (SQLException e) 
@@ -286,22 +298,25 @@ public class CatalogoTorneo
 	
 	return t;
 	}
-	public void modificarTorneo(int nroPrograma, String fechaTorneo, String clubAnfitrion, String localidad, int nroTorneo) 
+	public void modificarTorneo(int nroPrograma, String fechaTorneo, int nroClub, int nroTorneo) 
 	{
-		String sql = "UPDATE Torneo set nroPrograma = ?, fechaTorneo = ? , clubAnfitrion = ?, localidad = ? where nroTorneo = ?";
+		String sql = "UPDATE Torneo set nroPrograma = ?, fechaTorneo = ? , nroClub = ? where nroTorneo = ?";
 		PreparedStatement sentencia = null;
 		Connection con = DataConnection.getInstancia().getConn();
 		try
 		{
+			
+			Date date = new SimpleDateFormat("dd/MM/yyyy").parse(fechaTorneo);
+			String fechaLarga = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
+			
 			sentencia = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			sentencia.setInt(1, nroPrograma);
-			sentencia.setString(2, fechaTorneo);
-			sentencia.setString(3, clubAnfitrion);
-			sentencia.setString(4, localidad);
-			sentencia.setInt(5, nroTorneo);
+			sentencia.setString(2, fechaLarga);
+			sentencia.setInt(3, nroClub);
+			sentencia.setInt(4, nroTorneo);
 			sentencia.executeUpdate();
 		}
-		catch(SQLException e)
+		catch(SQLException | ParseException e)
 		{
 			e.printStackTrace();
 		}

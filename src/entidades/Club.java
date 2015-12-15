@@ -1,21 +1,23 @@
 package entidades;
 
-public class Club {
-	private int NroClub;
-	private String nombre, localidad;
+public class Club 
+{
+	private String abreviatura, nombre, localidad;
 	
+	public String getAbreviatura() {
+		return abreviatura;
+	}
+
+	public void setAbreviatura(String abreviatura) {
+		this.abreviatura = abreviatura;
+	}
+
 	@Override
 	public String toString()
 	{
 		return nombre + " - " + localidad; 
 	}
 	
-	public int getNroClub() {
-		return NroClub;
-	}
-	public void setNroClub(int nroClub) {
-		NroClub = nroClub;
-	}
 	public String getNombre() {
 		return nombre;
 	}

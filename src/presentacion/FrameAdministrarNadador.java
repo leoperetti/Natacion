@@ -5,7 +5,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.regex.Pattern;
 
 import javax.swing.JFrame;
@@ -82,7 +84,7 @@ public class FrameAdministrarNadador extends JInternalFrame implements InternalF
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setIconifiable(true);
 		setClosable(true);
-		setBounds(27, 11, 542, 362);
+		setBounds(27, 11, 648, 426);
 		getContentPane().setLayout(new CardLayout(0, 0));
 		
 		JTabbedPane tbPnlAdministrarNadadores = new JTabbedPane(JTabbedPane.TOP);
@@ -93,35 +95,35 @@ public class FrameAdministrarNadador extends JInternalFrame implements InternalF
 		pnlAgregarNadador.setLayout(null);
 		
 		JLabel lblNombre = new JLabel("Nombre:");
-		lblNombre.setBounds(10, 36, 79, 14);
+		lblNombre.setBounds(6, 50, 77, 14);
 		pnlAgregarNadador.add(lblNombre);
 		
 		JLabel lblApellido = new JLabel("Apellido:");
-		lblApellido.setBounds(10, 61, 79, 14);
+		lblApellido.setBounds(6, 86, 77, 14);
 		pnlAgregarNadador.add(lblApellido);
 		
 		JLabel lblFechaNacimiento = new JLabel("Nacimiento:");
-		lblFechaNacimiento.setBounds(10, 86, 79, 14);
+		lblFechaNacimiento.setBounds(6, 124, 77, 14);
 		pnlAgregarNadador.add(lblFechaNacimiento);
 		
 		JLabel lblClub = new JLabel("Club:");
-		lblClub.setBounds(10, 111, 79, 14);
+		lblClub.setBounds(6, 161, 77, 14);
 		pnlAgregarNadador.add(lblClub);
 		
 		JLabel lblDni = new JLabel("DNI:");
-		lblDni.setBounds(10, 11, 79, 14);
+		lblDni.setBounds(6, 11, 77, 14);
 		pnlAgregarNadador.add(lblDni);
 		
 		JLabel lblSexo = new JLabel("Sexo:");
-		lblSexo.setBounds(10, 136, 79, 14);
+		lblSexo.setBounds(6, 197, 77, 14);
 		pnlAgregarNadador.add(lblSexo);
 		
 		JLabel lblTiempo1 = new JLabel("Tiempo 1:");
-		lblTiempo1.setBounds(10, 161, 79, 14);
+		lblTiempo1.setBounds(6, 234, 77, 14);
 		pnlAgregarNadador.add(lblTiempo1);
 		
 		JLabel lblTiempo2 = new JLabel("Tiempo 2:");
-		lblTiempo2.setBounds(10, 186, 79, 14);
+		lblTiempo2.setBounds(6, 271, 77, 14);
 		pnlAgregarNadador.add(lblTiempo2);
 		
 		JLabel lblErrorDniNuevoNadador = new JLabel("");
@@ -135,7 +137,7 @@ public class FrameAdministrarNadador extends JInternalFrame implements InternalF
 		pnlAgregarNadador.add(lblErrorEdadNuevoNadador);
 		
 		txtNuevoDni = new JTextField();
-		txtNuevoDni.setBounds(95, 8, 200, 20);
+		txtNuevoDni.setBounds(95, 8, 329, 25);
 		pnlAgregarNadador.add(txtNuevoDni);
 		txtNuevoDni.setColumns(10);
 		validarValoresNumericos(txtNuevoDni, lblErrorDniNuevoNadador);
@@ -143,39 +145,39 @@ public class FrameAdministrarNadador extends JInternalFrame implements InternalF
 		
 		txtNuevoNombre = new JTextField();
 		txtNuevoNombre.setColumns(10);
-		txtNuevoNombre.setBounds(95, 33, 200, 20);
+		txtNuevoNombre.setBounds(95, 45, 329, 25);
 		pnlAgregarNadador.add(txtNuevoNombre);
 		
 		txtNuevoApellido = new JTextField();
 		txtNuevoApellido.setColumns(10);
-		txtNuevoApellido.setBounds(95, 58, 200, 20);
+		txtNuevoApellido.setBounds(95, 81, 329, 25);
 		pnlAgregarNadador.add(txtNuevoApellido);
 		
 		txtNuevoEdad = new JFormattedTextField(generarMascara());
 		txtNuevoEdad.setColumns(10);
-		txtNuevoEdad.setBounds(95, 83, 200, 20);
+		txtNuevoEdad.setBounds(95, 119, 329, 25);
 		pnlAgregarNadador.add(txtNuevoEdad);
 		
 		
 		Object[] opciones = {"Masculino", "Femenino"};
 		JComboBox cbNuevoSexo = new JComboBox(opciones);
-		cbNuevoSexo.setBounds(95, 133, 200, 20);
+		cbNuevoSexo.setBounds(95, 192, 329, 25);
 		pnlAgregarNadador.add(cbNuevoSexo);
 		
 		JFormattedTextField txtNuevoTiempo1 = new JFormattedTextField(crearMascaraTiempo());
-		txtNuevoTiempo1.setBounds(95, 158, 200, 20);
+		txtNuevoTiempo1.setBounds(95, 229, 329, 25);
 		pnlAgregarNadador.add(txtNuevoTiempo1);
 		
 		JFormattedTextField txtNuevoTiempo2 = new JFormattedTextField(crearMascaraTiempo());
-		txtNuevoTiempo2.setBounds(95, 183, 200, 20);
+		txtNuevoTiempo2.setBounds(95, 266, 329, 25);
 		pnlAgregarNadador.add(txtNuevoTiempo2);
 		
 		JButton btnCargarJugador = new JButton("Cargar Nadador");
-		btnCargarJugador.setBounds(289, 262, 222, 31);
+		btnCargarJugador.setBounds(408, 328, 222, 31);
 		pnlAgregarNadador.add(btnCargarJugador);
 
 		JComboBox<Club> cbClubes = new JComboBox<Club>(generarModeloClub(cc.buscarClubes()));
-		cbClubes.setBounds(95, 108, 200, 20);
+		cbClubes.setBounds(95, 156, 329, 25);
 		pnlAgregarNadador.add(cbClubes);
 
 		btnCargarJugador.addMouseListener(new MouseAdapter() 
@@ -202,11 +204,11 @@ public class FrameAdministrarNadador extends JInternalFrame implements InternalF
 				eliminarNadador();
 			}
 		});
-		btnEliminarNadador.setBounds(289, 262, 222, 31);
+		btnEliminarNadador.setBounds(408, 328, 222, 31);
 		pnlEliminarNadador.add(btnEliminarNadador);
 		
 		JLabel lblBuscarE = new JLabel("Buscar:");
-		lblBuscarE.setBounds(325, 11, 51, 14);
+		lblBuscarE.setBounds(323, 14, 51, 14);
 		pnlEliminarNadador.add(lblBuscarE);
 		
 		txtBuscarE = new JTextField();
@@ -220,7 +222,7 @@ public class FrameAdministrarNadador extends JInternalFrame implements InternalF
 		});
 		
 		txtBuscarE.setColumns(10);
-		txtBuscarE.setBounds(386, 8, 125, 20);
+		txtBuscarE.setBounds(386, 8, 244, 25);
 		pnlEliminarNadador.add(txtBuscarE);
 		
 		tblEliminarNadador = new JTable();
@@ -230,7 +232,7 @@ public class FrameAdministrarNadador extends JInternalFrame implements InternalF
 		tblEliminarNadador.setModel(generarModeloTabla(cc.buscarTodosNadadores()));
 		
 		JScrollPane spEliminarNadador = new JScrollPane(tblEliminarNadador);
-		spEliminarNadador.setBounds(10, 36, 501, 215);
+		spEliminarNadador.setBounds(6, 40, 624, 276);
 		pnlEliminarNadador.add(spEliminarNadador);
 		
 		
@@ -239,19 +241,19 @@ public class FrameAdministrarNadador extends JInternalFrame implements InternalF
 		pnlModificarNadador.setLayout(null);
 		
 		JFormattedTextField txtModificaTiempo1 = new JFormattedTextField(crearMascaraTiempo());
-		txtModificaTiempo1.setBounds(119, 177, 200, 20);
+		txtModificaTiempo1.setBounds(97, 228, 329, 25);
 		pnlModificarNadador.add(txtModificaTiempo1);
 		
 		JFormattedTextField txtModificaTiempo2 = new JFormattedTextField(crearMascaraTiempo());
-		txtModificaTiempo2.setBounds(119, 202, 200, 20);
+		txtModificaTiempo2.setBounds(97, 265, 329, 25);
 		pnlModificarNadador.add(txtModificaTiempo2);
 		
 		JComboBox cbModificaSexo = new JComboBox(opciones);
-		cbModificaSexo.setBounds(119, 152, 200, 20);
+		cbModificaSexo.setBounds(97, 191, 329, 25);
 		pnlModificarNadador.add(cbModificaSexo);
 		
 		JComboBox<Club> cbModificarClubAnfitrion = new JComboBox<Club>(generarModeloClub(cc.buscarClubes()));
-		cbModificarClubAnfitrion.setBounds(119, 126, 200, 23);
+		cbModificarClubAnfitrion.setBounds(97, 154, 329, 25);
 		pnlModificarNadador.add(cbModificarClubAnfitrion);
 		
 		JButton btnModificarNadador = new JButton("Modificar Nadador");
@@ -263,39 +265,39 @@ public class FrameAdministrarNadador extends JInternalFrame implements InternalF
 				cargarPanelModificar(txtModificaTiempo1, txtModificaTiempo2, cbModificaSexo, cbModificarClubAnfitrion);
 			}
 		});
-		btnModificarNadador.setBounds(10, 262, 222, 31);
+		btnModificarNadador.setBounds(6, 328, 222, 31);
 		pnlEliminarNadador.add(btnModificarNadador);
 		
 		JLabel label = new JLabel("DNI:");
-		label.setBounds(34, 30, 79, 14);
+		label.setBounds(6, 12, 79, 14);
 		pnlModificarNadador.add(label);
 		
 		txtModificaDni = new JTextField();
 		txtModificaDni.setEditable(false);
 		txtModificaDni.setColumns(10);
-		txtModificaDni.setBounds(119, 27, 200, 20);
+		txtModificaDni.setBounds(97, 6, 329, 25);
 		pnlModificarNadador.add(txtModificaDni);
 		
 		JLabel label_1 = new JLabel("Nombre:");
-		label_1.setBounds(34, 55, 79, 14);
+		label_1.setBounds(6, 49, 79, 14);
 		pnlModificarNadador.add(label_1);
 		
 		txtModificaNombre = new JTextField();
 		txtModificaNombre.setColumns(10);
-		txtModificaNombre.setBounds(119, 52, 200, 20);
+		txtModificaNombre.setBounds(97, 43, 329, 25);
 		pnlModificarNadador.add(txtModificaNombre);
 		
 		JLabel label_2 = new JLabel("Apellido:");
-		label_2.setBounds(34, 80, 79, 14);
+		label_2.setBounds(6, 86, 79, 14);
 		pnlModificarNadador.add(label_2);
 		
 		txtModificaApellido = new JTextField();
 		txtModificaApellido.setColumns(10);
-		txtModificaApellido.setBounds(119, 77, 200, 20);
+		txtModificaApellido.setBounds(97, 80, 329, 25);
 		pnlModificarNadador.add(txtModificaApellido);
 		
 		JLabel lblNacimiento = new JLabel("Nacimiento:");
-		lblNacimiento.setBounds(34, 105, 79, 14);
+		lblNacimiento.setBounds(6, 123, 79, 14);
 		pnlModificarNadador.add(lblNacimiento);
 		
 		JLabel lblErrorEdadModificarNadador = new JLabel("");
@@ -305,25 +307,25 @@ public class FrameAdministrarNadador extends JInternalFrame implements InternalF
 		
 		txtModificaEdad = new JFormattedTextField(generarMascara());
 		txtModificaEdad.setColumns(10);
-		txtModificaEdad.setBounds(119, 102, 200, 20);
+		txtModificaEdad.setBounds(97, 117, 329, 25);
 		pnlModificarNadador.add(txtModificaEdad);
 		validarValoresNumericos(txtModificaEdad, lblErrorEdadModificarNadador);
 		
 		JLabel label_4 = new JLabel("Club:");
-		label_4.setBounds(34, 130, 79, 14);
+		label_4.setBounds(6, 159, 79, 14);
 		pnlModificarNadador.add(label_4);
 		
 		JLabel label_5 = new JLabel("Sexo:");
-		label_5.setBounds(34, 155, 79, 14);
+		label_5.setBounds(6, 196, 79, 14);
 		pnlModificarNadador.add(label_5);
 	
 		
 		JLabel label_6 = new JLabel("Tiempo 1:");
-		label_6.setBounds(34, 180, 79, 14);
+		label_6.setBounds(6, 234, 79, 14);
 		pnlModificarNadador.add(label_6);
 		
 		JLabel label_7 = new JLabel("Tiempo 2:");
-		label_7.setBounds(34, 205, 79, 14);
+		label_7.setBounds(6, 271, 79, 14);
 		pnlModificarNadador.add(label_7);
 		
 
@@ -336,8 +338,20 @@ public class FrameAdministrarNadador extends JInternalFrame implements InternalF
 				modificarNadador(txtModificaTiempo1, txtModificaTiempo2, cbModificaSexo, cbModificarClubAnfitrion);
 			}
 		});
-		btnGuardarDatos.setBounds(294, 290, 222, 31);
+		btnGuardarDatos.setBounds(408, 358, 222, 31);
 		pnlModificarNadador.add(btnGuardarDatos);
+		
+		JButton btnVolver = new JButton("Volver");
+		btnVolver.addMouseListener(new MouseAdapter() 
+		{
+			@Override
+			public void mouseReleased(MouseEvent arg0) 
+			{
+				volverAlPanelNadadores();
+			}
+		});
+		btnVolver.setBounds(6, 359, 222, 31);
+		pnlModificarNadador.add(btnVolver);
 		
 
 	}
@@ -360,7 +374,17 @@ public class FrameAdministrarNadador extends JInternalFrame implements InternalF
 		txtModificaDni.setText(Integer.toString(dniNadadorActual));
 		txtModificaApellido.setText(nadadorActual.getApellido());
 		txtModificaNombre.setText(nadadorActual.getNombre());
-		txtModificaEdad.setText(nadadorActual.getFechaNacimiento());
+		
+		Date date=null;
+		try {
+			date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(nadadorActual.getFechaNacimiento());
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String newstring = new SimpleDateFormat("dd/MM/yyyy").format(date);
+		
+		txtModificaEdad.setText(newstring);
 		
 		for(Club c : cc.buscarClubes())
 		{
@@ -522,6 +546,12 @@ public class FrameAdministrarNadador extends JInternalFrame implements InternalF
 		{
 			tblEliminarNadador.setModel(generarModeloTabla(cc.buscarTodosNadadores()));
 		}
+	}
+	
+	private void volverAlPanelNadadores()
+	{
+		CardLayout cardLayout = (CardLayout) getContentPane().getLayout();
+		cardLayout.show(getContentPane(), "tabbedPane");
 	}
 	
 	//Se le pasa como parámetro una lista de nadadores, y te devuelve el modelo cargado con los elementos de la lista directo para

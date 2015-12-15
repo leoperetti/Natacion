@@ -89,9 +89,9 @@ public class ControladorCompetencia {
 		return CatalogoTorneo.getInstance().buscarTorneoPorNroTorneo(nroTorneo);
 	}
 	
-	public void modificarTorneo(int nroPrograma, String fechaTorneo, String clubAnfitrion, String localidad, int nroTorneo) 
+	public void modificarTorneo(int nroPrograma, String fechaTorneo, int nroClub, int nroTorneo) 
 	{
-		CatalogoTorneo.getInstance().modificarTorneo(nroPrograma, fechaTorneo, clubAnfitrion, localidad, nroTorneo);
+		CatalogoTorneo.getInstance().modificarTorneo(nroPrograma, fechaTorneo, nroClub, nroTorneo);
 	}
 
 	//CatálogoDeNadadoresPorCarrera

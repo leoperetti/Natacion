@@ -7,8 +7,12 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 
 public class CatalogoNadador {
@@ -39,6 +43,7 @@ public class CatalogoNadador {
 		try
 		{
 			sentencia=DataConnection.getInstancia().getConn().createStatement();
+			
 			rs = sentencia.executeQuery(sql);
 			while(rs.next())
 			{					
@@ -109,48 +114,55 @@ public class CatalogoNadador {
 		}
 	}
 	   
-	public void cargarNadador(int dni, String nombre, String apellido, int nroClub, String fechaNacimiento, String tiempo1, String tiempo2, char sexo) {
+	public void cargarNadador(int dni, String nombre, String apellido, int nroClub, String fechaNacimiento, String tiempo1, String tiempo2, char sexo) 
+	{
 		
 	
 		String sql;
 		PreparedStatement sentencia=null;
 		Connection con = DataConnection.getInstancia().getConn();
-		
-	try{
-		sql = "INSERT INTO nadador (dni, nombre, apellido, nroClub, fechaNacimiento, tiempoPreCompeticion1 , tiempoPreCompeticion2, sexo) VALUES(?,?,?,?,?,?,?,?)";
-		sentencia = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-		sentencia.setInt(1, dni);
-		sentencia.setString(2, nombre);
-		sentencia.setString(3, apellido);
-		sentencia.setInt(4, nroClub);
-		sentencia.setString(5, fechaNacimiento);
-		sentencia.setString(6, tiempo1);
-		sentencia.setString(7, tiempo2);
-		sentencia.setString(8, String.valueOf(sexo));
-		
-		
-		sentencia.executeUpdate();
-		}
-	catch(SQLException e)
-		{
-		e.printStackTrace();
-		}
-	finally
-	{
+			
 		try
 		{
-			if(sentencia!=null && !sentencia.isClosed())
-			{
-				sentencia.close();
-			}
-			DataConnection.getInstancia().CloseConn();
+			sql = "INSERT INTO nadador (dni, nombre, apellido, nroClub, fechaNacimiento, tiempoPreCompeticion1 , tiempoPreCompeticion2, sexo) VALUES(?,?,?,?,?,?,?,?)";
+			sentencia = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			
+			
+			Date date = new SimpleDateFormat("dd/MM/yyyy").parse(fechaNacimiento);
+			String nuevoString = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
+	
+			sentencia.setInt(1, dni);
+			sentencia.setString(2, nombre);
+			sentencia.setString(3, apellido);
+			sentencia.setInt(4, nroClub);
+			sentencia.setString(5, nuevoString);
+			sentencia.setString(6, tiempo1);
+			sentencia.setString(7, tiempo2);
+			sentencia.setString(8, String.valueOf(sexo));
+			sentencia.executeUpdate();
 		}
-		catch (SQLException sqle)
+		catch(SQLException | ParseException e)
 		{
-			sqle.printStackTrace();
+			e.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				if(sentencia!=null && !sentencia.isClosed())
+				{
+					sentencia.close();
+				}
+				DataConnection.getInstancia().CloseConn();
+			}
+			catch (SQLException sqle)
+			{
+				sqle.printStackTrace();
+			}
 		}
 	}
-	}
+	
+	
 	public ArrayList<Nadador> buscarNadadores(int edad, int nroCarrera) {
 		
 		//CON ESTE CRITERIO:
@@ -163,10 +175,12 @@ public class CatalogoNadador {
 		
 		ArrayList<Nadador> listaNadadores = new ArrayList<Nadador>();
 		String sql;
-		if (edad < 18)
+		
+		
+		if (edad < 15)
 		{
 			sql = "SELECT * FROM nadador "
-					+ "where edad = ? and dni not in "
+					+ "where (strftime('%Y', 'now') - strftime('%Y', fechaNacimiento)) = ? and dni not in "
 					+ "(SELECT n.dni FROM preinscripcion nc  "
 					+ "inner join nadador n "
 					+ "on n.dni = nc.dni "
@@ -175,7 +189,7 @@ public class CatalogoNadador {
 		else
 		{
 			sql = "SELECT * FROM nadador "
-					+ "where edad > 18 and dni not in "
+					+ "where (strftime('%Y', 'now') - strftime('%Y', fechaNacimiento)) >= 15 and dni not in "
 					+ "(SELECT n.dni FROM preinscripcion nc  "
 					+ "inner join nadador n "
 					+ "on n.dni = nc.dni "
@@ -187,7 +201,7 @@ public class CatalogoNadador {
 		
 		try{
 			sentencia=con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			if (edad < 18)
+			if (edad < 15)
 			{
 				sentencia.setInt(1, edad);
 				sentencia.setInt(2, nroCarrera);
@@ -420,13 +434,16 @@ public class CatalogoNadador {
 		String sql = "UPDATE Nadador set nombre = ?, apellido = ?, nroClub = ?, fechaNacimiento = ?, tiempoPreCompeticion1 = ?, tiempoPreCompeticion2 = ?, sexo = ? where dni = ?";
 		PreparedStatement sentencia = null;
 		Connection con = DataConnection.getInstancia().getConn();
+		
 		try
 		{
+			Date date = new SimpleDateFormat("dd/MM/yyyy").parse(fechaNacimiento);
+			String stringLargo = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
 			sentencia = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			sentencia.setString(1, nombre);
 			sentencia.setString(2, apellido);
 			sentencia.setInt(3, nroClub);
-			sentencia.setString(4, fechaNacimiento);
+			sentencia.setString(4, stringLargo);
 			sentencia.setString(5, tiempo1);
 			sentencia.setString(6, tiempo2);
 			sentencia.setString(7, Character.toString(sexo));
@@ -435,6 +452,9 @@ public class CatalogoNadador {
 		}
 		catch(SQLException e)
 		{
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		finally

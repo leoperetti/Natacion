@@ -1,11 +1,21 @@
 package entidades;
 
-import java.sql.Time;
-
 public class Inscripcion 
 {
 	private int nroNadador, nroAndarivel, nroSerie;
-	private Time tiempoCompetencia;
+	private String tiempoCompetencia, motivoDescalificacion;
+	public String getTiempoCompetencia() {
+		return tiempoCompetencia;
+	}
+	public void setTiempoCompetencia(String tiempoCompetencia) {
+		this.tiempoCompetencia = tiempoCompetencia;
+	}
+	public String getMotivoDescalificacion() {
+		return motivoDescalificacion;
+	}
+	public void setMotivoDescalificacion(String motivoDescalificacion) {
+		this.motivoDescalificacion = motivoDescalificacion;
+	}
 	public int getNroNadador() {
 		return nroNadador;
 	}
@@ -24,11 +34,6 @@ public class Inscripcion
 	public void setNroSerie(int nroSerie) {
 		this.nroSerie = nroSerie;
 	}
-	public Time getTiempoCompetencia() {
-		return tiempoCompetencia;
-	}
-	public void setTiempoCompetencia(Time tiempoCompetencia) {
-		this.tiempoCompetencia = tiempoCompetencia;
-	}
+
 
 }
